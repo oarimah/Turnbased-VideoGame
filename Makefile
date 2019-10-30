@@ -2,17 +2,14 @@ COMP = g++
 COMPFLAGS = -w
 LIBS = -lSDL2 -lSDL2_image -lSDL2_ttf
 
-testgraphics: Main.o Button.o Tile.o EraseButtonHandler.o InfoButtonHandler.o TextDisplay.o ImageHandler.o
-	$(COMP) -o testgraphics Main.o Button.o Tile.o EraseButtonHandler.o InfoButtonHandler.o TextDisplay.o ImageHandler.o $(COMPFLAGS) $(LIBS)   
+testgraphics: Main.o Button.o EraseButtonHandler.o InfoButtonHandler.o TextDisplay.o ImageHandler.o
+	$(COMP) -o testgraphics Main.o Button.o EraseButtonHandler.o InfoButtonHandler.o TextDisplay.o ImageHandler.o $(COMPFLAGS) $(LIBS)   
 
 Main.o: Main.cpp Button.h EraseButtonHandler.h InfoButtonHandler.h TextDisplay.h	
 	$(COMP) -c Main.cpp $(COMPFLAGS) $(LIBS) 
 
 Button.o: Button.cpp ImageHandler.h ButtonEventHandler.h GameObject.h
 	$(COMP) -c Button.cpp $(COMPFLAGS) $(LIBS)
-
-Tile.o: Tile.cpp ImageHandler.h GameObject.h
-	$(COMP) -c Tile.cpp $(COMPFLAGS) $(LIBS)
 
 EraseButtonHandler.o: EraseButtonHandler.cpp ButtonEventHandler.h GameObject.h
 	$(COMP) -c EraseButtonHandler.cpp $(COMPFLAGS) $(LIBS) 
