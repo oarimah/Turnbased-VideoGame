@@ -11,7 +11,7 @@ void Player::clearDeadUnits() {
     for (int i = 0 ; i < units.size(); i++)
         if(units[i]->isDead()) {
             delete units[i];
-            units.erase(i);
+            units.erase(units.begin() + i);
         }
 }
 
@@ -20,9 +20,15 @@ void Player::updateUnits() {
         units[i]->render();
 }
 
-void Player::addUnit(Unit unit) {
+void Player::addUnit(Unit * unit) {
     units.push_back(unit);
-    unit.setPlayer(this);
+}
+
+bool Player::containsUnit(Unit * unit) {
+    for (int i = 0 ; i < units.size(); i++)
+        if (units[i] == unit)
+            return true;
+    return false;
 }
 
 bool Player::noUnit() {

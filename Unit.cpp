@@ -11,7 +11,7 @@ Unit::Unit(int xPos, int yPos, int height, int width, const std::string& imageFi
     //set size of the image
     this->position.h = height;
     this->position.w = width;
-
+    
     //stats of the unit
     this->health = health;
     this->offense = offense;

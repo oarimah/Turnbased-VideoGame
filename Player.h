@@ -17,6 +17,7 @@ class Player{
         void clearDeadUnits();
         void updateUnits();
         void addUnit(Unit* unit);
+        bool containsUnit(Unit * unit);
         bool noUnit();
 
 };
