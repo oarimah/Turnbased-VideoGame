@@ -2,6 +2,7 @@
 #include <SDL2/SDL_image.h>
 #include <iostream>
 #include "Button.h"
+#include "Tile.h"
 #include "EraseButtonHandler.h"
 #include "InfoButtonHandler.h"
 #include "TextDisplay.h"
@@ -379,6 +380,7 @@ int main() {
 			delete continueButton;
 			delete continueHandler;
 			delete imageHandler;
+			delete tile;
 
 			//deinitialize systems
 			TTF_Quit();
@@ -421,6 +423,7 @@ int main() {
 
 			displayBox->display("Change display box text");
 
+            Tile* tile = new Tile(TILE_WIDTH, TILE_HEIGHT, 150, 150, "testTile.png", imageHandler);
 
 			bool notQuit = true;
 
@@ -501,6 +504,8 @@ int main() {
 					eraseButton2->render();
 					infoButton->render();
 					selectButton->render();
+
+                    tile->render();
 					
 					//show rendering on window
 					SDL_RenderPresent(renderer);
@@ -528,7 +533,12 @@ int main() {
 			delete infoButton;
 			delete selectButton;
 
+
 */
+
+
+
+
 
 
 		
