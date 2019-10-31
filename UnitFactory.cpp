@@ -3,7 +3,7 @@
 
 using namespace std;
 
-Unit *UnitFactory::createUnit(int xPos, int yPos, int height, int width, int faction, int unitType, const string& imageFile, ImageHandler* imgHandler) {
+Unit *UnitFactory::createUnit(int xPos, int yPos, int height, int width, int faction, int unitType, ImageHandler* imgHandler) {
     if (faction == 1 && unitType == 1) {
         return new Unit(xPos, yPos, height, width, "Characters/ezgif.com-gif-maker(1).png", imgHandler, 60, 14, 7, 3, 1, 1, 3);
     } else if (faction == 1 && unitType == 2) {
