@@ -14,6 +14,7 @@ class Player{
     public:
         Player(int faction);
         ~Player();
+        int getFaction();
         void clearDeadUnits();
         void updateUnits();
         void addUnit(Unit* unit);

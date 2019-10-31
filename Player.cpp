@@ -7,6 +7,10 @@ Player::Player(int faction) {
     this->faction = faction;
 }
 
+int Player::getFaction(){
+    return this->faction;
+}
+
 void Player::clearDeadUnits() {
     for (int i = 0 ; i < units.size(); i++)
         if(units[i]->isDead()) {

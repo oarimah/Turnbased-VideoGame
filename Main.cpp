@@ -6,7 +6,7 @@
 #include "EraseButtonHandler.h"
 #include "InfoButtonHandler.h"
 #include "TextDisplay.h"
-
+//#include "backgroundMap.h"
 
 
 #undef main
@@ -132,7 +132,7 @@ int main() {
 					if ((clickX <  (NUM_TILES_WIDE * TILE_WIDTH)) && (clickX > ((NUM_TILES_WIDE - (2 * NUM_TILES_WIDE / 10)) * TILE_WIDTH))){
 						
 						int clickY = event.button.y;
-						if ((clickY > (NUM_TILES_HIGH * TILE_HEIGHT) && clickY < (NUM_TILES_HIGH * TILE_HEIGHT) + 100)){
+if ((clickY > (NUM_TILES_HIGH * TILE_HEIGHT) && clickY < (NUM_TILES_HIGH * TILE_HEIGHT) + 100)){
 							continuePressed = true;
 							
 						}
@@ -380,7 +380,7 @@ int main() {
 			delete continueButton;
 			delete continueHandler;
 			delete imageHandler;
-			delete tile;
+			//delete tile;
 
 			//deinitialize systems
 			TTF_Quit();
