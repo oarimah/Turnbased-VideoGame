@@ -55,6 +55,11 @@ void Unit::changeClicked(bool value) {
     this->clicked = value;
 }
 
+void Unit::changeImage(const std::string& imageFile) {
+    SDL_Texture *temp = this->imageHandler->loadImage(imageFile.c_str());
+    this->image = temp;
+}
+
 void Unit::render() {
     this->imageHandler->render(this->image, &this->position);
 }

@@ -6,8 +6,10 @@
 #include <SDL2/SDL_ttf.h>
 #include "Player.h"
 #include "TextDisplay.h"
+#include "InfoButtonHandler.h"
 #include "backgroundMap.h"
 #include "foregroundMap.h"
+#include "Button.h"
 #include <iostream>
 
 
@@ -18,8 +20,8 @@ private:
 	
 	Player* players[2];
 	int currentPlayerIndex;
-	backgroundMap* backgroundMap;
-	foregroundMap* foregroundMap;
+	backgroundMap* bgMap;
+	foregroundMap* fgMap;
 	bool isRunning;
 	int height, width, tileHeight, tileWidth;
 	ImageHandler* imageHandler;
@@ -34,7 +36,9 @@ public:
 	int init();
 	void eventHandler(const SDL_Event* event);
 	void render();
-	const bool running();
+    void renderClear();
+    void renderRepresent();
+	bool running();
 
 };
 

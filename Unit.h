@@ -30,6 +30,7 @@ class Unit: public GameObject{
         const SDL_Rect* getPosition();
         void changePosition(int newX, int newY);
         const bool isClicked();
+        void changeImage(const std::string& imageFile);
         void render();
         const std::string getType();
         void changeClicked(bool value);

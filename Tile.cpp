@@ -10,10 +10,11 @@ Tile::Tile(int xPos, int yPos, int height, int width, const std::string& imageFi
     //set size of the image
     this->position.h = height;
     this->position.w = width;
-    
+
     //set image handler for this object
     this->imageHandler = imgHandler;
     //get the Tile texture from the provided file
+    	printf("Got Here\n");
     this->image = this->imageHandler->loadImage(imageFile);
 
     //nothing has been clicked yet, set to false

@@ -5,10 +5,10 @@
 Game::Game(int numTilesHigh, int numTilesWide, int tileWidth, int tileHeight) {
 
 	//make height equal to the number of tiles times the tile height, plus 200 for the display text box at the bottom
-	this->height = numTilesHigh * tileHeight + 100;
+	this->height = numTilesHigh;
 
 	//set width equal to the number of tiles times the tile width
-	this->width = numTilesWide * tileWidth;
+	this->width = numTilesWide;
 
 	//set tile height and width
 	this->tileHeight = tileHeight;
@@ -18,8 +18,6 @@ Game::Game(int numTilesHigh, int numTilesWide, int tileWidth, int tileHeight) {
 	this->imageHandler = NULL;
 
 	//create background and foreground maps
-	this->backgroundMap = new backgroundMap(this->tileHeight, this->tileWidth, this->numTilesHigh, this->numTilesWide, this->imageHandler);
-	this->backgroundMap = new foregroundMap(this->tileHeight, this->tileWidth, this->numTilesHigh, this->numTilesWide, this->imageHandler);
 
 
 	//set running to false because init has not been called yet
@@ -29,7 +27,7 @@ Game::Game(int numTilesHigh, int numTilesWide, int tileWidth, int tileHeight) {
 
 
 
-void Game::~Game() {
+Game::~Game() {
 
 	//if the game was initialized, erase the objects associated with it and deinit graphics
 	if (this->isRunning) {
@@ -39,8 +37,8 @@ void Game::~Game() {
 		delete this->displayBox;
 		delete this->players[0];
 		delete this->players[1];
-		delete this->backgroundMap;
-		delete this->foregroundMap;
+		delete this->bgMap;
+		//delete this->fgMap;
 
 		//deinitialize systems
 		TTF_Quit();
@@ -54,7 +52,6 @@ void Game::~Game() {
 int Game::init() {
 
 
-
 	//initialize all systems for graphics handling
 
 		//if can initialize SDL system, make a window and renderer
@@ -63,11 +60,13 @@ int Game::init() {
 		//make a window show on the screen (add an extra strip of 100px to the window height to give space to text display box)
 		SDL_Window* window = SDL_CreateWindow("Protect Your Territory", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, this->width * this->tileWidth, (this->height * this->tileHeight + 100), SDL_WINDOW_SHOWN);
 
+        std::cout << SDL_GetError() << std::endl;
 		//make renderer for the window using first available driver and no flags
-		SDL_Renderer* renderer = SDL_CreateRenderer(window, -1, 0);
+		this->renderer = SDL_CreateRenderer(window, -1, 0);
 
 		//make image handler for objects to use
 		ImageHandler* imageHandler = new ImageHandler(renderer);
+        
 
 		//next try to initialize the text system for use with the text display box
 		if (TTF_Init() == 0) {
@@ -135,7 +134,6 @@ int Game::init() {
 			//present all to the screen
 			SDL_RenderPresent(renderer);
 
-
 			//set up event to store events from the window
 			SDL_Event event;
 
@@ -174,7 +172,6 @@ int Game::init() {
 						}
 					}
 				}
-
 			}
 			//go to select factions page
 
@@ -187,7 +184,6 @@ int Game::init() {
 
 			//convert surface to texture and store 
 			SDL_Texture* subTitleTexture = SDL_CreateTextureFromSurface(renderer, subTitleSurface);
-
 
 			//modify location for title on window (make smaller)
 			titlePos.x = (this->tileWidth * (0.2 * this->width));
@@ -404,38 +400,44 @@ int Game::init() {
 				}
 
 			}
-
+            // std::cout << "test" << std::endl; 
 			//delete no longer needed assets
 			delete continueHandler;
 			delete continueButton;
-
 			//create the players using the above values for faction
+        this->bgMap = new backgroundMap(this->tileHeight, this->tileWidth, this->width, this->height, this->imageHandler);
+        //this->fgMap = new foregroundMap(this->tileHeight, this->tileWidth, this->width/this->tileWidth, (this->height - 100)/this->tileHeight, this->imageHandler);
 
-			//INTEGRATE
-			this->players[0] = new Player()
-			this->players[1] = new Player()
+        Player * player1;
+        if (player1E)
+            this->players[0] = new Player(1);
+        else
+            this->players[0]= new Player(2);
+
+        Player * player2;
+        if (player2E)
+            this->players[1] = new Player(1);
+        else
+            this->players[1] = new Player(2);
+        
 
 
 			//otherwise, game is now running
 			this->isRunning = true;
 		
-			//return successfully
+            //return successfully
 			return 0;
 		}
+        //otherwise, print error and exit as other classes will fail without text display box
+        else {
+
+            std::cerr << "The SDL text system failed to initialize." << std::endl;
+
+            //return unsuccessfully
+            return -1;
+        }
 
 	}
-
-	//otherwise, print error and exit as other classes will fail without text display box
-	else {
-
-		std::cerr << "The SDL text system failed to initialize." << std::endl;
-
-		//return unsuccessfully
-		return -1;
-	}
-
-
-
 	//otherwise, print a notification of failure and exit (can't go ahead without things initializing properly)
 	else {
 	std::cerr << "The SDL system failed to initialize." << std::endl;
@@ -444,18 +446,16 @@ int Game::init() {
 	return -1;
 
 	}
-
-
 }
 
 
 
 void Game::eventHandler(const SDL_Event* event) {
 
-	if (event.type == SDL_MOUSEBUTTONUP) {
+	if (event->type == SDL_MOUSEBUTTONUP) {
 		//get the x location of the click
-		int x = event.button.x;
-		int y = event.button.y;
+		int x = event->button.x;
+		int y = event->button.y;
 
 		//check to see if the continue button has been pressed, if so, set player to next player and proceed
 		if ((x < (this->width * this->tileWidth)) && (x > ((this->width - (2 * this->width / 10)) * this->tileWidth))) {
@@ -472,7 +472,7 @@ void Game::eventHandler(const SDL_Event* event) {
 			if ((y < (this->height * this->tileHeight)) && (y > 0)) {
 
 				//INTEGRATE
-				this->foregroundMap.handleEvent(event, this->currentPlayerIndex);
+				//this->foregroundMap->handleEvent(event, this->currentPlayerIndex);
 
 			}
 
@@ -485,17 +485,24 @@ void Game::eventHandler(const SDL_Event* event) {
 //render both layers of maps of the game
 void Game::render() {
 
-
 	//call render on all objects
-	this->backgroundMap->render();
-	this->foregroundMap->render();
+	this->bgMap->render();
+	//this->foregroundMap->render();
 	this->displayBox->render();
 	this->continueButton->render();
 
 
 }
 
-const bool Game::running()
+void Game::renderClear(){
+    SDL_RenderClear(this->renderer);
+}
+
+void Game::renderRepresent(){
+    SDL_RenderPresent(this->renderer);
+}
+
+bool Game::running()
 {
 	return this->isRunning;
 }

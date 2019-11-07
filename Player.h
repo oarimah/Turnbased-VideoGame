@@ -14,12 +14,12 @@ class Player{
     public:
         Player(int faction);
         ~Player();
-        int getFaction();
         void clearDeadUnits();
         void updateUnits();
         void addUnit(Unit* unit);
         bool containsUnit(Unit * unit);
         bool noUnit();
+		int getFaction();
 
 };
 
