@@ -33,7 +33,9 @@ public:
 
 	void render();
 
-    void eventHandler(SDL_Event* event, int player);
+    void handleEvent(const SDL_Event* event, int player);
+    
+    const std::string getType();
 
 };
 

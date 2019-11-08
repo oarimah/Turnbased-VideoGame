@@ -66,6 +66,9 @@ int Game::init() {
 
 		//make image handler for objects to use
 		ImageHandler* imageHandler = new ImageHandler(renderer);
+		
+		//set image handler in game object
+		this->imageHandler = imageHandler;
         
 
 		//next try to initialize the text system for use with the text display box
@@ -75,7 +78,7 @@ int Game::init() {
 
 			TextDisplay* displayBox = new TextDisplay("", 0, (this->height * this->tileHeight), 100, ((this->width - (2 * this->width / 10)) * this->tileWidth), renderer);
 			displayBox->display("Welcome! Let's play!");
-
+			this->displayBox = displayBox;
 
 			//create start screen that persists until the user clicks the continue button
 			std::string continueString = "";
@@ -400,33 +403,39 @@ int Game::init() {
 				}
 
 			}
-            // std::cout << "test" << std::endl; 
 			//delete no longer needed assets
 			delete continueHandler;
 			delete continueButton;
-			//create the players using the above values for faction
-        this->bgMap = new backgroundMap(this->tileHeight, this->tileWidth, this->width, this->height, this->imageHandler);
-        //this->fgMap = new foregroundMap(this->tileHeight, this->tileWidth, this->width/this->tileWidth, (this->height - 100)/this->tileHeight, this->imageHandler);
-
-        Player * player1;
-        if (player1E)
-            this->players[0] = new Player(1);
-        else
-            this->players[0]= new Player(2);
-
-        Player * player2;
-        if (player2E)
-            this->players[1] = new Player(1);
-        else
-            this->players[1] = new Player(2);
+			
+		//create the players using the above values for faction
         
 
+        Player * player1;
+        if (player1E){
+			
+            this->players[0] = new Player(1);
+		}
+        else{
+            this->players[0]= new Player(2);
+		}
 
-			//otherwise, game is now running
-			this->isRunning = true;
+        Player * player2;
+        if (player2E){
+            this->players[1] = new Player(1);
+		}
+        else{
+            this->players[1] = new Player(2);
+		}
+        
+		this->bgMap = new backgroundMap(this->tileHeight, this->tileWidth, this->width, this->height, this->imageHandler);
+        this->fgMap = new foregroundMap(this->tileWidth, this->tileHeight, this->imageHandler, this->displayBox, this->players[0], this->players[1]);
+
+		//otherwise, game is now running
+		this->isRunning = true;
 		
-            //return successfully
-			return 0;
+        //return successfully
+		return 0;
+		
 		}
         //otherwise, print error and exit as other classes will fail without text display box
         else {
@@ -471,8 +480,7 @@ void Game::eventHandler(const SDL_Event* event) {
 
 			if ((y < (this->height * this->tileHeight)) && (y > 0)) {
 
-				//INTEGRATE
-				//this->foregroundMap->handleEvent(event, this->currentPlayerIndex);
+				this->fgMap->handleEvent(event, this->currentPlayerIndex);
 
 			}
 
@@ -487,8 +495,9 @@ void Game::render() {
 
 	//call render on all objects
 	this->bgMap->render();
-	//this->foregroundMap->render();
+	this->fgMap->render();
 	this->displayBox->render();
+	
 	this->continueButton->render();
 
 

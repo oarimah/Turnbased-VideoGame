@@ -5,6 +5,7 @@
 #include <SDL2/SDL_image.h>
 #include <SDL2/SDL_ttf.h>
 #include "Player.h"
+#include "ImageHandler.h"
 #include "TextDisplay.h"
 #include "InfoButtonHandler.h"
 #include "backgroundMap.h"

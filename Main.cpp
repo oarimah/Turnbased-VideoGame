@@ -2,13 +2,11 @@
 #include <SDL2/SDL_image.h>
 #include <iostream>
 #include "Button.h"
-#include "Tile.h"
 #include "Game.h"
-#include "backgroundMap.h"
 #include "EraseButtonHandler.h"
 #include "InfoButtonHandler.h"
 #include "TextDisplay.h"
-#include "Player.h"
+
 
 
 
@@ -43,9 +41,24 @@ int main() {
 	//if game init returns 0, it was successful, otherwise it didn't work
 	if (success == 0) {
 
+		std::cout << "entered game loop" <<std::endl;
+		
 		//start the game loop
-
 		while (game->running()) {
+			
+			
+			//render everything
+			//clear renderer
+			game->renderClear();
+			
+			//call render on game to display everything
+			game->render();
+			
+
+			//update the window with the newly rendered image above
+			game->renderRepresent();
+			
+
 			//initialize the first displayed time of the frame
 			firstDisplayed = SDL_GetTicks();
 
@@ -65,21 +78,12 @@ int main() {
 
 				//otherwise, send the event to the game to handle
 				else {
+					
 					game->eventHandler(&event);
 				}
 
 
 			}
-
-			//render everything
-			//clear renderer
-			game->renderClear();
-
-			//call render on game to display everything
-			game->render();
-
-			//update the window with the newly rendered image above
-			game->renderRepresent();
 
 
 			//calculate the time that the frame has been displayed

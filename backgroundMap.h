@@ -12,12 +12,13 @@
 class backgroundMap{
 
 private:
-	ImageHandler* imageHandler;
+    
+    ImageHandler* imageHandler;
     int tileHeight;
     int tileWidth;
     int numRows;
     int numColumns;
-    Tile ***tile;
+    Tile* tile[20][20];
 
 public:
 	backgroundMap(int tileHeight, int tileWidth, int numRows, int numColumns, ImageHandler *imgHandler);

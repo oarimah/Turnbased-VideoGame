@@ -80,7 +80,7 @@ void foregroundMap::render()
 
 
 
-void foregroundMap::eventHandler(SDL_Event* event, int player)
+void foregroundMap::handleEvent(const SDL_Event* event, int player)
 {
 
 	//check that the event was a mouse click
@@ -186,3 +186,7 @@ void foregroundMap::eventHandler(SDL_Event* event, int player)
 	}
 }
 
+const std::string foregroundMap::getType(){
+	
+		return "foregroundMap";
+}
