@@ -34,7 +34,7 @@ foregroundMap::foregroundMap(
 		//add unit to player and board
 		this->player1->addUnit(unit);
 		this->map[i][0][0] = unit;
-
+		std::cout << "Foreground Map tile" << i << " 0 = " << unit << std::endl;
 		//increment the unit to get a variety of types
 
 		unitType = (unitType + 1) % 3;
@@ -52,7 +52,9 @@ foregroundMap::foregroundMap(
 				this->imageHandler);
 		//add unit to player and board
 		this->player2->addUnit(unit);
-		this->map[i][0][1] = unit;
+		this->map[i][0][19] = unit;
+		std::cout << "Foreground Map tile" << i << "  1 = " << unit << std::endl;
+
 
 		//increment the unit to get a variety of types
 		unitType = (unitType + 1) % 3;
@@ -85,19 +87,31 @@ void foregroundMap::handleEvent(const SDL_Event* event, int player) {
 		int xIndex = x / this->width;
 		int yIndex = y / this->height;
 
-
 		Unit* clicked = this->map[xIndex][0][yIndex];
-		std::cout << "Got Here" << std::endl;
+		//std::cout << "Square clicked " << clicked << std::endl;
 
+
+		//std::cout << " Checking before empty and unit clicked" << std::endl;
+		//		std::cout << " clicked = " << clicked << std::endl;
+		//std::cout << " unit clicked = " << this->unitClicked << std::endl;
+
+		
 		//if index is empty and a unit clicked previously, see if the unit can move to that location (in range?)
-		if (clicked == NULL && this->unitClicked != NULL) {
+		if ((!clicked) && this->unitClicked != NULL) {
 
+			std::cout<< "Clicked an empty space after clicking a unit" <<std::endl;
 			//if in range of the unit, move the unit
 			if (this->unitClicked->getSpeed()
-					<= (abs(this->clickedX - xIndex) + abs(this->clickedY - yIndex))) {
+					>= (abs(this->clickedX - xIndex) + abs(this->clickedY - yIndex))) {
+						
+						std::cout << "Unit range " << this->unitClicked->getSpeed() << std::endl;
+						std::cout << "Calculated difference " << (abs(this->clickedX - xIndex) + abs(this->clickedY - yIndex)) << std::endl;
 
 				//change location of unit on map to clicked space
-				this->map[x][0][y] = this->unitClicked;
+				this->map[xIndex][0][yIndex] = this->unitClicked;
+				
+				//make sure old location points to null
+				this->map[clickedX][0][clickedY] = 0;
 
 				//change location of unit in unit
 				this->unitClicked->changePosition(xIndex * this->width,
@@ -105,42 +119,22 @@ void foregroundMap::handleEvent(const SDL_Event* event, int player) {
 
 				//remove the unit from clicked
 				this->unitClicked = NULL;
+				this->clickedX = 0;
+				this->clickedY = 0;
 
 			}
 
 		}
-
-		//if index has another unit of the other player's and a unit was clicked previously, attack the other unit
-		else if (clicked != NULL && this->unitClicked != NULL) {
-
-			//if this is player 1's turn and the other unit clicked was player 2's, attack
-			if (player == 1 && this->player2->containsUnit((Unit*) clicked)) {
-
-				clicked->setHealth(this->unitClicked->getAttack());
-
-				//if unit died, remove it from the board
-				if (clicked->isDead()) {
-					this->map[xIndex][0][yIndex] = NULL;
-				}
-
-				//clear dead units of both players
-				this->player1->clearDeadUnits();
-				this->player2->clearDeadUnits();
-
-				//move the prev clicked unit to the old unit's location on the board
-				this->unitClicked->changePosition(xIndex * this->width,
-						yIndex * this->height);
-				this->map[xIndex][0][yIndex] = this->unitClicked;
-
-				//clear the unit clicked
-				this->unitClicked = NULL;
-			}
-
+		
+		//if an empty tile was clicked with nothing being clicked before, do nothing
+		else if (!clicked && this->unitClicked == NULL){
+			
 		}
-
+		
 		//if the square is not empty and it is a double click, display the info about the unit
-		else if (clicked != NULL && event->button.clicks == 2) {
+		else if (clicked && event->button.clicks == 2) {
 
+			std::cout <<"double click on unit" <<std::endl;
 			//construct info for the text display
 			std::string info = "Health: " + std::to_string(clicked->getHealth())
 					+ "\nAttack Power: " + std::to_string(clicked->getAttack())
@@ -153,9 +147,63 @@ void foregroundMap::handleEvent(const SDL_Event* event, int player) {
 
 		}
 
+		//if index has another unit of the other player's and a unit was clicked previously, attack the other unit
+		else if (clicked && this->unitClicked != NULL) {
+
+			std::cout <<"Clicked a unit" <<std::endl;
+			//if this is player 1's turn and the other unit clicked was player 2's, attack
+			if (player == 1 && this->player2->containsUnit(clicked)) {
+
+				clicked->setHealth(this->unitClicked->getAttack());
+
+				//if unit died, remove it from the board
+				if (clicked->isDead()) {
+					this->map[xIndex][0][yIndex] = NULL;
+				}
+
+				//clear dead units of both players
+				this->player1->clearDeadUnits();
+				this->player2->clearDeadUnits();
+
+				//clear the unit clicked
+				this->unitClicked = NULL;
+			}
+			
+			//otherwise, check for the same condition as above for player 2 currently playing
+			else if (player == 2 && this->player1->containsUnit((Unit*) clicked)) {
+
+				clicked->setHealth(this->unitClicked->getAttack());
+
+				//if unit died, remove it from the board
+				if (clicked->isDead()) {
+					this->map[xIndex][0][yIndex] = NULL;
+				}
+
+				//clear dead units of both players
+				this->player1->clearDeadUnits();
+				this->player2->clearDeadUnits();
+
+				//clear the unit clicked
+				this->unitClicked = NULL;
+			}
+			
+			//otherwise, it is one of the players own units, so change the unit clicked of the player
+			else{
+				
+				this->unitClicked = clicked;
+				this->clickedX = xIndex;
+				this->clickedY = yIndex;
+			}
+			
+
+		}
+
+		
+
 		//if the unit clicked is the current player's add it to the unit clicked for next time
 		else {
 
+			std::cout<< "Clicked unit alone" <<std::endl;
 			//check the unit's owner
 			if (player == 1) {
 

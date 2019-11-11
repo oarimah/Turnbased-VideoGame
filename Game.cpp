@@ -446,6 +446,8 @@ int Game::init() {
 			this->fgMap = new foregroundMap(this->tileWidth, this->tileHeight,
 					this->width, this->height, this->imageHandler,
 					this->displayBox, this->players[0], this->players[1]);
+					
+				
 
 			//otherwise, game is now running
 			this->isRunning = true;
@@ -490,13 +492,13 @@ void Game::eventHandler(const SDL_Event* event) {
 
 			if ((y > (this->height * this->tileHeight)
 					&& y < (this->height * this->tileHeight) + 100)) {
-				this->currentPlayerIndex = (this->currentPlayerIndex + 1) % 2;
+				this->currentPlayerIndex = (this->currentPlayerIndex % 2) + 1;
 
 			}
 		}
 
 		//otherwise, make sure the click was in the map area before passing to the map to handl
-		else if ((x < (this->width * this->tileWidth)) && (x > 0)) {
+		if ((x < (this->width * this->tileWidth)) && (x > 0)) {
 
 			if ((y < (this->height * this->tileHeight)) && (y > 0)) {
 

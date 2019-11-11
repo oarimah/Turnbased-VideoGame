@@ -70,7 +70,10 @@ int main() {
 			}
 
 			//wait until there is an event and check it for an end event
-			while (SDL_WaitEvent(&event)) {
+			while (true)
+				
+				if(SDL_PollEvent(&event))
+					if (event.type != SDL_MOUSEMOTION && event.type != SDL_MOUSEBUTTONDOWN){
 				//if it is an event that should end the program, set bool value to break out of while loop
 				if (event.type == SDL_QUIT
 						|| event.type == SDL_WINDOWEVENT_CLOSE) {
@@ -84,7 +87,10 @@ int main() {
 				else {
 
 					game->eventHandler(&event);
+					
 				}
+				break;
+			
 
 			}
 
