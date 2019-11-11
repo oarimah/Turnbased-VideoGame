@@ -8,6 +8,7 @@
 #include "Tile.h"
 #include <iostream>
 #include "GameObject.h"
+#include <vector>
 
 class backgroundMap{
 
@@ -18,7 +19,7 @@ private:
     int tileWidth;
     int numRows;
     int numColumns;
-    Tile* tile[20][20];
+    std::vector<std::vector<Tile*>*> tile;
 
 public:
 	backgroundMap(int tileHeight, int tileWidth, int numRows, int numColumns, ImageHandler *imgHandler);

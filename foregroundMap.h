@@ -6,38 +6,37 @@
 #include "SDL2/SDL_ttf.h"
 #include "ImageHandler.h"
 #include "Tile.h"
-#include "Unit.h"
+#include "UnitFactory.h"
 #include <iostream>
+#include <string>
 #include "TextDisplay.h"
 #include "Player.h"
 
-class foregroundMap: public GameObject{
+class foregroundMap: public GameObject {
 
 private:
 
 	ImageHandler* imageHandler;
 	TextDisplay* displayBox;
 	int width, height, numTilesWide, numTilesHigh;
-	Unit* map[20][20];
+	std::vector<std::vector<Unit*>*> map;
 	Player* player1, *player2;
 	Unit* unitClicked;
 	int clickedX, clickedY;
 
-
-
 public:
 
-	foregroundMap(int tileWidth, int tileHeight, ImageHandler* imgHandler, TextDisplay* textDisplay, Player* player1, Player* player2);
-	
+	foregroundMap(int tileWidth, int tileHeight, int numRow, int numColumn, ImageHandler* imgHandler,
+			TextDisplay* textDisplay, Player* player1, Player* player2);
+
 	~foregroundMap();
 
 	void render();
 
-    void handleEvent(const SDL_Event* event, int player);
-    
-    const std::string getType();
+	void handleEvent(const SDL_Event* event, int player);
+
+	const std::string getType();
 
 };
-
 
 #endif

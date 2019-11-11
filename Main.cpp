@@ -7,16 +7,12 @@
 #include "InfoButtonHandler.h"
 #include "TextDisplay.h"
 
-
-
-
 #undef main
 
 int main() {
 
-
-	const int TILE_WIDTH = 20;
-	const int TILE_HEIGHT = 20;
+	const int TILE_WIDTH = 25;
+	const int TILE_HEIGHT = 25;
 
 	//must be a multiple of 10
 	const int NUM_TILES_WIDE = 20;
@@ -27,9 +23,10 @@ int main() {
 	const int FRAME_DELAY = 1000 / FRAME_RATE;
 	//initialize all systems for graphics handling
 
-    Game * game = new Game(NUM_TILES_HIGH, NUM_TILES_WIDE, TILE_WIDTH, TILE_HEIGHT);
+	Game * game = new Game(NUM_TILES_HIGH, NUM_TILES_WIDE, TILE_WIDTH,
+			TILE_HEIGHT);
 	//if can initialize SDL system, make a window and renderer
-    
+
 	//initialize the game
 	int success = game->init();
 
@@ -37,27 +34,23 @@ int main() {
 	unsigned long int firstDisplayed;
 	int frameTime;
 
-
 	//if game init returns 0, it was successful, otherwise it didn't work
 	if (success == 0) {
 
-		std::cout << "entered game loop" <<std::endl;
-		
+		std::cout << "entered game loop" << std::endl;
+
 		//start the game loop
 		while (game->running()) {
-			
-			
+
 			//render everything
 			//clear renderer
 			game->renderClear();
-			
+
 			//call render on game to display everything
 			game->render();
-			
 
 			//update the window with the newly rendered image above
 			game->renderRepresent();
-			
 
 			//initialize the first displayed time of the frame
 			firstDisplayed = SDL_GetTicks();
@@ -65,26 +58,6 @@ int main() {
 			//try to get an event
 			//set up event to store events from the window
 			SDL_Event event;
-
-			//wait until there is an event and check it for an end event
-			if (SDL_WaitEvent(&event)) {
-				//if it is an event that should end the program, set bool value to break out of while loop
-				if (event.type == SDL_QUIT || event.type == SDL_WINDOWEVENT_CLOSE) {
-
-					//delete allocated objects and return
-					delete game;
-					return 0;
-				}
-
-				//otherwise, send the event to the game to handle
-				else {
-					
-					game->eventHandler(&event);
-				}
-
-
-			}
-
 
 			//calculate the time that the frame has been displayed
 			frameTime = SDL_GetTicks() - firstDisplayed;
@@ -94,6 +67,25 @@ int main() {
 
 				//delay by the difference between the required delay and the time it's been up so far
 				SDL_Delay(FRAME_DELAY - frameTime);
+			}
+
+			//wait until there is an event and check it for an end event
+			while (SDL_WaitEvent(&event)) {
+				//if it is an event that should end the program, set bool value to break out of while loop
+				if (event.type == SDL_QUIT
+						|| event.type == SDL_WINDOWEVENT_CLOSE) {
+
+					//delete allocated objects and return
+					delete game;
+					return 0;
+				}
+
+				//otherwise, send the event to the game to handle
+				else {
+
+					game->eventHandler(&event);
+				}
+
 			}
 
 		}
@@ -113,13 +105,6 @@ int main() {
 
 		//return unsuccessfully
 
-
 	}
 }
-	
-
-
-
-
-
 

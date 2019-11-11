@@ -2,8 +2,8 @@ COMP = g++
 COMPFLAGS = -w
 LIBS = -lSDL2 -lSDL2_image -lSDL2_ttf
 
-game: Main.o Button.o Game.o Tile.o backgroundMap.o foregroundMap.o Player.o Unit.o EraseButtonHandler.o InfoButtonHandler.o TextDisplay.o ImageHandler.o
-	$(COMP) -o game Main.o Button.o Game.o Tile.o backgroundMap.o foregroundMap.o Player.o Unit.o EraseButtonHandler.o InfoButtonHandler.o TextDisplay.o ImageHandler.o $(COMPFLAGS) $(LIBS)   
+game: Main.o Button.o Game.o Tile.o backgroundMap.o foregroundMap.o Player.o Unit.o EraseButtonHandler.o InfoButtonHandler.o TextDisplay.o ImageHandler.o UnitFactory.o
+	$(COMP) -o game Main.o Button.o Game.o Tile.o backgroundMap.o foregroundMap.o Player.o Unit.o EraseButtonHandler.o InfoButtonHandler.o TextDisplay.o ImageHandler.o UnitFactory.o $(COMPFLAGS) $(LIBS)   
 
 Main.o: Main.cpp Game.h Button.h EraseButtonHandler.h InfoButtonHandler.h TextDisplay.h	
 	$(COMP) -c Main.cpp $(COMPFLAGS) $(LIBS) 
@@ -23,8 +23,11 @@ backgroundMap.o: backgroundMap.cpp ImageHandler.h GameObject.h Tile.h
 foregroundMap.o: foregroundMap.cpp ImageHandler.h Tile.h Unit.h TextDisplay.h Player.h
 	$(COMP) -c foregroundMap.cpp $(COMPFLAGS) $(LIBS)
 
-Player.o: Player.cpp Unit.h
+Player.o: Player.cpp UnitFactory.h Unit.h
 	$(COMP) -c Player.cpp $(COMPFLAGS) $(LIBS)
+	
+UnitFactory.o: UnitFactory.cpp UnitFactory.h
+	$(COMP) -c UnitFactory.cpp $(COMPFLAGS) $(LIBS)
 
 Unit.o: Unit.cpp ImageHandler.h GameObject.h
 	$(COMP) -c Unit.cpp $(COMPFLAGS) $(LIBS)
