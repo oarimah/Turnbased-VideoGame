@@ -13,7 +13,7 @@
 class backgroundMap{
 
 private:
-    
+
     ImageHandler* imageHandler;
     int tileHeight;
     int tileWidth;
@@ -25,6 +25,7 @@ public:
 	backgroundMap(int tileHeight, int tileWidth, int numRows, int numColumns, ImageHandler *imgHandler);
 	~backgroundMap();
 	void render();
+    std::string flipTileColour(std::string tileName);
 
 };
 

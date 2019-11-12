@@ -15,14 +15,30 @@ backgroundMap::backgroundMap(int tileHeight, int tileWidth, int numRows,
 	//set image handler for this object
 	this->imageHandler = imgHandler;
 
+	std::string tileName = "grass.png";
+
 	for (int i = 0; i < numRows; i++) {
 		this->tile.push_back(new std::vector<Tile*>);
+
+		tileName = flipTileColour(tileName);
+
 		for (int j = 0; j < numColumns; j++) {
 			this->tile[i]->push_back(
 					new Tile(i * tileWidth, j * tileHeight, tileHeight,
-							tileWidth, "grass.png", this->imageHandler));
+							tileWidth, tileName, this->imageHandler));
+
+			tileName = flipTileColour(tileName);
 		}
 	}
+}
+
+std::string backgroundMap::flipTileColour(std::string tileName) {
+
+	if (tileName.compare("grass.png") == 0) {
+		return "dirt.png";
+	}
+
+	return "grass.png";
 }
 
 backgroundMap::~backgroundMap() {
