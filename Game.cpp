@@ -72,7 +72,7 @@ int Game::init() {
 
 			//create new text display box and locate it at bottom of map (make 2 tiles smaller in width to allow for continue button space under map)
 
-			TextDisplay* displayBox = new TextDisplay("Welcome! \nLet's play!", (this->tileWidth * this->width),
+			TextDisplay* displayBox = new TextDisplay("", (this->tileWidth * this->width),
 					0, ((this->height - 2) * this->tileHeight), 100, renderer);
 			this->displayBox = displayBox;
 

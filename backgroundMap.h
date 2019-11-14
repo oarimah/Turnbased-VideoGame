@@ -20,13 +20,13 @@ private:
     int numRows;
     int numColumns;
     std::vector<std::vector<Tile*>*> tile;
+    SDL_Texture* texture;
+    SDL_Rect* rect;
 
 public:
 	backgroundMap(int tileHeight, int tileWidth, int numRows, int numColumns, ImageHandler *imgHandler);
 	~backgroundMap();
 	void render();
-    std::string flipTileColour(std::string tileName);
-
 };
 
 
