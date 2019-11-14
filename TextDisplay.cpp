@@ -11,7 +11,7 @@ TextDisplay::TextDisplay(const std::string& inputText, int xPos, int yPos, int h
 
 	//create surface from text, font and colour
 	SDL_Surface* textSurface;
-	textSurface = TTF_RenderText_Solid(textFont, inputText.c_str(), textColor);
+	textSurface = TTF_RenderText_Blended_Wrapped(textFont, inputText.c_str(), textColor, 500);
 
 	//convert surface to texture and store 
 	this->currentDisplay = SDL_CreateTextureFromSurface(this->renderer, textSurface);
@@ -34,7 +34,7 @@ void TextDisplay::display(const std::string& newText)
 {
 	//create new surface from text, font and colour
 	SDL_Surface* textSurface;
-	textSurface = TTF_RenderText_Solid(textFont, newText.c_str(), textColor);
+	textSurface = TTF_RenderText_Blended_Wrapped(textFont, newText.c_str(), textColor, 500);
 
 	//convert surface to texture and store 
 	this->currentDisplay = SDL_CreateTextureFromSurface(this->renderer, textSurface);

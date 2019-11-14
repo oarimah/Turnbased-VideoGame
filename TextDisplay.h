@@ -13,9 +13,8 @@ private:
 	SDL_Texture* currentDisplay;
 	SDL_Rect position;
 	bool changed;
-
 	//create font to use to display text
-	TTF_Font* textFont = TTF_OpenFont("Roboto-Bold.ttf", 12);
+	TTF_Font* textFont = TTF_OpenFont("Roboto-Bold.ttf", 48);
 
 	//set color of the text
 	SDL_Color textColor = { 255, 255, 255 };

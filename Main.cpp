@@ -11,7 +11,7 @@
 
 int main() {
 
-	const int TILE_WIDTH = 25;
+	const int TILE_WIDTH = 32;
 	const int TILE_HEIGHT = 25;
 
 	//must be a multiple of 10

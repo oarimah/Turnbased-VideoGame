@@ -54,8 +54,8 @@ int Game::init() {
 		//make a window show on the screen (add an extra strip of 100px to the window height to give space to text display box)
 		SDL_Window* window = SDL_CreateWindow("Protect Your Territory",
 		SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED,
-				this->width * this->tileWidth,
-				(this->height * this->tileHeight + 100), SDL_WINDOW_SHOWN);
+				(this->width * this->tileWidth) + 100,
+				(this->height * this->tileHeight), SDL_WINDOW_SHOWN);
 
 		std::cout << SDL_GetError() << std::endl;
 		//make renderer for the window using first available driver and no flags
@@ -72,11 +72,8 @@ int Game::init() {
 
 			//create new text display box and locate it at bottom of map (make 2 tiles smaller in width to allow for continue button space under map)
 
-			TextDisplay* displayBox = new TextDisplay("", 0,
-					(this->height * this->tileHeight), 100,
-					((this->width - (2 * this->width / 10)) * this->tileWidth),
-					renderer);
-			displayBox->display("Welcome! Let's play!");
+			TextDisplay* displayBox = new TextDisplay("Welcome! \nLet's play!", (this->tileWidth * this->width),
+					0, ((this->height - 2) * this->tileHeight), 100, renderer);
 			this->displayBox = displayBox;
 
 			//create start screen that persists until the user clicks the continue button
@@ -84,9 +81,9 @@ int Game::init() {
 			ButtonEventHandler* continueHandler = new InfoButtonHandler(
 					&continueString, displayBox);
 			Button* continueButton = new Button(
-					((this->width - (2 * this->width / 10)) * this->tileWidth),
-					this->height * this->tileHeight, 100,
-					((2 * this->width / 10) * this->tileWidth), continueHandler,
+					(this->tileWidth * this->width),
+					((this->height - 2) * this->tileHeight), (this->tileHeight * 2), 100
+					, continueHandler,
 					"button_continue.png", imageHandler);
 
 			this->continueButton = continueButton;
@@ -94,7 +91,7 @@ int Game::init() {
 			//next section creates title for start screen
 
 			//create font to use to display text
-			TTF_Font* titleFont = TTF_OpenFont("Roboto-Bold.ttf", 48);
+			TTF_Font* titleFont = TTF_OpenFont("Roboto-Bold.ttf", 72);
 
 			//set color of the text
 			SDL_Color titleColor = { 0, 0, 0 };
@@ -171,16 +168,14 @@ int Game::init() {
 					int clickX = event.button.x;
 
 					//if it's within the range of the continue button, check the y position
-					if ((clickX < (this->width * this->tileWidth))
+					if ((clickX < ((this->width * this->tileWidth) + 100))
 							&& (clickX
-									> ((this->width - (2 * this->width / 10))
-											* this->tileWidth))) {
+									> (this->width * this->tileWidth))) {
 
 						int clickY = event.button.y;
-						if ((clickY > (this->height * this->tileHeight)
+						if (clickY > ((this->height -2)* this->tileHeight)
 								&& clickY
-										< (this->height * this->tileHeight)
-												+ 100)) {
+										< (this->height * this->tileHeight)) {
 							continuePressed = true;
 
 						}
@@ -372,20 +367,21 @@ int Game::init() {
 					int y = event.button.y;
 
 					//check to see if the continue button has been pressed, if so, set continuepressed to true to break while loop and proceed
-					if ((x < (this->width * this->tileWidth))
+					if ((x < ((this->width * this->tileWidth) + 100))
 							&& (x
-									> ((this->width - (2 * this->width / 10))
-											* this->tileWidth))) {
+									> (this->width * this->tileWidth))) {
 
-						if ((y > (this->height * this->tileHeight)
-								&& y < (this->height * this->tileHeight) + 100)) {
+						if ((y > ((this->height -2)* this->tileHeight))
+								&& y < (this->height * this->tileHeight)) {
 							continuePressed = true;
 
 						}
 					}
+					
+					
 
 					//otherwise, check the y value to see if it is within range of the faction buttons
-					else if (y < ((0.9 * this->height) * this->tileHeight)
+					if (y < ((0.9 * this->height) * this->tileHeight)
 							&& y > ((0.8 * this->height) * this->tileHeight)) {
 
 						//check x value to see what button has been pushed
@@ -485,17 +481,18 @@ void Game::eventHandler(const SDL_Event* event) {
 		int y = event->button.y;
 
 		//check to see if the continue button has been pressed, if so, set player to next player and proceed
-		if ((x < (this->width * this->tileWidth))
+		if ((x < ((this->width * this->tileWidth) + 100))
 				&& (x
-						> ((this->width - (2 * this->width / 10))
-								* this->tileWidth))) {
+						> (this->width * this->tileWidth))) {
 
-			if ((y > (this->height * this->tileHeight)
-					&& y < (this->height * this->tileHeight) + 100)) {
+			if ((y > ((this->height -2)* this->tileHeight))
+					&& y < (this->height * this->tileHeight)) {
 				this->currentPlayerIndex = (this->currentPlayerIndex % 2) + 1;
 
 			}
 		}
+		
+		
 
 		//otherwise, make sure the click was in the map area before passing to the map to handl
 		if ((x < (this->width * this->tileWidth)) && (x > 0)) {
