@@ -15,7 +15,7 @@ backgroundMap::backgroundMap(int tileHeight, int tileWidth, int numRows,
 	//set image handler for this object
 	this->imageHandler = imgHandler;
 
-    SDL_Texture* texture = this->imageHandler->loadImage("Background/basic_map.png");
+    SDL_Texture* texture = this->imageHandler->loadImage("Background/backgroundMap.png");
 
     this-> rect = new SDL_Rect;
 
