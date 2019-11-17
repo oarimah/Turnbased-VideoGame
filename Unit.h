@@ -1,4 +1,3 @@
-
 #ifndef UNIT_H
 #define UNIT_H
 
@@ -9,40 +8,54 @@
 #include <iostream>
 #include "GameObject.h"
 
-class Unit: public GameObject{
+class Unit: public GameObject {
 
-    private:
-        SDL_Rect position;
-        SDL_Texture* image;
-        bool clicked;
-        ImageHandler* imageHandler;
-        int health;
-        int offense;
-        int defense;
-        int numOfAttacks;
-        int rangeBegins;
-        int rangeEnds;
-        int speed;
+private:
+	SDL_Rect position;
+	SDL_Texture* image;
+	bool clicked;
+	ImageHandler* imageHandler;
+	int maxHealth;
+	int curHealth;
+	int offense;
+	int defense;
+	int numOfAttacksPerTurn;
+	int numberOfAttacksForTurn;
+	int rangeBegins;
+	int rangeEnds;
+	int maxSpeed;
+	int curSpeed;
+	bool used;
 
-    public:
-        Unit(int xPos, int yPos, int height, int width, const std::string& imageFile, ImageHandler *imgHandler, int health, int offense, int defense, int numOfAttacks, int rangeBegins, int rangeEnds, int speed); 
-        ~Unit();
-        const SDL_Rect* getPosition();
-        void changePosition(int newX, int newY);
-        const bool isClicked();
-        void changeImage(const std::string& imageFile);
-        void render();
-        const std::string getType();
-        void changeClicked(bool value);
-        int getHealth();
-        void setHealth(int damage); 
-        int getAttack();
-        int getDefense();
-        int getNumOfAttacks();
-        int getRangeBegins();
-        int getRangeEnds();
-        int getSpeed();
-        bool isDead();
+public:
+	Unit(int xPos, int yPos, int height, int width,
+			const std::string& imageFile, ImageHandler *imgHandler, int health,
+			int offense, int defense, int numOfAttacks, int rangeBegins,
+			int rangeEnds, int speed);
+	~Unit();
+	const SDL_Rect* getPosition();
+	void changePosition(int newX, int newY);
+	const bool isClicked();
+	void changeImage(const std::string& imageFile);
+	void render();
+	const std::string getType();
+	void changeClicked(bool value);
+	int getMaxHealth();
+	int getCurHealth();
+	void setHealth(int damage);
+	int getAttack();
+	int getDefense();
+	int getMaxNumOfAttacks();
+	int getCurNumOfAttacks();
+	void attack();
+	int getRangeBegins();
+	int getRangeEnds();
+	int getMaxSpeed();
+	int getCurSpeed();
+	void speedUsed(int speedUsed);
+	bool isUsed();
+	void reset();
+	bool isDead();
 };
 
 #endif

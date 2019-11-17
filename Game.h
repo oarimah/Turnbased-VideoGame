@@ -4,36 +4,42 @@
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
 #include <SDL2/SDL_ttf.h>
-//#include "Player.h"
+#include "Player.h"
+#include "ImageHandler.h"
 #include "TextDisplay.h"
-//#include "Map.h"
+#include "InfoButtonHandler.h"
+#include "backgroundMap.h"
+#include "foregroundMap.h"
+#include "Button.h"
 #include <iostream>
 
 
-//define static variables for game class's tile height and width
-static const int TILE_HEIGHT = 32;
-static const int TILE_WIDTH = 32;
 
 
 class Game {
 private: 
-
-	//Player* players[];
-	//Map* backgroundMap, foregroundMap;
+	
+	Player* players[2];
+	int currentPlayerIndex;
+	backgroundMap* bgMap;
+	foregroundMap* fgMap;
 	bool isRunning;
-	int height, width;
+	int height, width, tileHeight, tileWidth;
 	ImageHandler* imageHandler;
 	SDL_Renderer* renderer;
 	TextDisplay* displayBox;
+	Button* continueButton;
 
 public:
 
-	Game(int numTilesHigh, int numTilesWide);
+	Game(int numTilesHigh, int numTilesWide, int tileWidth, int tileHeight);
 	~Game();
 	int init();
 	void eventHandler(const SDL_Event* event);
 	void render();
-	const bool running();
+    void renderClear();
+    void renderRepresent();
+	bool running();
 
 };
 

@@ -16,9 +16,11 @@ class Player{
         ~Player();
         void clearDeadUnits();
         void updateUnits();
+        void reset();
         void addUnit(Unit* unit);
         bool containsUnit(Unit * unit);
         bool noUnit();
+		int getFaction();
 
 };
 
