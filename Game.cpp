@@ -15,6 +15,9 @@ Game::Game(int numTilesHigh, int numTilesWide, int tileWidth, int tileHeight) {
 	//set image handler to null as not initialized  yet
 	this->imageHandler = NULL;
 
+	// set the player to start the game
+	this->currentPlayerIndex = 1;
+
 	//create background and foreground maps
 
 	//set running to false because init has not been called yet
@@ -442,8 +445,6 @@ int Game::init() {
 			this->fgMap = new foregroundMap(this->tileWidth, this->tileHeight,
 					this->width, this->height, this->imageHandler,
 					this->displayBox, this->players[0], this->players[1]);
-					
-				
 
 			//otherwise, game is now running
 			this->isRunning = true;

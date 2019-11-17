@@ -15,13 +15,19 @@ Unit::Unit(int xPos, int yPos, int height, int width,
 	this->position.w = width;
 
 	//stats of the unit
-	this->health = health;
+	this->maxHealth = health;
+	this->curHealth = health;
 	this->offense = offense;
 	this->defense = defense;
-	this->numOfAttacks = numOfAttacks;
+	this->numOfAttacksPerTurn = numOfAttacks;
+	this->numberOfAttacksForTurn = numOfAttacks;
 	this->rangeBegins = rangeBegins;
 	this->rangeEnds = rangeEnds;
-	this->speed = speed;
+	this->maxSpeed = speed;
+	this->curSpeed = speed;
+
+	// to be used to control the number of thing the unit can do per turn
+	this->used = false;
 
 	//set image handler for this object
 	this->imageHandler = imgHandler;
@@ -70,14 +76,17 @@ const string Unit::getType() {
 	return "Unit";
 }
 
-int Unit::getHealth() {
-	return this->health;
+int Unit::getMaxHealth() {
+	return this->maxHealth;
+}
+int Unit::getCurHealth() {
+	return this->curHealth;
 }
 
 void Unit::setHealth(int damage) {
-	this->health -= damage - defense;
-	if (this->health < 0)
-		this->health = 0;
+	this->curHealth -= damage - defense;
+	if (this->curHealth < 0)
+		this->curHealth = 0;
 }
 
 int Unit::getAttack() {
@@ -88,8 +97,19 @@ int Unit::getDefense() {
 	return this->defense;
 }
 
-int Unit::getNumOfAttacks() {
-	return this->numOfAttacks;
+int Unit::getMaxNumOfAttacks() {
+	return this->numOfAttacksPerTurn;
+}
+
+int Unit::getCurNumOfAttacks() {
+	return this->numberOfAttacksForTurn;
+}
+
+void Unit::attack() {
+	this->numberOfAttacksForTurn--;
+	this->curSpeed -= this->curSpeed;
+	if (this->numberOfAttacksForTurn == 0)
+		used = true;
 }
 
 int Unit::getRangeBegins() {
@@ -100,11 +120,31 @@ int Unit::getRangeEnds() {
 	return this->rangeEnds;
 }
 
-int Unit::getSpeed() {
-	return this->speed;
+int Unit::getMaxSpeed() {
+	return this->maxSpeed;
+}
+
+int Unit::getCurSpeed() {
+	return this->curSpeed;
+}
+
+void Unit::speedUsed(int speedUsed) {
+	this->curSpeed -= speedUsed;
+	if (this->curSpeed == 0)
+		used = true;
+}
+
+bool Unit::isUsed() {
+	return used;
+}
+
+void Unit::reset() {
+	this->used = false;
+	this->numberOfAttacksForTurn = this->numOfAttacksPerTurn;
+	this->curSpeed = this->maxSpeed;
 }
 
 bool Unit::isDead() {
-	return this->health == 0;
+	return this->curHealth == 0;
 }
 
