@@ -4,10 +4,12 @@ TextDisplay::TextDisplay(const std::string& inputText, int xPos, int yPos, int h
 {
 	this->renderer = renderHere;
 	this->changed = false;
-	this->position.x = xPos;
-	this->position.y = yPos;
-	this->position.h = height;
-	this->position.w = width;
+	
+	//add extra to x and y positions to allow proper placement over background image
+	this->position.x = xPos + 20;
+	this->position.y = yPos + 20;
+	this->maxHeight = height;
+	this->maxWidth = width;
 
 	//create surface from text, font and colour
 	SDL_Surface* textSurface;
@@ -15,6 +17,41 @@ TextDisplay::TextDisplay(const std::string& inputText, int xPos, int yPos, int h
 
 	//convert surface to texture and store 
 	this->currentDisplay = SDL_CreateTextureFromSurface(this->renderer, textSurface);
+	
+	//create background image to use under text
+	
+	SDL_Surface* surface = IMG_Load("Buttons/button_brown_vertical.png");
+
+	//set size of background based on input
+	this->background.x = xPos;
+	this->background.y = yPos;
+	this->background.h = height;
+	this->background.w = width;
+	
+	//then create texture from surface created and return to user
+	this->backgroundDisplay = SDL_CreateTextureFromSurface(this->renderer, surface);
+	
+	
+	//query the texture to determine size of text
+	int textHeight = 0;
+	int textWidth = 0;
+	
+	SDL_QueryTexture(this->currentDisplay, NULL, NULL, &textWidth, &textHeight);
+	
+	if (textHeight <= this->maxHeight){
+	this->position.h = textHeight;
+}
+	else{
+		
+		this->position.h = maxHeight;
+	}
+	
+	if (textWidth <= this->maxWidth){
+	this->position.w = textWidth;
+}
+else{
+	this->position.w = maxWidth;
+}
 }
 
 TextDisplay::~TextDisplay()
@@ -38,6 +75,27 @@ void TextDisplay::display(const std::string& newText)
 
 	//convert surface to texture and store 
 	this->currentDisplay = SDL_CreateTextureFromSurface(this->renderer, textSurface);
+	
+	//query the texture to determine size of text
+	int textHeight = 0;
+	int textWidth = 0;
+	
+	SDL_QueryTexture(this->currentDisplay, NULL, NULL, &textWidth, &textHeight);
+	if (textHeight <= this->maxHeight){
+	this->position.h = textHeight;
+}
+	else{
+		this->position.h = maxHeight;
+	}
+	
+	if (textWidth <= this->maxWidth){
+	
+	this->position.w = textWidth;
+}
+else{
+	
+	this->position.w = maxWidth;
+}
 
 	//mark changed to true
 	changed = true;
@@ -45,6 +103,8 @@ void TextDisplay::display(const std::string& newText)
 
 void TextDisplay::render()
 {
+	SDL_RenderCopy(this->renderer, this->backgroundDisplay, NULL, &this->background);
+
 	SDL_RenderCopy(this->renderer, this->currentDisplay, NULL, &this->position);
 
 }

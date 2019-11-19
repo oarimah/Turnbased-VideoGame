@@ -31,11 +31,11 @@ foregroundMap::foregroundMap(
 	for (int i = 0; i < 20; i++) {
 		Unit* unit = UnitFactory::createUnit(i * this->width, 0, this->height,
 				this->width, 1, faction, unitType, this->imageHandler);
-		std::cout << "Got Here\n";
+
 		//add unit to player and board
 		this->player1->addUnit(unit);
 		this->map[i][0][0] = unit;
-		std::cout << "Foreground Map tile" << i << " 0 = " << unit << std::endl;
+
 		//increment the unit to get a variety of types
 
 		unitType = (unitType + 1) % 3;
@@ -54,7 +54,6 @@ foregroundMap::foregroundMap(
 		//add unit to player and board
 		this->player2->addUnit(unit);
 		this->map[i][0][19] = unit;
-		std::cout << "Foreground Map tile" << i << "  1 = " << unit << std::endl;
 
 
 		//increment the unit to get a variety of types
@@ -89,27 +88,16 @@ void foregroundMap::handleEvent(const SDL_Event* event, int player) {
 		int yIndex = y / this->height;
 
 		Unit* clicked = this->map[xIndex][0][yIndex];
-		//std::cout << "Square clicked " << clicked << std::endl;
-
-		//std::cout << " Checking before empty and unit clicked" << std::endl;
-		//		std::cout << " clicked = " << clicked << std::endl;
-		//std::cout << " unit clicked = " << this->unitClicked << std::endl;
 
 		//if index is empty and a unit clicked previously, see if the unit can move to that location (in range?)
 		if ((!clicked) && this->unitClicked != NULL) {
 
-			std::cout << "Clicked an empty space after clicking a unit"
-					<< std::endl;
+			
 			//if in range of the unit, move the unit
 			if (this->unitClicked->getCurSpeed()
 					>= (abs(this->clickedX - xIndex)
 							+ abs(this->clickedY - yIndex))) {
-				std::cout << "Unit current range "
-						<< this->unitClicked->getCurSpeed() << std::endl;
-				std::cout << "Calculated difference "
-						<< (abs(this->clickedX - xIndex)
-								+ abs(this->clickedY - yIndex)) << std::endl;
-
+	
 				this->unitClicked->speedUsed(
 						(abs(this->clickedX - xIndex)
 								+ abs(this->clickedY - yIndex)));
@@ -141,7 +129,6 @@ void foregroundMap::handleEvent(const SDL_Event* event, int player) {
 		//if the square is not empty and it is a double click, display the info about the unit
 		else if (clicked && event->button.clicks == 2) {
 
-			std::cout << "double click on unit" << std::endl;
 			//construct info for the text display
 			std::string info = "Health: "
 					+ std::to_string(clicked->getMaxHealth())
@@ -158,7 +145,6 @@ void foregroundMap::handleEvent(const SDL_Event* event, int player) {
 		//if index has another unit of the other player's and a unit was clicked previously, attack the other unit
 		else if (clicked && this->unitClicked != NULL) {
 
-			std::cout << "Clicked a unit" << std::endl;
 			//if this is player 1's turn and the other unit clicked was player 2's, attack
 			if ((player == 1 && this->player2->containsUnit(clicked))
 					|| (player == 2 && this->player1->containsUnit(clicked))) {
@@ -198,7 +184,6 @@ void foregroundMap::handleEvent(const SDL_Event* event, int player) {
 		//if the unit clicked is the current player's add it to the unit clicked for next time
 		else {
 
-			std::cout << "Clicked unit alone" << std::endl;
 			//check the unit's owner
 			if (player == 1) {
 

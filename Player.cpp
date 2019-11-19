@@ -30,12 +30,14 @@ void Player::updateUnits() {
 }
 
 void Player::reset() {
+
 	for (int i = 0; i < units.size(); i++)
 		units[i]->reset();
+	
 }
 
 void Player::addUnit(Unit * unit) {
-	units.push_back(unit);
+	this->units.push_back(unit);
 }
 
 bool Player::containsUnit(Unit * unit) {

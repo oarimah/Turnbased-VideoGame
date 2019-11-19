@@ -54,10 +54,10 @@ int Game::init() {
 	//if can initialize SDL system, make a window and renderer
 	if (SDL_Init(SDL_INIT_EVERYTHING) == 0) {
 
-		//make a window show on the screen (add an extra strip of 100px to the window height to give space to text display box)
+		//make a window show on the screen (add an extra strip of 200px to the window height to give space to text display box)
 		SDL_Window* window = SDL_CreateWindow("Protect Your Territory",
 		SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED,
-				(this->width * this->tileWidth) + 100,
+				(this->width * this->tileWidth) + 200,
 				(this->height * this->tileHeight), SDL_WINDOW_SHOWN);
 
 		std::cout << SDL_GetError() << std::endl;
@@ -76,7 +76,7 @@ int Game::init() {
 			//create new text display box and locate it at bottom of map (make 2 tiles smaller in width to allow for continue button space under map)
 
 			TextDisplay* displayBox = new TextDisplay("", (this->tileWidth * this->width),
-					0, ((this->height - 2) * this->tileHeight), 100, renderer);
+					0, ((this->height - 2) * this->tileHeight), 200, renderer);
 			this->displayBox = displayBox;
 
 			//create start screen that persists until the user clicks the continue button
@@ -85,16 +85,16 @@ int Game::init() {
 					&continueString, displayBox);
 			Button* continueButton = new Button(
 					(this->tileWidth * this->width),
-					((this->height - 2) * this->tileHeight), (this->tileHeight * 2), 100
+					((this->height - 2) * this->tileHeight), (this->tileHeight * 2), 200
 					, continueHandler,
-					"button_continue.png", imageHandler);
+					"Continue.png", imageHandler);
 
 			this->continueButton = continueButton;
 
 			//next section creates title for start screen
 
 			//create font to use to display text
-			TTF_Font* titleFont = TTF_OpenFont("Roboto-Bold.ttf", 72);
+			TTF_Font* titleFont = TTF_OpenFont("CaviarDreams_Bold.ttf", 72);
 
 			//set color of the text
 			SDL_Color titleColor = { 0, 0, 0 };
@@ -171,7 +171,7 @@ int Game::init() {
 					int clickX = event.button.x;
 
 					//if it's within the range of the continue button, check the y position
-					if ((clickX < ((this->width * this->tileWidth) + 100))
+					if ((clickX < ((this->width * this->tileWidth) + 200))
 							&& (clickX
 									> (this->width * this->tileWidth))) {
 
@@ -273,9 +273,9 @@ int Game::init() {
 
 			//use the imageHandler to get the texture for both english and french factions (could not do for text as different steps involved)
 			SDL_Texture* englishButton = imageHandler->loadImage(
-					"button_english.png");
+					"English.png");
 			SDL_Texture* frenchButton = imageHandler->loadImage(
-					"button_french.png");
+					"French.png");
 
 			//create rectangles and set positions of buttons underneath each player
 			SDL_Rect player1English;
@@ -370,7 +370,7 @@ int Game::init() {
 					int y = event.button.y;
 
 					//check to see if the continue button has been pressed, if so, set continuepressed to true to break while loop and proceed
-					if ((x < ((this->width * this->tileWidth) + 100))
+					if ((x < ((this->width * this->tileWidth) + 200))
 							&& (x
 									> (this->width * this->tileWidth))) {
 
@@ -392,6 +392,39 @@ int Game::init() {
 								&& x
 										> ((0.1 * this->width) * this->tileWidth)) {
 							player1E = true;
+							
+							//display this choice to the screen
+							this->displayBox->display("Player 1:\nEnglish");
+
+							//re-render background colour, text display box, continue button		
+							SDL_RenderClear(renderer);
+				
+							//render the background 
+							SDL_RenderCopy(renderer, background, NULL, NULL);
+				
+							//render the text box and continue button
+							displayBox->render();
+							continueButton->render();
+				
+							//display the title to given title position
+							SDL_RenderCopy(renderer, titleTexture, NULL, &titlePos);
+				
+							//display the subtitle to given position
+							SDL_RenderCopy(renderer, subTitleTexture, NULL, &subTitlePos);
+				
+							//display player1 and player2 text to given position
+							SDL_RenderCopy(renderer, player1Texture, NULL, &player1Pos);
+							SDL_RenderCopy(renderer, player2Texture, NULL, &player2Pos);
+				
+							//display player1's buttons and player2's buttons, using the same english and french buttons in their respective positions for each player
+							SDL_RenderCopy(renderer, englishButton, NULL, &player1English);
+							SDL_RenderCopy(renderer, frenchButton, NULL, &player1French);
+							SDL_RenderCopy(renderer, englishButton, NULL, &player2English);
+							SDL_RenderCopy(renderer, frenchButton, NULL, &player2French);
+				
+							//present all to the screen
+							SDL_RenderPresent(renderer);
+
 						}
 
 						else if (x < ((0.4 * this->width) * this->tileWidth)
@@ -399,6 +432,40 @@ int Game::init() {
 										> ((0.3 * this->width) * this->tileWidth)) {
 
 							player1E = false;
+							
+							//display this choice to the screen
+							this->displayBox->display("Player 1:\nFrench");
+
+							//re-render background colour, text display box, continue button		
+							SDL_RenderClear(renderer);
+				
+							//render the background 
+							SDL_RenderCopy(renderer, background, NULL, NULL);
+				
+							//render the text box and continue button
+							displayBox->render();
+							continueButton->render();
+				
+							//display the title to given title position
+							SDL_RenderCopy(renderer, titleTexture, NULL, &titlePos);
+				
+							//display the subtitle to given position
+							SDL_RenderCopy(renderer, subTitleTexture, NULL, &subTitlePos);
+				
+							//display player1 and player2 text to given position
+							SDL_RenderCopy(renderer, player1Texture, NULL, &player1Pos);
+							SDL_RenderCopy(renderer, player2Texture, NULL, &player2Pos);
+				
+							//display player1's buttons and player2's buttons, using the same english and french buttons in their respective positions for each player
+							SDL_RenderCopy(renderer, englishButton, NULL, &player1English);
+							SDL_RenderCopy(renderer, frenchButton, NULL, &player1French);
+							SDL_RenderCopy(renderer, englishButton, NULL, &player2English);
+							SDL_RenderCopy(renderer, frenchButton, NULL, &player2French);
+				
+							//present all to the screen
+							SDL_RenderPresent(renderer);
+
+							
 						}
 
 						else if (x < ((0.7 * this->width) * this->tileWidth)
@@ -406,6 +473,39 @@ int Game::init() {
 										> ((0.6 * this->width) * this->tileWidth)) {
 
 							player2E = true;
+							
+							//display this choice to the screen
+							this->displayBox->display("Player 2:\nEnglish");
+
+							//re-render background colour, text display box, continue button		
+							SDL_RenderClear(renderer);
+				
+							//render the background 
+							SDL_RenderCopy(renderer, background, NULL, NULL);
+				
+							//render the text box and continue button
+							displayBox->render();
+							continueButton->render();
+				
+							//display the title to given title position
+							SDL_RenderCopy(renderer, titleTexture, NULL, &titlePos);
+				
+							//display the subtitle to given position
+							SDL_RenderCopy(renderer, subTitleTexture, NULL, &subTitlePos);
+				
+							//display player1 and player2 text to given position
+							SDL_RenderCopy(renderer, player1Texture, NULL, &player1Pos);
+							SDL_RenderCopy(renderer, player2Texture, NULL, &player2Pos);
+				
+							//display player1's buttons and player2's buttons, using the same english and french buttons in their respective positions for each player
+							SDL_RenderCopy(renderer, englishButton, NULL, &player1English);
+							SDL_RenderCopy(renderer, frenchButton, NULL, &player1French);
+							SDL_RenderCopy(renderer, englishButton, NULL, &player2English);
+							SDL_RenderCopy(renderer, frenchButton, NULL, &player2French);
+				
+							//present all to the screen
+							SDL_RenderPresent(renderer);
+
 						}
 
 						else if (x < ((0.9 * this->width) * this->tileWidth)
@@ -413,6 +513,39 @@ int Game::init() {
 										> ((0.8 * this->width) * this->tileWidth)) {
 
 							player2E = false;
+							
+							//display this choice to the screen
+							this->displayBox->display("Player 2:\nFrench");
+
+							//re-render background colour, text display box, continue button		
+							SDL_RenderClear(renderer);
+				
+							//render the background 
+							SDL_RenderCopy(renderer, background, NULL, NULL);
+				
+							//render the text box and continue button
+							displayBox->render();
+							continueButton->render();
+				
+							//display the title to given title position
+							SDL_RenderCopy(renderer, titleTexture, NULL, &titlePos);
+				
+							//display the subtitle to given position
+							SDL_RenderCopy(renderer, subTitleTexture, NULL, &subTitlePos);
+				
+							//display player1 and player2 text to given position
+							SDL_RenderCopy(renderer, player1Texture, NULL, &player1Pos);
+							SDL_RenderCopy(renderer, player2Texture, NULL, &player2Pos);
+				
+							//display player1's buttons and player2's buttons, using the same english and french buttons in their respective positions for each player
+							SDL_RenderCopy(renderer, englishButton, NULL, &player1English);
+							SDL_RenderCopy(renderer, frenchButton, NULL, &player1French);
+							SDL_RenderCopy(renderer, englishButton, NULL, &player2English);
+							SDL_RenderCopy(renderer, frenchButton, NULL, &player2French);
+				
+							//present all to the screen
+							SDL_RenderPresent(renderer);
+
 						}
 					}
 				}
@@ -420,8 +553,23 @@ int Game::init() {
 			}
 
 			//delete no longer needed assets
+			delete continueButton;
+			
+
+			//create new continue button with end player turn text
+			Button* turnButton = new Button(
+					(this->tileWidth * this->width),
+					((this->height - 2) * this->tileHeight), (this->tileHeight * 2), 200
+					, continueHandler,
+					"EndTurn.png", imageHandler);
+
 			delete continueHandler;
-			//delete continueButton;
+
+			this->continueButton = turnButton;
+
+			
+		
+			
 
 			//create the players using the above values for faction
 
@@ -482,13 +630,22 @@ void Game::eventHandler(const SDL_Event* event) {
 		int y = event->button.y;
 
 		//check to see if the continue button has been pressed, if so, set player to next player and proceed
-		if ((x < ((this->width * this->tileWidth) + 100))
+		if ((x < ((this->width * this->tileWidth) + 200))
 				&& (x
 						> (this->width * this->tileWidth))) {
 
 			if ((y > ((this->height -2)* this->tileHeight))
 					&& y < (this->height * this->tileHeight)) {
+				
+				//reset the players so that next turn all units can be used then switch players
+				this->players[this->currentPlayerIndex - 1]->reset();
+
 				this->currentPlayerIndex = (this->currentPlayerIndex % 2) + 1;
+				
+				//print notification to display that the player has switched
+				std::string playerSwitched = "Player " + std::to_string(this->currentPlayerIndex) + " now \nplaying!";
+				this->displayBox->display(playerSwitched);
+				
 
 			}
 		}

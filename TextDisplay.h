@@ -12,14 +12,20 @@ class TextDisplay {
 private:
 	SDL_Texture* currentDisplay;
 	SDL_Rect position;
+	SDL_Rect background;
 	bool changed;
+	int maxHeight;
+	int maxWidth;
 	//create font to use to display text
-	TTF_Font* textFont = TTF_OpenFont("Roboto-Bold.ttf", 48);
+	TTF_Font* textFont = TTF_OpenFont("CaviarDreams_Bold.ttf", 32);
 
 	//set color of the text
-	SDL_Color textColor = { 255, 255, 255 };
+	SDL_Color textColor = { 255,255,255 };
 
 	SDL_Renderer* renderer;
+	
+	//background image for text display box
+	SDL_Texture* backgroundDisplay;
 
 
 public:
