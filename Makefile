@@ -11,7 +11,7 @@ Main.o: Main.cpp Game.h Button.h EraseButtonHandler.h InfoButtonHandler.h TextDi
 Button.o: Button.cpp ImageHandler.h ButtonEventHandler.h GameObject.h
 	$(COMP) -c Button.cpp $(COMPFLAGS) $(LIBS)
 
-Game.o: Game.cpp ImageHandler.h Player.h TextDisplay.h InfoButtonHandler.h backgroundMap.h foregroundMap.h Button.h RuleButtonHandler.h
+Game.o: Game.cpp ImageHandler.h Player.h TextDisplay.h InfoButtonHandler.h backgroundMap.h foregroundMap.h Button.h 
 	$(COMP) -c Game.cpp $(COMPFLAGS) $(LIBS)
 
 Tile.o: Tile.cpp ImageHandler.h GameObject.h

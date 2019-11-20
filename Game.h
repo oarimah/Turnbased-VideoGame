@@ -8,7 +8,6 @@
 #include "ImageHandler.h"
 #include "TextDisplay.h"
 #include "InfoButtonHandler.h"
-#include "RuleButtonHandler.h"
 #include "backgroundMap.h"
 #include "foregroundMap.h"
 #include "Button.h"

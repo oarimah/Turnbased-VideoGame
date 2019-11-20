@@ -129,13 +129,25 @@ void foregroundMap::handleEvent(const SDL_Event* event, int player) {
 		//if the square is not empty and it is a double click, display the info about the unit
 		else if (clicked && event->button.clicks == 2) {
 
+
 			//construct info for the text display
-			std::string info = "Health: "
+			std::string info = "Max Health: "
 					+ std::to_string(clicked->getMaxHealth())
-					+ "\nAttack Power: " + std::to_string(clicked->getAttack())
+					+ "\nCurrent Health: "
+					+ std::to_string(clicked->getCurHealth())
+					+ "\nAttack Power: " 
+					+ std::to_string(clicked->getAttack())
+					+ "\nMax Number of Attacks: "
+					+ std::to_string(clicked->getMaxNumOfAttacks())
+					+ "\nAttacks Used: "
+					+ std::to_string(clicked->getCurNumOfAttacks())
 					+ "\nDefense Power: "
-					+ std::to_string(clicked->getDefense()) + "\nRange: "
-					+ std::to_string(clicked->getMaxSpeed()) + "\n";
+					+ std::to_string(clicked->getDefense()) 
+					+ "\nRange: "
+					+ std::to_string(clicked->getMaxSpeed()) 
+					+ "\nRange Available: "
+					+ std::to_string(clicked->getCurSpeed())
+					+ "\n";
 
 			//pass this to the text display
 			this->displayBox->display(info);

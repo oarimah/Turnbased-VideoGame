@@ -100,7 +100,7 @@ int Game::init() {
 			SDL_Rect rulesPos;
 
 			//set below the player1 texts
-			rulesPos.x = 200;
+			rulesPos.x = 300;
 			rulesPos.y = 350;
 			rulesPos.h = 50;
 			rulesPos.w = 100;
@@ -201,8 +201,8 @@ int Game::init() {
 					}
 
 					//if it's within the range of the rule button, check the y position before calling the handler
-					if ((clickX < 300)
-						&& (clickX > 200)) {
+					if ((clickX < 400)
+						&& (clickX > 300)) {
 
 						int clickY = event.button.y;
 						if (clickY > 350 && clickY < 400) {
