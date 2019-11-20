@@ -20,4 +20,4 @@ public:
 	void handleEvent(const SDL_Event* event);
 };
 
-#endif // !INFO_BUTTON_HANDLER_H
+#endif 

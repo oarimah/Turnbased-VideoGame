@@ -8,6 +8,7 @@
 #include "ImageHandler.h"
 #include "TextDisplay.h"
 #include "InfoButtonHandler.h"
+#include "RuleButtonHandler.h"
 #include "backgroundMap.h"
 #include "foregroundMap.h"
 #include "Button.h"
@@ -29,6 +30,9 @@ private:
 	SDL_Renderer* renderer;
 	TextDisplay* displayBox;
 	Button* continueButton;
+	Button* ruleButton;
+
+	void rules();
 
 public:
 
@@ -37,8 +41,8 @@ public:
 	int init();
 	void eventHandler(const SDL_Event* event);
 	void render();
-    void renderClear();
-    void renderRepresent();
+    	void renderClear();
+   	void renderRepresent();
 	bool running();
 
 };
