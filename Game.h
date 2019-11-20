@@ -32,6 +32,7 @@ private:
 	Button* ruleButton;
 
 	void rules();
+	void doWinScreen(int playerWins);
 
 public:
 

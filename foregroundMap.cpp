@@ -137,15 +137,17 @@ void foregroundMap::handleEvent(const SDL_Event* event, int player) {
 					+ std::to_string(clicked->getCurHealth())
 					+ "\nAttack Power: " 
 					+ std::to_string(clicked->getAttack())
+					+ "\nAttack Range: "
+					+ std::to_string(clicked->getRangeBegins()) + " to " + std::to_string(clicked->getRangeEnds()) 
 					+ "\nMax Number of Attacks: "
 					+ std::to_string(clicked->getMaxNumOfAttacks())
-					+ "\nAttacks Used: "
+					+ "\nAttacks Left: "
 					+ std::to_string(clicked->getCurNumOfAttacks())
 					+ "\nDefense Power: "
 					+ std::to_string(clicked->getDefense()) 
-					+ "\nRange: "
+					+ "\nMovement: "
 					+ std::to_string(clicked->getMaxSpeed()) 
-					+ "\nRange Available: "
+					+ "\nMovement Left: "
 					+ std::to_string(clicked->getCurSpeed())
 					+ "\n";
 
