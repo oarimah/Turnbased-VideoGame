@@ -28,7 +28,8 @@ foregroundMap::foregroundMap(
 	int faction = this->player1->getFaction();
 
 //add to first row of the map
-	for (int i = 0; i < 20; i++) {
+//REMOVE DEBUGGING (i ++)
+	for (int i = 0; i < 20; i += 3) {
 		Unit* unit = UnitFactory::createUnit(i * this->width, 0, this->height,
 				this->width, 1, faction, unitType, this->imageHandler);
 
@@ -46,8 +47,9 @@ foregroundMap::foregroundMap(
 	unitType = 0;
 	faction = this->player2->getFaction();
 
-//add to last row of the map
-	for (int i = 0; i < 20; i++) {
+//add to last row of the map 
+//REMOVE DEBUGGING (i ++)
+	for (int i = 0; i < 20; i += 3) {
 		Unit* unit = UnitFactory::createUnit(i * this->width, 19 * this->height,
 				this->height, this->width, 2, faction, unitType,
 				this->imageHandler);
@@ -180,9 +182,9 @@ void foregroundMap::handleEvent(const SDL_Event* event, int player) {
 					//clear the unit clicked
 					this->unitClicked = NULL;
 				} else {
-					std::cout
-							<< "Unit is out of attack range! Double click on unit for more info!"
-							<< std::endl;
+
+					//the attack can't be done, display notification to the user on the display box
+					this->displayBox->display("Unit is out\nof attack range! \nDouble click on unit\nfor more info!");
 				}
 			}
 			//otherwise, it is one of the players own units, so change the unit clicked of the player
@@ -208,7 +210,17 @@ void foregroundMap::handleEvent(const SDL_Event* event, int player) {
 					this->unitClicked = clicked;
 					this->clickedX = xIndex;
 					this->clickedY = yIndex;
+					
+					//clear the text display box in case an ineligible unit was clicked before
+					this->displayBox->display("");
 
+				}
+				
+				//if the unit has been used, let the player know that they can't use it again
+				else if (this->player1->containsUnit(clicked) 
+						&& clicked->isUsed()){
+
+					this->displayBox->display("This unit cannot be used\nagain during this turn.");
 				}
 			}
 
@@ -221,7 +233,17 @@ void foregroundMap::handleEvent(const SDL_Event* event, int player) {
 					this->unitClicked = clicked;
 					this->clickedX = xIndex;
 					this->clickedY = yIndex;
+					
+					//clear the text display box in case an ineligible unit was clicked before
+					this->displayBox->display("");
 
+				}
+
+				//if the unit has been used, let the player know that they can't use it again
+				else if (this->player2->containsUnit(clicked) 
+						&& clicked->isUsed()){
+
+					this->displayBox->display("This unit cannot be used\nagain during this turn.");
 				}
 			}
 		}
