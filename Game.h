@@ -33,6 +33,7 @@ private:
 
 	void rules();
 	void doWinScreen(int playerWins);
+	void doCreditScreen();
 
 public:
 

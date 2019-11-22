@@ -166,7 +166,7 @@ int Game::init() {
 			bool continuePressed = false;
 
 			//wait until there is an event and check it for the continue button being pressed or an end event
-			while (SDL_WaitEvent(&event) && !continuePressed) {
+			while (!continuePressed && SDL_WaitEvent(&event)) {
 				//if it is an event that should end the program, set bool value to break out of while loop
 				if (event.type == SDL_QUIT
 					|| event.type == SDL_WINDOWEVENT_CLOSE) {
@@ -755,10 +755,19 @@ bool Game::running() {
 
 void Game::rules() {
 
-	std::string rules = " xyz";
+	std::string goals = "Goal\nReduce your opponent's army to zero\nOR get a total of 50 points by maintaining\ncontrol of the castles\n";
+	std::string info = "Info\nDouble click any unit to get its current statistics\n";
+	std::string movement = "Movement\nDuring your turn, a single click on your unit followed\nby a click on another square will move the unit if the square is within\nthe unit's movement range. A unit cannot be moved after an attack until\nyour next turn.\n";
+	std::string attack = "Attack\nDuring your turn, a single click on your unit followed\nby a click on the opponent's unit will reduce the opponent's unit by the\nattacking unit's attack score MINUS the defending unit's defense score.\nThe defending unit must be within the attacking unit's attack range.\n";
+	std::string castles = "Castles\nIf either player has a unit within one square of a castle at the end of\na turn AND the other player does not have a unit within proximity of the\nsame castle, the score of the player with control of the castle will\nincrease by 1 point.";
+	std::string rules = goals
+				+"\n" + info
+				+"\n" + movement
+				+"\n" + attack
+				+"\n" + castles;
 
 	//create font to use to display text
-	TTF_Font* textFont = TTF_OpenFont("CaviarDreams.ttf", 32);
+	TTF_Font* textFont = TTF_OpenFont("CaviarDreams.ttf", 14);
 
 	//set color of the text
 	SDL_Color textColor = { 255,255,255 };
@@ -770,12 +779,21 @@ void Game::rules() {
 	//convert surface to texture and store 
 	SDL_Texture* currentDisplay = SDL_CreateTextureFromSurface(this->renderer, textSurface);
 
+	//query the texture to determine size of text
+	int textHeight = 0;
+	int textWidth = 0;
+
+
 	//define space that the rules will display to
 	SDL_Rect rulesPos;
-	rulesPos.x = 0;
+	rulesPos.x = 25;
 	rulesPos.y = 0;
-	rulesPos.h = (this->tileHeight * this->height);
-	rulesPos.w = (this->tileWidth * this->width);
+
+	//query texture to size it properly	
+	SDL_QueryTexture(currentDisplay, NULL, NULL, &textWidth, &textHeight);
+
+	rulesPos.h = textHeight;
+	rulesPos.w = textWidth;
 
 	//create background image to use under text
 	SDL_Surface* backgroundSurface = IMG_Load("ruleBackground.png");
@@ -921,6 +939,102 @@ void Game::doWinScreen(int playerWon) {
 					int x = event.button.x;
 					int y = event.button.y;
 
+					//check to see if the continue button has been pressed, if so, go to the credits screen
+					if ((x < ((this->width * this->tileWidth) + 200))
+						&& (x > (this->width * this->tileWidth))) {
+
+						if ((y > ((this->height - 2) * this->tileHeight))
+							&& y < (this->height * this->tileHeight)) {
+							
+							//deinitialize systems to end the game
+							doCreditScreen();
+							return;
+
+						}
+					}
+
+				}
+			}
+		}
+	}
+}
+
+
+
+
+void Game::doCreditScreen() {
+
+	std::string credits = "Brought to you by:\nAbdallah Alasmar\nOsitadinma Arimah\nJake Nemiroff\nOluwadarasimi Ogunshote\nCarolyn Owen";
+
+	//create font to use to display text
+	TTF_Font* textFont = TTF_OpenFont("CaviarDreams_Bold.ttf", 32);
+
+	//set color of the text
+	SDL_Color textColor = { 0,0,0 };
+
+	//create credits surface from text, font and colour
+	SDL_Surface* creditSurface;
+	creditSurface = TTF_RenderText_Blended_Wrapped(textFont, credits.c_str(), textColor, 500);
+
+	//convert surface to texture and store 
+	SDL_Texture* currentDisplay = SDL_CreateTextureFromSurface(this->renderer, creditSurface);
+
+	//define space that the text will display to
+	SDL_Rect creditPos;
+	creditPos.x = 200;
+	creditPos.y = 100;
+	creditPos.h = 300;
+	creditPos.w = 300;
+
+	//create background image to use under text
+	SDL_Surface* backgroundSurface = IMG_Load("Background2Final.png");
+
+	//then create texture from surface created
+	SDL_Texture* backgroundDisplay = SDL_CreateTextureFromSurface(this->renderer, backgroundSurface);
+
+	//render the background and rules
+	SDL_RenderClear(this->renderer);
+
+	//display the background to whole screen
+	SDL_RenderCopy(this->renderer, backgroundDisplay, NULL, NULL);
+
+	//display the text to given location
+	SDL_RenderCopy(this->renderer, currentDisplay, NULL, &creditPos);
+
+	//display continue button and text display box
+	this->continueButton->render();
+	this->displayBox->render();
+
+	//present all to the screen
+	SDL_RenderPresent(this->renderer);
+
+
+	//wait until there is an event and check it for an end event
+	while (true) {
+
+		SDL_Event event;
+
+		if (SDL_PollEvent(&event)) {
+			if (event.type != SDL_MOUSEMOTION && event.type != SDL_MOUSEBUTTONDOWN) {
+
+				//if it is an event that should end the program, call destructor and close the window
+				if (event.type == SDL_QUIT
+					|| event.type == SDL_WINDOWEVENT_CLOSE) {
+
+					//deinitialize systems
+					TTF_Quit();
+					SDL_Quit();
+					return;
+				}
+
+
+
+				//if within the continue button, close the game
+				else if (event.type == SDL_MOUSEBUTTONUP) {
+					//get the x location of the click
+					int x = event.button.x;
+					int y = event.button.y;
+
 					//check to see if the continue button has been pressed, if so, end the game
 					if ((x < ((this->width * this->tileWidth) + 200))
 						&& (x > (this->width * this->tileWidth))) {
@@ -941,3 +1055,6 @@ void Game::doWinScreen(int playerWon) {
 		}
 	}
 }
+
+
+
