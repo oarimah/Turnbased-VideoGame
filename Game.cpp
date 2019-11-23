@@ -922,7 +922,7 @@ int Game::init() {
 				this->width, this->height, this->imageHandler);
 			this->fgMap = new foregroundMap(this->tileWidth, this->tileHeight,
 				this->width, this->height, this->imageHandler,
-				this->displayBox, this->players[0], this->players[1]);
+				this->displayBox, this->players[0], this->players[1], &arr);
 
 			//otherwise, game is now running
 			this->isRunning = true;

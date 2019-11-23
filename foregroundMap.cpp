@@ -5,7 +5,7 @@ foregroundMap::foregroundMap(
 		// @suppress("Class members should be properly initialized")
 		int tileWidth, int tileHeight, int numRow, int numColumn,
 		ImageHandler* imgHandler, TextDisplay* textDisplay, Player* player1,
-		Player* player2) {
+		Player* player2, std::vector<ControlPoint *>* cp) {
 	this->height = tileHeight;
 	this->width = tileWidth;
 	this->numTilesWide = numRow;
@@ -14,6 +14,7 @@ foregroundMap::foregroundMap(
 	this->displayBox = textDisplay;
 	this->player1 = player1;
 	this->player2 = player2;
+	this->cp = cp;
 
 	// initialize the map and set everything to NULL
 	for (int i = 0; i < numRow; i++) {
