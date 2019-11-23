@@ -321,12 +321,16 @@ int Game::init() {
 				"English.png");
 			SDL_Texture* frenchButton = imageHandler->loadImage(
 				"French.png");
+			SDL_Texture* germanButton = imageHandler->loadImage(
+				"German.png");
+			SDL_Texture* spanishButton = imageHandler->loadImage(
+				"Spanish.png");
 
 			//create rectangles and set positions of buttons underneath each player
 			SDL_Rect player1English;
 
 			//set below the player1 texts
-			player1English.x = (this->tileWidth * (0.1 * this->width));
+			player1English.x = (this->tileWidth * (0.0 * this->width));
 			player1English.y = (this->tileHeight * (0.8 * this->height));
 			player1English.h = (this->tileHeight * (0.1 * this->height));
 			player1English.w = (this->tileWidth * (0.1 * this->width));
@@ -334,25 +338,55 @@ int Game::init() {
 			//create rectangle for player1 french button
 			SDL_Rect player1French;
 
-			player1French.x = (this->tileWidth * (0.3 * this->width));
+			player1French.x = (this->tileWidth * (0.1 * this->width));
 			player1French.y = (this->tileHeight * (0.8 * this->height));
 			player1French.h = (this->tileHeight * (0.1 * this->height));
 			player1French.w = (this->tileWidth * (0.1 * this->width));
 
+			//create rectangle for player1 german button
+			SDL_Rect player1German;
+
+			player1German.x = (this->tileWidth * (0.2 * this->width));
+                        player1German.y = (this->tileHeight * (0.8 * this->height));
+                        player1German.h = (this->tileHeight * (0.1 * this->height));
+                        player1German.w = (this->tileWidth * (0.1 * this->width));
+
+			//create rectangle for player1 spanish button
+			SDL_Rect player1Spanish;
+
+			player1Spanish.x = (this->tileWidth * (0.3 * this->width));
+                        player1Spanish.y = (this->tileHeight * (0.8 * this->height));
+                        player1Spanish.h = (this->tileHeight * (0.1 * this->height));
+                        player1Spanish.w = (this->tileWidth * (0.1 * this->width));
+
 			//set player 2's buttons
 			SDL_Rect player2English;
 
-			player2English.x = (this->tileWidth * (0.6 * this->width));
+			player2English.x = (this->tileWidth * (0.5 * this->width));
 			player2English.y = (this->tileHeight * (0.8 * this->height));
 			player2English.h = (this->tileHeight * (0.1 * this->height));
 			player2English.w = (this->tileWidth * (0.1 * this->width));
 
 			SDL_Rect player2French;
 
-			player2French.x = (this->tileWidth * (0.8 * this->width));
+			player2French.x = (this->tileWidth * (0.6 * this->width));
 			player2French.y = (this->tileHeight * (0.8 * this->height));
 			player2French.h = (this->tileHeight * (0.1 * this->height));
 			player2French.w = (this->tileWidth * (0.1 * this->width));
+
+			SDL_Rect player2German;
+
+			player2German.x = (this->tileWidth * (0.7 * this->width));
+                        player2German.y = (this->tileHeight * (0.8 * this->height));
+                        player2German.h = (this->tileHeight * (0.1 * this->height));
+                        player2German.w = (this->tileWidth * (0.1 * this->width));
+
+			SDL_Rect player2Spanish;
+
+			player2Spanish.x = (this->tileWidth * (0.8 * this->width));
+                        player2Spanish.y = (this->tileHeight * (0.8 * this->height));
+                        player2Spanish.h = (this->tileHeight * (0.1 * this->height));
+                        player2Spanish.w = (this->tileWidth * (0.1 * this->width));
 
 			//render background colour, text display box, continue button, title
 			SDL_RenderClear(renderer);
@@ -377,16 +411,26 @@ int Game::init() {
 			//display player1's buttons and player2's buttons, using the same english and french buttons in their respective positions for each player
 			SDL_RenderCopy(renderer, englishButton, NULL, &player1English);
 			SDL_RenderCopy(renderer, frenchButton, NULL, &player1French);
+			SDL_RenderCopy(renderer, germanButton, NULL, &player1German);
+			SDL_RenderCopy(renderer, spanishButton, NULL, &player1Spanish);
 			SDL_RenderCopy(renderer, englishButton, NULL, &player2English);
 			SDL_RenderCopy(renderer, frenchButton, NULL, &player2French);
+			SDL_RenderCopy(renderer, germanButton, NULL, &player2German);
+			SDL_RenderCopy(renderer, spanishButton, NULL, &player2Spanish);
 
 			//present all to the screen
 			SDL_RenderPresent(renderer);
 
 			//set up tracker for factions of each player
-			//defaults to english for each player, if button for french pressed, the tracker will switch, and will switch back if english then pressed
+			//defaults to english for each player, if button for a different faction is pressed, the tracker will switch, and will switch back if english is then pressed
 			bool player1E = true;
+			bool player1F = false;
+			bool player1G = false;
+			bool player1S = false;
 			bool player2E = true;
+			bool player2F = false;
+			bool player2G = false;
+			bool player2S = false;
 
 			//reset bool to represent continue button being pressed, which will continue the game initialization
 			continuePressed = false;
@@ -433,10 +477,13 @@ int Game::init() {
 						&& y >((0.8 * this->height) * this->tileHeight)) {
 
 						//check x value to see what button has been pushed
-						if (x < ((0.2 * this->width) * this->tileWidth)
+						if (x < ((0.1 * this->width) * this->tileWidth)
 							&& x
-						>((0.1 * this->width) * this->tileWidth)) {
+						>((0.0 * this->width) * this->tileWidth)) {
 							player1E = true;
+							player1F = false;
+							player1G = false;
+							player1S = false;
 
 							//display this choice to the screen
 							this->displayBox->display("Player 1:\nEnglish");
@@ -461,22 +508,29 @@ int Game::init() {
 							SDL_RenderCopy(renderer, player1Texture, NULL, &player1Pos);
 							SDL_RenderCopy(renderer, player2Texture, NULL, &player2Pos);
 
-							//display player1's buttons and player2's buttons, using the same english and french buttons in their respective positions for each player
+							//display player1's buttons and player2's buttons, using the same english, french, german, and spanish buttons in their respective positions for each player
 							SDL_RenderCopy(renderer, englishButton, NULL, &player1English);
-							SDL_RenderCopy(renderer, frenchButton, NULL, &player1French);
-							SDL_RenderCopy(renderer, englishButton, NULL, &player2English);
-							SDL_RenderCopy(renderer, frenchButton, NULL, &player2French);
+                       	 				SDL_RenderCopy(renderer, frenchButton, NULL, &player1French);
+                        				SDL_RenderCopy(renderer, germanButton, NULL, &player1German);
+                        				SDL_RenderCopy(renderer, spanishButton, NULL, &player1Spanish);
+                        				SDL_RenderCopy(renderer, englishButton, NULL, &player2English);
+                        				SDL_RenderCopy(renderer, frenchButton, NULL, &player2French);
+                        				SDL_RenderCopy(renderer, germanButton, NULL, &player2German);
+                        				SDL_RenderCopy(renderer, spanishButton, NULL, &player2Spanish);
 
 							//present all to the screen
 							SDL_RenderPresent(renderer);
 
 						}
 
-						else if (x < ((0.4 * this->width) * this->tileWidth)
+						else if (x < ((0.2 * this->width) * this->tileWidth)
 							&& x
-						>((0.3 * this->width) * this->tileWidth)) {
+						>((0.1 * this->width) * this->tileWidth)) {
 
 							player1E = false;
+							player1F = true;
+							player1G = false;
+							player1S = false;
 
 							//display this choice to the screen
 							this->displayBox->display("Player 1:\nFrench");
@@ -503,21 +557,125 @@ int Game::init() {
 
 							//display player1's buttons and player2's buttons, using the same english and french buttons in their respective positions for each player
 							SDL_RenderCopy(renderer, englishButton, NULL, &player1English);
-							SDL_RenderCopy(renderer, frenchButton, NULL, &player1French);
-							SDL_RenderCopy(renderer, englishButton, NULL, &player2English);
-							SDL_RenderCopy(renderer, frenchButton, NULL, &player2French);
+                        				SDL_RenderCopy(renderer, frenchButton, NULL, &player1French);
+                        				SDL_RenderCopy(renderer, germanButton, NULL, &player1German);
+                       					SDL_RenderCopy(renderer, spanishButton, NULL, &player1Spanish);
+                      					SDL_RenderCopy(renderer, englishButton, NULL, &player2English);
+                        				SDL_RenderCopy(renderer, frenchButton, NULL, &player2French);
+                        				SDL_RenderCopy(renderer, germanButton, NULL, &player2German);
+				                        SDL_RenderCopy(renderer, spanishButton, NULL, &player2Spanish);
+
 
 							//present all to the screen
 							SDL_RenderPresent(renderer);
 
-
 						}
 
-						else if (x < ((0.7 * this->width) * this->tileWidth)
+						else if (x < ((0.3 * this->width) * this->tileWidth)
+                                                        && x
+                                                >((0.2 * this->width) * this->tileWidth)) {
+
+                                                        player1E = false;
+							player1F = false;
+							player1G = true;
+							player1S = false;
+
+                                                        //display this choice to the screen
+                                                        this->displayBox->display("Player 1:\nGermans");
+
+                                                        //re-render background colour, text display box, continue button
+                                                        SDL_RenderClear(renderer);
+
+                                                        //render the background
+                                                        SDL_RenderCopy(renderer, background, NULL, NULL);
+
+                                                        //render the text box and continue button
+                                                        displayBox->render();
+                                                        continueButton->render();
+
+                                                        //display the title to given title position
+                                                        SDL_RenderCopy(renderer, titleTexture, NULL, &titlePos);
+
+                                                        //display the subtitle to given position
+                                                        SDL_RenderCopy(renderer, subTitleTexture, NULL, &subTitlePos);
+
+                                                        //display player1 and player2 text to given position
+                                                        SDL_RenderCopy(renderer, player1Texture, NULL, &player1Pos);
+                                                        SDL_RenderCopy(renderer, player2Texture, NULL, &player2Pos);
+
+                                                        //display player1's buttons and player2's buttons, using the same english and french buttons in their respective positions for each player
+                                                        SDL_RenderCopy(renderer, englishButton, NULL, &player1English);
+                                                        SDL_RenderCopy(renderer, frenchButton, NULL, &player1French);
+                                                        SDL_RenderCopy(renderer, germanButton, NULL, &player1German);
+                                                        SDL_RenderCopy(renderer, spanishButton, NULL, &player1Spanish);
+                                                        SDL_RenderCopy(renderer, englishButton, NULL, &player2English);
+                                                        SDL_RenderCopy(renderer, frenchButton, NULL, &player2French);
+                                                        SDL_RenderCopy(renderer, germanButton, NULL, &player2German);
+                                                        SDL_RenderCopy(renderer, spanishButton, NULL, &player2Spanish);
+
+
+                                                        //present all to the screen
+                                                        SDL_RenderPresent(renderer);
+
+                                                }
+
+						else if (x < ((0.4 * this->width) * this->tileWidth)
+                                                        && x
+                                                >((0.3 * this->width) * this->tileWidth)) {
+
+                                                        player1E = false;
+							player1F = false;
+							player1G = false;
+							player1S = true;
+
+                                                        //display this choice to the screen
+                                                        this->displayBox->display("Player 1:\nSpanish");
+
+                                                        //re-render background colour, text display box, continue button
+                                                        SDL_RenderClear(renderer);
+
+                                                        //render the background
+                                                        SDL_RenderCopy(renderer, background, NULL, NULL);
+
+                                                        //render the text box and continue button
+                                                        displayBox->render();
+                                                        continueButton->render();
+
+                                                        //display the title to given title position
+                                                        SDL_RenderCopy(renderer, titleTexture, NULL, &titlePos);
+
+                                                        //display the subtitle to given position
+                                                        SDL_RenderCopy(renderer, subTitleTexture, NULL, &subTitlePos);
+
+                                                        //display player1 and player2 text to given position
+                                                        SDL_RenderCopy(renderer, player1Texture, NULL, &player1Pos);
+                                                        SDL_RenderCopy(renderer, player2Texture, NULL, &player2Pos);
+
+                                                        //display player1's buttons and player2's buttons, using the same english and french buttons in their respective positions for each player
+                                                        SDL_RenderCopy(renderer, englishButton, NULL, &player1English);
+                                                        SDL_RenderCopy(renderer, frenchButton, NULL, &player1French);
+                                                        SDL_RenderCopy(renderer, germanButton, NULL, &player1German);
+                                                        SDL_RenderCopy(renderer, spanishButton, NULL, &player1Spanish);
+                                                        SDL_RenderCopy(renderer, englishButton, NULL, &player2English);
+                                                        SDL_RenderCopy(renderer, frenchButton, NULL, &player2French);
+                                                        SDL_RenderCopy(renderer, germanButton, NULL, &player2German);
+                                                        SDL_RenderCopy(renderer, spanishButton, NULL, &player2Spanish);
+
+
+                                                        //present all to the screen
+                                                        SDL_RenderPresent(renderer);
+
+                                                }
+
+
+						else if (x < ((0.6 * this->width) * this->tileWidth)
 							&& x
-						>((0.6 * this->width) * this->tileWidth)) {
+						>((0.5 * this->width) * this->tileWidth)) {
 
 							player2E = true;
+							player2F = false;
+							player2G = false;
+							player2S = false;
 
 							//display this choice to the screen
 							this->displayBox->display("Player 2:\nEnglish");
@@ -544,20 +702,27 @@ int Game::init() {
 
 							//display player1's buttons and player2's buttons, using the same english and french buttons in their respective positions for each player
 							SDL_RenderCopy(renderer, englishButton, NULL, &player1English);
-							SDL_RenderCopy(renderer, frenchButton, NULL, &player1French);
-							SDL_RenderCopy(renderer, englishButton, NULL, &player2English);
-							SDL_RenderCopy(renderer, frenchButton, NULL, &player2French);
+                                                        SDL_RenderCopy(renderer, frenchButton, NULL, &player1French);
+                                                        SDL_RenderCopy(renderer, germanButton, NULL, &player1German);
+                                                        SDL_RenderCopy(renderer, spanishButton, NULL, &player1Spanish);
+                                                        SDL_RenderCopy(renderer, englishButton, NULL, &player2English);
+                                                        SDL_RenderCopy(renderer, frenchButton, NULL, &player2French);
+                                                        SDL_RenderCopy(renderer, germanButton, NULL, &player2German);
+                                                        SDL_RenderCopy(renderer, spanishButton, NULL, &player2Spanish);
 
 							//present all to the screen
 							SDL_RenderPresent(renderer);
 
 						}
 
-						else if (x < ((0.9 * this->width) * this->tileWidth)
+						else if (x < ((0.7 * this->width) * this->tileWidth)
 							&& x
-						>((0.8 * this->width) * this->tileWidth)) {
+						>((0.6 * this->width) * this->tileWidth)) {
 
 							player2E = false;
+							player2F = true;
+							player2G = false;
+							player2S = false;
 
 							//display this choice to the screen
 							this->displayBox->display("Player 2:\nFrench");
@@ -584,14 +749,115 @@ int Game::init() {
 
 							//display player1's buttons and player2's buttons, using the same english and french buttons in their respective positions for each player
 							SDL_RenderCopy(renderer, englishButton, NULL, &player1English);
-							SDL_RenderCopy(renderer, frenchButton, NULL, &player1French);
-							SDL_RenderCopy(renderer, englishButton, NULL, &player2English);
-							SDL_RenderCopy(renderer, frenchButton, NULL, &player2French);
+                                                        SDL_RenderCopy(renderer, frenchButton, NULL, &player1French);
+                                                        SDL_RenderCopy(renderer, germanButton, NULL, &player1German);
+                                                        SDL_RenderCopy(renderer, spanishButton, NULL, &player1Spanish);
+                                                        SDL_RenderCopy(renderer, englishButton, NULL, &player2English);
+                                                        SDL_RenderCopy(renderer, frenchButton, NULL, &player2French);
+                                                        SDL_RenderCopy(renderer, germanButton, NULL, &player2German);
+                                                        SDL_RenderCopy(renderer, spanishButton, NULL, &player2Spanish);
 
 							//present all to the screen
 							SDL_RenderPresent(renderer);
 
 						}
+
+						else if (x < ((0.8 * this->width) * this->tileWidth)
+                                                        && x
+                                                >((0.7 * this->width) * this->tileWidth)) {
+
+                                                        player2E = false;
+							player2F = false;
+							player2G = true;
+							player2S = false;
+
+                                                        //display this choice to the screen
+                                                        this->displayBox->display("Player 2:\nGermans");
+
+                                                        //re-render background colour, text display box, continue button
+                                                        SDL_RenderClear(renderer);
+
+                                                        //render the background
+                                                        SDL_RenderCopy(renderer, background, NULL, NULL);
+
+                                                        //render the text box and continue button
+                                                        displayBox->render();
+                                                        continueButton->render();
+
+                                                        //display the title to given title position
+                                                        SDL_RenderCopy(renderer, titleTexture, NULL, &titlePos);
+
+                                                        //display the subtitle to given position
+                                                        SDL_RenderCopy(renderer, subTitleTexture, NULL, &subTitlePos);
+
+                                                        //display player1 and player2 text to given position
+                                                        SDL_RenderCopy(renderer, player1Texture, NULL, &player1Pos);
+                                                        SDL_RenderCopy(renderer, player2Texture, NULL, &player2Pos);
+
+                                                        //display player1's buttons and player2's buttons, using the same english and french buttons in their respective positions for each player
+                                                        SDL_RenderCopy(renderer, englishButton, NULL, &player1English);
+                                                        SDL_RenderCopy(renderer, frenchButton, NULL, &player1French);
+                                                        SDL_RenderCopy(renderer, germanButton, NULL, &player1German);
+                                                        SDL_RenderCopy(renderer, spanishButton, NULL, &player1Spanish);
+                                                        SDL_RenderCopy(renderer, englishButton, NULL, &player2English);
+                                                        SDL_RenderCopy(renderer, frenchButton, NULL, &player2French);
+                                                        SDL_RenderCopy(renderer, germanButton, NULL, &player2German);
+                                                        SDL_RenderCopy(renderer, spanishButton, NULL, &player2Spanish);
+
+
+                                                        //present all to the screen
+                                                        SDL_RenderPresent(renderer);
+
+                                                }
+
+						else if (x < ((0.9 * this->width) * this->tileWidth)
+                                                        && x
+                                                >((0.8 * this->width) * this->tileWidth)) {
+
+                                                        player2E = false;
+							player2F = false;
+							player2G = false;
+							player2S = true;
+
+                                                        //display this choice to the screen
+                                                        this->displayBox->display("Player 2:\nSpanish");
+
+                                                        //re-render background colour, text display box, continue button
+                                                        SDL_RenderClear(renderer);
+
+                                                        //render the background
+                                                        SDL_RenderCopy(renderer, background, NULL, NULL);
+
+                                                        //render the text box and continue button
+                                                        displayBox->render();
+                                                        continueButton->render();
+
+                                                        //display the title to given title position
+                                                        SDL_RenderCopy(renderer, titleTexture, NULL, &titlePos);
+
+                                                        //display the subtitle to given position
+                                                        SDL_RenderCopy(renderer, subTitleTexture, NULL, &subTitlePos);
+
+                                                        //display player1 and player2 text to given position
+                                                        SDL_RenderCopy(renderer, player1Texture, NULL, &player1Pos);
+                                                        SDL_RenderCopy(renderer, player2Texture, NULL, &player2Pos);
+
+                                                        //display player1's buttons and player2's buttons, using the same english and french buttons in their respective positions for each player
+                                                        SDL_RenderCopy(renderer, englishButton, NULL, &player1English);
+                                                        SDL_RenderCopy(renderer, frenchButton, NULL, &player1French);
+                                                        SDL_RenderCopy(renderer, germanButton, NULL, &player1German);
+                                                        SDL_RenderCopy(renderer, spanishButton, NULL, &player1Spanish);
+                                                        SDL_RenderCopy(renderer, englishButton, NULL, &player2English);
+                                                        SDL_RenderCopy(renderer, frenchButton, NULL, &player2French);
+                                                        SDL_RenderCopy(renderer, germanButton, NULL, &player2German);
+                                                        SDL_RenderCopy(renderer, spanishButton, NULL, &player2Spanish);
+
+
+                                                        //present all to the screen
+                                                        SDL_RenderPresent(renderer);
+
+                                                }
+
 					}
 				}
 
@@ -622,16 +888,28 @@ int Game::init() {
 
 				this->players[0] = new Player(1);
 			}
-			else {
+			else if (player1F) {
 				this->players[0] = new Player(2);
+			}
+			else if (player1G) {
+				this->players[0] = new Player(3);
+			}
+			else if (player1S) {
+				this->players[0] = new Player(4);
 			}
 
 			Player* player2;
 			if (player2E) {
 				this->players[1] = new Player(1);
 			}
-			else {
+			else if (player2F) {
 				this->players[1] = new Player(2);
+			}
+			else if (player2G) {
+				this->players[1] = new Player(3);
+			}
+			else if (player2S) {
+				this->players[1] = new Player(4);
 			}
 
 			this->bgMap = new backgroundMap(this->tileHeight, this->tileWidth,
