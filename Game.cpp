@@ -436,7 +436,7 @@ int Game::init() {
 			continuePressed = false;
 
 			//wait until there is an event and check it for the continue button being pressed
-			while (SDL_WaitEvent(&event) && !continuePressed) {
+			while (!continuePressed && SDL_WaitEvent(&event)) {
 
 				//if it is an event that should end the program, set bool value to break out of while loop
 				if (event.type == SDL_QUIT
