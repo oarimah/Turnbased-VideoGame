@@ -877,40 +877,46 @@ int Game::init() {
 
 			this->continueButton = turnButton;
 
+			std::string CPImage = "Background/ControlPointImage.jpg";
 
-
+			this->arr.push_back(new ControlPoint(96, 250, tileHeight, tileWidth, CPImage, imageHandler));
+			this->arr.push_back(new ControlPoint(320, 250, tileHeight, tileWidth, CPImage, imageHandler));
+			this->arr.push_back(new ControlPoint(608, 250, tileHeight, tileWidth, CPImage, imageHandler));
 
 
 			//create the players using the above values for faction
 
 			Player* player1;
+			int faction = -1;
 			if (player1E) {
-
-				this->players[0] = new Player(1);
+				faction = 1;
 			}
 			else if (player1F) {
-				this->players[0] = new Player(2);
+				faction = 2;
 			}
 			else if (player1G) {
-				this->players[0] = new Player(3);
+				faction = 3;
 			}
 			else if (player1S) {
-				this->players[0] = new Player(4);
+				faction = 4;
 			}
+			this->players[0] = new Player(faction, 3, &arr);
 
 			Player* player2;
 			if (player2E) {
-				this->players[1] = new Player(1);
+				faction = 1;
 			}
 			else if (player2F) {
-				this->players[1] = new Player(2);
+				faction = 2;
 			}
 			else if (player2G) {
-				this->players[1] = new Player(3);
+				faction = 3;
 			}
 			else if (player2S) {
-				this->players[1] = new Player(4);
+				faction = 4;
 			}
+			this->players[1] = new Player(faction, 3, &arr);
+
 
 			this->bgMap = new backgroundMap(this->tileHeight, this->tileWidth,
 				this->width, this->height, this->imageHandler);
@@ -965,7 +971,7 @@ void Game::eventHandler(const SDL_Event* event) {
 				//check to see if the current player has won the game (other player cannot win when not their turn)
 				//if other player has no more units, current player has won
 				int playerToCheck = (this->currentPlayerIndex % 2) + 1;
-				if (this->players[playerToCheck - 1]->noUnit()){
+				if (this->players[playerToCheck - 1]->noUnit() || this->players[currentPlayerIndex -1]->hasWon()){
 
 					//call the win screen with the current player number passed as a parameter
 					doWinScreen(this->currentPlayerIndex);
@@ -983,7 +989,7 @@ void Game::eventHandler(const SDL_Event* event) {
 					this->currentPlayerIndex = (this->currentPlayerIndex % 2) + 1;
 	
 					//print notification to display that the player has switched
-					std::string playerSwitched = "Player " + std::to_string(this->currentPlayerIndex) + " now \nplaying!";
+					std::string playerSwitched = "Player " + std::to_string(this->currentPlayerIndex) + " now \nplaying!\nPlayer 1 score: " + std::to_string(this->players[0]->getScore()) + "\nPlayer 2 score: " + std::to_string(this->players[1]->getScore()) + "\n";
 					this->displayBox->display(playerSwitched);
 				
 				}
@@ -1015,7 +1021,8 @@ void Game::render() {
 	this->fgMap->render();
 	this->displayBox->render();
 	this->continueButton->render();
-
+	for (int i = 0; i < this->arr.size(); i++)
+		this->arr[i]->render();
 }
 
 void Game::renderClear() {
@@ -1333,6 +1340,3 @@ void Game::doCreditScreen() {
 		}
 	}
 }
-
-
-

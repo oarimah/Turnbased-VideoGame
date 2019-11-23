@@ -2,8 +2,13 @@
 
 using namespace std;
 
-Player::Player(int faction) {
+Player::Player(int faction, int numCP, std::vector<ControlPoint *>* cp) {
 	this->faction = faction;
+	this->numControlPoints = numCP;
+	this->cps = cp;
+	this->point = 2;
+	this->score = 0;
+	this->maxScore = 50;
 }
 
 Player::~Player() {
@@ -20,6 +25,10 @@ void Player::clearDeadUnits() {
 		}
 }
 
+bool Player::hasWon(){
+	return score >= maxScore;
+}
+
 int Player::getFaction() {
 	return this->faction;
 }
@@ -27,13 +36,35 @@ int Player::getFaction() {
 void Player::updateUnits() {
 	for (int i = 0; i < units.size(); i++)
 		units[i]->render();
+	
 }
 
 void Player::reset() {
-
 	for (int i = 0; i < units.size(); i++)
 		units[i]->reset();
-	
+	for (int j = 0; j < this->numControlPoints; j++)
+		for (int i = 0; i < units.size(); i++)
+			if (isNext(units[i], (*cps)[j])){
+				addToScore();
+				break;
+			}
+}
+
+void Player::addToScore() {
+	if (score != maxScore)
+		score += point;
+}
+
+int Player::getScore(){
+	return score;
+}
+
+bool Player::isNext(Unit* unit, ControlPoint* cp) {
+	int x = abs(cp->getX() - unit->getX())/ unit->getWidth();
+	int y = abs(cp->getY() - unit->getY())/ unit->getHeight();
+	if (x <= 1 && y <= 1)
+		return true;
+	return false;
 }
 
 void Player::addUnit(Unit * unit) {

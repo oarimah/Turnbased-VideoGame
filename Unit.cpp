@@ -45,9 +45,9 @@ Unit::~Unit() {
 	//do not delete Tile event as not unique to this Tile
 }
 
-const SDL_Rect* Unit::getPosition() {
-	return &this->position;
-}
+// const SDL_Rect* Unit::getPosition() {
+// 	return &this->position;
+// }
 
 void Unit::changePosition(int newX, int newY) {
 	//change the x and y values of the position rectangle to reflect new values
@@ -74,6 +74,22 @@ void Unit::render() {
 
 const string Unit::getType() {
 	return "Unit";
+}
+
+int Unit::getX(){
+	return position.x;
+}
+
+int Unit::getY(){
+	return position.y;
+}
+
+int Unit::getWidth(){
+	return position.w;
+}
+
+int Unit::getHeight(){
+	return position.h;
 }
 
 int Unit::getMaxHealth() {
