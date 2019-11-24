@@ -5,7 +5,9 @@ foregroundMap::foregroundMap(
 		// @suppress("Class members should be properly initialized")
 		int tileWidth, int tileHeight, int numRow, int numColumn,
 		ImageHandler* imgHandler, TextDisplay* textDisplay, Player* player1,
+
 		Player* player2, std::vector<ControlPoint *>* cp) {
+
 	this->height = tileHeight;
 	this->width = tileWidth;
 	this->numTilesWide = numRow;
@@ -14,7 +16,9 @@ foregroundMap::foregroundMap(
 	this->displayBox = textDisplay;
 	this->player1 = player1;
 	this->player2 = player2;
+
 	this->cp = cp;
+
 
 	// initialize the map and set everything to NULL
 	for (int i = 0; i < numRow; i++) {
@@ -95,9 +99,24 @@ void foregroundMap::handleEvent(const SDL_Event* event, int player) {
 		//if index is empty and a unit clicked previously, see if the unit can move to that location (in range?)
 		if ((!clicked) && this->unitClicked != NULL) {
 
+			bool forbidden = false;			
 			
-			//if in range of the unit, move the unit
-			if (this->unitClicked->getCurSpeed()
+			//check to make sure that the unit isn't trying to move onto a control point
+			for (int i = 0; i < (*cp).size(); i++){
+				
+				if ((((*cp)[i]->getX() / this->width) == xIndex) && (((*cp)[i]->getY() / this->height) == yIndex)){
+					forbidden = true;
+
+					//print notification of forbidden move to player
+					this->displayBox->display("The unit cannot move on\ntop of a control point");
+					break;	
+				}
+				
+			}	
+		
+
+			//otherwise, check the range of the unit
+			if (!forbidden && this->unitClicked->getCurSpeed()
 					>= (abs(this->clickedX - xIndex)
 							+ abs(this->clickedY - yIndex))) {
 	
@@ -121,6 +140,13 @@ void foregroundMap::handleEvent(const SDL_Event* event, int player) {
 				this->clickedY = 0;
 
 			}
+			
+			//if the above failed but the square is not a control point, it is out of range, so let the player know
+			else if (!forbidden){
+
+				this->displayBox->display("The unit cannot move\nthat far!");
+			}
+			
 
 		}
 

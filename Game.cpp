@@ -877,11 +877,9 @@ int Game::init() {
 
 			this->continueButton = turnButton;
 
-			std::string CPImage = "Background/ControlPointImage.jpg";
-
-			this->arr.push_back(new ControlPoint(96, 250, tileHeight, tileWidth, CPImage, imageHandler));
-			this->arr.push_back(new ControlPoint(320, 250, tileHeight, tileWidth, CPImage, imageHandler));
-			this->arr.push_back(new ControlPoint(608, 250, tileHeight, tileWidth, CPImage, imageHandler));
+			this->arr.push_back(new ControlPoint(64, 225, tileHeight, tileWidth));
+			this->arr.push_back(new ControlPoint(288, 225, tileHeight, tileWidth));
+			this->arr.push_back(new ControlPoint(576, 225, tileHeight, tileWidth));
 
 
 			//create the players using the above values for faction
@@ -1021,8 +1019,7 @@ void Game::render() {
 	this->fgMap->render();
 	this->displayBox->render();
 	this->continueButton->render();
-	for (int i = 0; i < this->arr.size(); i++)
-		this->arr[i]->render();
+
 }
 
 void Game::renderClear() {

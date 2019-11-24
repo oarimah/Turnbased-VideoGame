@@ -3,46 +3,34 @@
 
 using namespace std;
 
-ControlPoint::ControlPoint(int xPos, int yPos, int height, int width, const string& imageFile, ImageHandler *imgHandler){
+ControlPoint::ControlPoint(int xPos, int yPos, int height, int width){
     //set position (offset from upper left of window)
-	this->position.x = xPos;
-	this->position.y = yPos;
+	this->x = xPos;
+	this->y = yPos;
 
-	//set size of the image
-	this->position.h = height;
-	this->position.w = width;
+	//set size of the control point
+	this->height = height;
+	this->width = width;
 
-    //set image handler for this object
-	this->imageHandler = imgHandler;
-	//get the Unit image texture from the provided file
-	this->image = this->imageHandler->loadImage(imageFile);
 }
 
 ControlPoint::~ControlPoint() {
-	//delete the image texture that was created for this Tile
-	delete this->image;
+	
 }
 
-void ControlPoint::render() {
-	this->imageHandler->render(this->image, &this->position);
-}
-
-const string ControlPoint::getType() {
-	return "ControlPoint";
-}
 
 int ControlPoint::getX(){
-	return position.x;
+	return this->x;
 }
 
 int ControlPoint::getY(){
-	return position.y;
+	return this->y;
 }
 
 int ControlPoint::getWidth(){
-	return position.w;
+	return this->width;
 }
 
 int ControlPoint::getHeight(){
-	return position.h;
+	return this->height;
 }
