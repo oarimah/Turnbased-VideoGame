@@ -196,6 +196,10 @@ void Unit::activateAbility(){
 		}
 }
 
+SpecialAbilities* Unit::getSpecAbil(){
+	return this->sa;
+
+}
 
 const std::string Unit::getName(){
 	return this->name;

@@ -64,6 +64,7 @@ public:
 	bool isDead();
 	void activateAbility();
 	const std::string getName();
+	SpecialAbilities* getSpecAbil();
 };
 
 #endif

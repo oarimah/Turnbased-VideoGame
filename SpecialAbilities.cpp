@@ -74,3 +74,11 @@ bool SpecialAbilities::isActivated() {
 bool SpecialAbilities::isReset(){
     return this->reset;
 }
+
+int SpecialAbilities::coolDownTurns(){
+	return this->maxCoolDownTurns;
+}
+
+int SpecialAbilities::effectTurns(){
+	return this->maxNumOfTurns;
+}

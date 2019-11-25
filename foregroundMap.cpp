@@ -193,6 +193,26 @@ void foregroundMap::handleEvent(const SDL_Event* event, int player) {
 							   + "\nMovement Left: "
 							   + std::to_string(clicked->getCurSpeed())
 							   + "\n";
+							+ "Special ability buffs: "
+							+ "\n"
+							+ "Def: " 
+							   + std::to_string(clicked->SpecialAbilities* Unit::getSpecAbil()->getChangeInDefence())
+							+ "Off: " 
+							   + std::to_string(clicked->SpecialAbilities* Unit::getSpecAbil()->getChangeInOffense())
+							+ "Attack Range: " 
+							   + std::to_string(clicked->SpecialAbilities* Unit::getSpecAbil()->getChangeInRangeStarts())
+							+ "-"
+							   + std::to_string(clicked->SpecialAbilities* Unit::getSpecAbil()->getChangeInRangeEnds())
+					+ "\nNum Attacks: "
+							   + std::to_string(clicked->SpecialAbilities* Unit::getSpecAbil()->getChangeInNumAttacks())
+							+ "Movement: " 
+						+ std::to_string(clicked->SpecialAbilities* Unit::getSpecAbil()->getChangeInSpeed())
+						+ "\nTurns for Effect: "
+						+ std::to_string(clicked->SpecialAbilities* Unit::getSpecAbil()->effectTurns())
+						+ "Cooldown turns: "
+						+ std::to_string(clicked->SpecialAbilities* Unit::getSpecAbil()->getCoolDownTurns())
+
+							
 
 			//pass this to the text display
 			this->displayBox->display(info);
