@@ -1,41 +1,43 @@
 #include "Unit.h"
 
+
 using namespace std;
 
 Unit::Unit(int xPos, int yPos, int height, int width,
-		const std::string& imageFile, ImageHandler *imgHandler, int health,
-		int offense, int defense, int numOfAttacks, int rangeBegins,
-		int rangeEnds, int speed) {
-	//set position (offset from upper left of window)
-	this->position.x = xPos;
-	this->position.y = yPos;
+		   const std::string& imageFile, ImageHandler *imgHandler, int health,
+		   int offense, int defense, int numOfAttacks, int rangeBegins,
+		   int rangeEnds, int speed,*SpecialAbilities sa, std::string name) {
+//set position (offset from upper left of window)
+this->position.x = xPos;
+this->position.y = yPos;
+this->sa.sa;
+//set size of the image
+this->position.h = height;
+this->position.w = width;
 
-	//set size of the image
-	this->position.h = height;
-	this->position.w = width;
+//stats of the unit
+this->maxHealth = health;
+this->curHealth = health;
+this->offense = offense;
+this->defense = defense;
+this->numOfAttacksPerTurn = numOfAttacks;
+this->numberOfAttacksForTurn = numOfAttacks;
+this->rangeBegins = rangeBegins;
+this->rangeEnds = rangeEnds;
+this->maxSpeed = speed;
+this->curSpeed = speed;
+this->name = name;
 
-	//stats of the unit
-	this->maxHealth = health;
-	this->curHealth = health;
-	this->offense = offense;
-	this->defense = defense;
-	this->numOfAttacksPerTurn = numOfAttacks;
-	this->numberOfAttacksForTurn = numOfAttacks;
-	this->rangeBegins = rangeBegins;
-	this->rangeEnds = rangeEnds;
-	this->maxSpeed = speed;
-	this->curSpeed = speed;
+// to be used to control the number of thing the unit can do per turn
+this->used = false;
 
-	// to be used to control the number of thing the unit can do per turn
-	this->used = false;
+//set image handler for this object
+this->imageHandler = imgHandler;
+//get the Unit image texture from the provided file
+this->image = this->imageHandler->loadImage(imageFile);
 
-	//set image handler for this object
-	this->imageHandler = imgHandler;
-	//get the Unit image texture from the provided file
-	this->image = this->imageHandler->loadImage(imageFile);
-
-	//nothing has been clicked yet, set to false
-	this->clicked = false;
+//nothing has been clicked yet, set to false
+this->clicked = false;
 }
 
 Unit::~Unit() {
@@ -162,5 +164,41 @@ void Unit::reset() {
 
 bool Unit::isDead() {
 	return this->curHealth == 0;
+}
+void Unit::activateAbility(){
+	if(!this->sa.isActivated()){
+		this->numOfAttacksPerTurn += this->sa.getChangeInNumAttacks();
+		this->rangeBegins += this->sa.getChangeInRangeStarts();
+		this->rangeEnds += this->sa.getChangeInRangeEnds();
+		this->maxSpeed+= this->sa.getChangeInSpeed();
+		this->offense+=this->sa.getChangeInOffense();
+		this->defense+=this->sa.getChangeInDefence();
+		this->sa.activateAbility();
+		if(!this->sa.isReset()){//if the stats have not been reset
+			this->sa.reset();
+			this->offense = this->offense;
+			this->defense = this->defense;
+			this->numOfAttacksPerTurn = this->numOfAttacks;
+			this->rangeBegins = this->rangeBegins;
+			this->rangeEnds = this->rangeEnds;
+			this->maxSpeed = this->speed;
+			this->sa.resetStats();
+	}else{
+		/**if(!this->sa.isReset()){//if the stats have not been reset
+			this->sa.reset();
+			this->offense = this->offense;
+			this->defense = this->defense;
+			this->numOfAttacksPerTurn = this->numOfAttacks;
+			this->rangeBegins = this->rangeBegins;
+			this->rangeEnds = this->rangeEnds;
+			this->maxSpeed = this->speed;
+			this->sa.resetStats();**/
+		}
+}
+
+
+const std::string Unit::getName(){
+	return this->name;
+
 }
 
