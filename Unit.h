@@ -39,6 +39,10 @@ public:
 	void changeImage(const std::string& imageFile);
 	void render();
 	const std::string getType();
+	int getX();
+    int getY();
+    int getWidth();
+    int getHeight();
 	void changeClicked(bool value);
 	int getMaxHealth();
 	int getCurHealth();

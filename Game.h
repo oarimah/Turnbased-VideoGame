@@ -5,11 +5,13 @@
 #include <SDL2/SDL_image.h>
 #include <SDL2/SDL_ttf.h>
 #include "Player.h"
+#include <vector>
 #include "ImageHandler.h"
 #include "TextDisplay.h"
 #include "InfoButtonHandler.h"
 #include "backgroundMap.h"
 #include "foregroundMap.h"
+#include "ControlPoint.h"
 #include "Button.h"
 #include <iostream>
 
@@ -30,6 +32,7 @@ private:
 	TextDisplay* displayBox;
 	Button* continueButton;
 	Button* ruleButton;
+	std::vector<ControlPoint *> arr;
 
 	void rules();
 	void doWinScreen(int playerWins);
@@ -42,7 +45,7 @@ public:
 	int init();
 	void eventHandler(const SDL_Event* event);
 	void render();
-    	void renderClear();
+    void renderClear();
    	void renderRepresent();
 	bool running();
 

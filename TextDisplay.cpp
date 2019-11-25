@@ -1,5 +1,21 @@
 #include "TextDisplay.h"
 
+/**@brief This class defines a display box within the game window which contains dynamically changeable text
+@author Carolyn Owen
+details The class takes c strings, converts them to SDL image format and displays them to the desired location on the game window.
+	Functions exist to initialize the box with text, render the image to the screen, check if the text being displayed has changed,
+	get the type of object that it is and safely destroy the display box.
+*/
+
+
+/**@brief Constructor for a new text display box object
+details This function takes initial c string text, position and renderer and converts the text to an image using the renderer given,
+	then displaying it to the location specified. The background of the display box is defined within the constructor, rather than in the 
+	passed parameters. The size of the text image will be defined from a query to the SDL surface object created from the input text.
+	Size of text, font and text colour are defined within the header file.
+@param  
+	
+*/
 TextDisplay::TextDisplay(const std::string& inputText, int xPos, int yPos, int height, int width, SDL_Renderer* renderHere)
 {
 	this->renderer = renderHere;
