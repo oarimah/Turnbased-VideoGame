@@ -2,6 +2,25 @@
 
 using namespace std;
 
+/*! \class UnitFactory
+ *  \brief a class for making units
+ *
+ *  creates units based on the faction chosen and stores their stats in a Unit object
+ *  uses if statements to check the faction before assigning unit stats
+ *  \author Abdallah Alasmar
+ *  \author Carolyn Owen
+ *  \author Oluwadarasimi Ogunshote
+ *  \param xPos the position of the unit on the horizontal axis
+ *  \param yPos the position of the unit on the vertical axis
+ *  \param height the height of the unit's model
+ *  \param width the width of the unit's model
+ *  \param player which player controls the unit
+ *  \param faction which faction the unit belongs to
+ *  \param unitType which of the three unit types (infantry, archers, light cavalry) the unit belongs to
+ *  \param imgHandler handles the unit model
+ *  \param sa contains the effects of the special ability of the unit
+ *  \return an object of type Unit which has the stats of the unit that was created stored in it
+ */
 Unit * UnitFactory::createUnit(int xPos, int yPos, int height, int width, int player, int faction, int unitType, ImageHandler * imgHandler, SpecialAbilities* sa) {
 
     std::string colour;
@@ -14,7 +33,7 @@ Unit * UnitFactory::createUnit(int xPos, int yPos, int height, int width, int pl
     if (faction == 1) { // the british
         if (unitType == 0) { // swordsmen
             return new Unit(xPos, yPos, height, width, "Characters/" + colour + "General.png", imgHandler, 60, 14, 7, 3, 1, 1, 3, new SpecialAbilities(-7, 0, 0, 0, 0, 0, 2, 5), "Swordsman");
-        } else if (unitType == 1) { // longbowmem
+        } else if (unitType == 1) { // longbowmen
              return new Unit(xPos, yPos, height, width, "Characters/" + colour + "Bandit.png", imgHandler, 40, 20, 2, 2, 2, 3, 3, new SpecialAbilities(0, 20, 1, 1, -1, 0, 2, 3), "Longbowman");
         } else if (unitType == 2) { // dragoon
             return new Unit(xPos, yPos, height, width,"Characters/" + colour + "Knight.png", imgHandler, 70, 17, 4, 2, 1, 2, 4, new SpecialAbilities(0, 0, 0, 0, 0, 3, 3, 1), "Dragoon");

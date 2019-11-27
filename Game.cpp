@@ -1,5 +1,17 @@
 #include "Game.h"
 
+/*!
+ * \class Game
+ * \brief contains information about the game
+ *
+ * has size information, but also initalizes the game, shows the rules, and allows for faction selection
+ * \author Carolyn Owen
+ * \author Abdallah Alasmar
+ * \param numTilesHigh the number of tiles multiplied by the height of a tile
+ * \param numTilesWide the number of tiles multiplied by the width of a tile
+ * \param tileWidth the width of a single tile
+ * \param tileHeight the height of a single tile
+*/
 Game::Game(int numTilesHigh, int numTilesWide, int tileWidth, int tileHeight) {
 
 	//make height equal to the number of tiles times the tile height, plus 200 for the display text box at the bottom
@@ -47,6 +59,15 @@ Game::~Game() {
 
 }
 
+/*!
+ * \brief initializes the game
+ *
+ * sets up the game, creates faction selection screen, rule screen, and starts the game
+ * handles multiple events, part of the user's first interaction with the game
+ * \author Carolyn Owen
+ * \author Abdallah Alasmar
+ * \return 0 if the initialization was successful, -1 if the intialization was unsuccessful
+*/
 int Game::init() {
 
 	//initialize all systems for graphics handling
