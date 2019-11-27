@@ -1,4 +1,4 @@
-/*! \class SpecialAbilities.cpp
+/*! \class Unit.cpp
  *  \class which gives the unit a temporary buff in stats based on the paremters passed
  *
  *  \gets the changes in stats and buffs the original stats of the unit for that duration of the time
