@@ -66,6 +66,8 @@ public:
 	void activateAbility();
 	const std::string getName();
 	SpecialAbilities* getSpecAbil();
+	void deactivateAbility();
+
 };
 
 #endif

@@ -172,15 +172,7 @@ void Unit::activateAbility(){
 		this->offense+=this->sa->getChangeInOffense();
 		this->defense+=this->sa->getChangeInDefence();
 		this->sa->activateAbility();
-		if(!this->sa->isStatsReset()){//if the stats have not been reset
-			this->sa->reset();
-			this->offense = offense;
-			this->defense = defense;
-			//this->numOfAttacksPerTurn = numOfAttacks;
-			this->rangeBegins = rangeBegins;
-			this->rangeEnds = rangeEnds;
-			//this->maxSpeed = speed;
-			this->sa->resetStats();
+
 	}else{
 		/**if(!this->sa.isReset()){//if the stats have not been reset
 			this->sa.reset();
@@ -193,7 +185,7 @@ void Unit::activateAbility(){
 			this->sa.resetStats();**/
 		}
 }
-}
+
 SpecialAbilities* Unit::getSpecAbil(){
 	return this->sa;
 
@@ -202,4 +194,16 @@ SpecialAbilities* Unit::getSpecAbil(){
 const std::string Unit::getName(){
 	return this->name;
 
+}
+void Unit::deactivateAbility() {
+	if (this->sa->isActivated()) {
+		this->sa->reset();
+		this->offense = this->offense;
+		this->defense = this->defense;
+		//this->numOfAttacksPerTurn = this->numOfAttacks;
+		this->rangeBegins = this->rangeBegins;
+		this->rangeEnds = this->rangeEnds;
+		//this->maxSpeed = this->speed;
+		this->sa->resetStats();
+	}
 }

@@ -157,11 +157,12 @@ void foregroundMap::handleEvent(const SDL_Event* event, int player) {
 		}
 
 			//activate a special ability for a specific unit with a right click
-		else if(event->button.button== SDL_BUTTON_RIGHT){ //print the address of event
+		else if(event->button.button== SDL_BUTTON_RIGHT){
 			std::cout << "test error";
 			if ((player == 1 && this->player1->containsUnit(clicked)) ||
 				(player == 2 && this->player2->containsUnit(clicked))) {
 				this->unitClicked->activateAbility();
+				this->unitClicked->deactivateAbility();
 			}else{
 				this->displayBox->display("This unit does not belong to you!\n");
 			}
@@ -173,7 +174,7 @@ void foregroundMap::handleEvent(const SDL_Event* event, int player) {
 
 			//construct info for the text display
 			std::string info = clicked->getName();
-							   + "\n"
+							   //+ "\n"
 							   /*+ "Max Health: "
 							   + std::to_string(clicked->getMaxHealth())
 							   + "\nCurrent Health: "
@@ -193,8 +194,8 @@ void foregroundMap::handleEvent(const SDL_Event* event, int player) {
 							   + std::to_string(clicked->getMaxSpeed())
 							   + "\nMovement Left: "
 							   + std::to_string(clicked->getCurSpeed())*/
-							   + "\n";
-			+ "Special ability buffs: "
+							   //+ "\n";
+			/**+ "Special ability buffs: "
 			+ "\n"
 			+ "Def: "
 			+ std::to_string(clicked->SpecialAbilities* Unit::getSpecAbil()->getChangeInDefence())
