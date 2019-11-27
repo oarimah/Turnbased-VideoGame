@@ -1,7 +1,7 @@
 #include "SpecialAbilities.h"
-using namespace std;
 
-SpecialAbilities::SpecialAbilities(std::string changeDefense, std::string changeOffense, int changeRangeStart, int changeRangeEnds, int changeNumAttacks, int maxNumofTurns, int maxCoolDownTurns){
+SpecialAbilities::SpecialAbilities(int changeDefense, int changeOffense, int changeRangeStart, int changeRangeEnds, int changeNumAttacks,int changeInSpeed, int maxNumofTurns, int maxCoolDownTurns){
+
     this->changeDefense = changeDefense;
     this->changeOffense = changeOffense;
     this->changeRangeStart= changeRangeStart;
@@ -12,30 +12,20 @@ SpecialAbilities::SpecialAbilities(std::string changeDefense, std::string change
     this->maxCoolDownTurns= maxCoolDownTurns;
     this->currCoolDownTurns = 0;
     this->activated = false;
+    this->changeInSpeed = changeInSpeed;
+    this->resetStat=true;//reset checks if stats have been reset
 }
+
 SpecialAbilities::~SpecialAbilities()
 {
 }
+
 int SpecialAbilities::getChangeInDefence(){
-    if (this->changeDefense.c_str()[this->changeDefense.length()-1] == 'p'){
-        string c = this->changeDefense.substr(0,this->changeDefense.length());
-        return (float)(atoi(c.c_str())/100)+1;
-    } else
-    {
-        string c = this->changeDefense.substr(0,this->changeDefense.length());
-        return (float)(atoi(c.c_str())/100)+1;
-    }
+    return this->changeDefense;
 }
+
 int SpecialAbilities::getChangeInOffense(){
-    if (this->changeOffense.c_str()[this->changeOffense.length()-1] == 'p'){
-        string c = this->changeOffense.substr(0,this->changeDefense.length());
-        return (float)(atoi(c.c_str())/100)+1;
-    }
-     else
-    {
-        string c = this->changeOffense.substr(0,this->changeOffense.length());
-        return (float)(atoi(c.c_str())/100)+1;
-    }
+    return this->changeOffense;
 }
 int SpecialAbilities::getChangeInRangeStarts(){
     return this->changeRangeStart;
@@ -46,46 +36,51 @@ int SpecialAbilities::getChangeInRangeEnds(){
 int SpecialAbilities::getChangeInNumAttacks(){
     return this->changeNumAttacks;
 }
-const bool SpecialAbilities::checkDefenseType(){
-    if (this->changeDefense.c_str()[this->changeDefense.length()-1] == 'p'){
-        return true;
-    }else{
-        return false;
-     }
+int SpecialAbilities::getChangeInSpeed(){
+    return this->changeInSpeed;
 }
-const bool SpecialAbilities::checkOffenseType(){
-    if (this->changeOffense.c_str()[this->changeOffense.length()-1] == 'p'){
-         return true;
-     }else{
-         return false;
-     }
-}
+
 void SpecialAbilities::activateAbility(){
-    activated= true;
+    this->activated= true;
 }
 void SpecialAbilities::resetAbility(){
-    activated= false;
+    this->activated= false;
 }
 
-void SpecialAbilities::reset() {
-    if (this->activated){
-        if(this->currNumofTurns !=0){
+void SpecialAbilities::reset(){
+    if (this->activated) {
+        this->resetStat = false;
+        if (this->currNumofTurns != 0) {
             this->currNumofTurns--;
-            if(this->currNumofTurns ==0)
+            if (this->currNumofTurns == 0)
                 this->currCoolDownTurns = this->maxCoolDownTurns;
-            
         } else {
             this->currCoolDownTurns--;
-            if(this->currCoolDownTurns ==0)
+            if (this->currCoolDownTurns == 0) {
                 this->currNumofTurns = this->maxNumofTurns;
+                this->activated = false;
+                // this->reset=true;
+            }
         }
     }
-    activated=false;
+    this->resetStat=true;
 }
 
-void SpecialAbilities::coolDown(int n){
-    if (activated == true){
-        
-    }
-    
+void SpecialAbilities::resetStats(){
+    this->resetStat=true;
+}
+
+bool SpecialAbilities::isActivated() {
+    return this->activated;
+}
+bool SpecialAbilities::isStatsReset(){
+    return this->resetStat;
+}
+
+int SpecialAbilities::coolDownTurns(){
+    return this->maxCoolDownTurns;
+}
+
+int SpecialAbilities::effectTurns(){
+    return this->maxNumofTurns;
 }

@@ -14,6 +14,7 @@
 #include "ControlPoint.h"
 #include "Button.h"
 #include <iostream>
+#include "SpecialAbilities.h"
 
 
 
@@ -33,6 +34,7 @@ private:
 	Button* continueButton;
 	Button* ruleButton;
 	std::vector<ControlPoint *> arr;
+	SpecialAbilities* sa;
 
 	void rules();
 	void doWinScreen(int playerWins);

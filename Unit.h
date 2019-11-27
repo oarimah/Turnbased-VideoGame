@@ -7,7 +7,8 @@
 #include "ImageHandler.h"
 #include <iostream>
 #include "GameObject.h"
-
+#include "SpecialAbilities.h"
+class SpecialAbilities;
 class Unit: public GameObject {
 
 private:
@@ -26,12 +27,14 @@ private:
 	int maxSpeed;
 	int curSpeed;
 	bool used;
+	SpecialAbilities* sa;
+	std::string name;
 
 public:
 	Unit(int xPos, int yPos, int height, int width,
-			const std::string& imageFile, ImageHandler *imgHandler, int health,
-			int offense, int defense, int numOfAttacks, int rangeBegins,
-			int rangeEnds, int speed);
+		 const std::string& imageFile, ImageHandler *imgHandler, int health,
+		 int offense, int defense, int numOfAttacks, int rangeBegins,
+		 int rangeEnds, int speed,SpecialAbilities* sa, std::string name);
 	~Unit();
 	const SDL_Rect* getPosition();
 	void changePosition(int newX, int newY);
@@ -40,9 +43,9 @@ public:
 	void render();
 	const std::string getType();
 	int getX();
-    int getY();
-    int getWidth();
-    int getHeight();
+	int getY();
+	int getWidth();
+	int getHeight();
 	void changeClicked(bool value);
 	int getMaxHealth();
 	int getCurHealth();
@@ -60,7 +63,9 @@ public:
 	bool isUsed();
 	void reset();
 	bool isDead();
+	void activateAbility();
+	const std::string getName();
+	SpecialAbilities* getSpecAbil();
 };
 
 #endif
-
