@@ -1,3 +1,28 @@
+/*! \class SpecialAbilities.cpp
+ *  \class which gives the unit a temporary buff in stats based on the paremters passed
+ *
+ *  \gets the changes in stats and buffs the original stats of the unit for that duration of the time
+ *  \uses arguments to get the changes in stats
+ *  \author:
+ *  \author:
+ *  \author:
+ *  \author:Osita Arimah
+ *  \param xPos, x-coordinate of the unit
+ *  \param yPos; y-coordinate of the unit
+ *  \param width; width of the unit
+ *  \param height; height of the unit
+ *  \param imageFile; image of the unit
+ *  \param health; health of the unit
+ *  \param offense; offense of the unit
+ *  \param defense; defense of the unit
+ *  \param numOfAttacks; number of attacks per turn for the unit
+ *  \param rangeBegins; range begins for the unit
+ *  \param rangeEnds; range ends for the unit
+ *  \param speed; speed for the unit
+ *  \param sa, special abilities object
+ *  \param name; name of the unit
+ *  \return the initialized unit;
+ */
 #include "Unit.h"
 
 using namespace std;
@@ -164,47 +189,77 @@ void Unit::reset() {
 bool Unit::isDead() {
 	return this->curHealth == 0;
 }
-void Unit::activateAbility(){
-	if(!this->sa->isActivated()){
-		this->numOfAttacksPerTurn += this->sa->getChangeInNumAttacks();
-		this->rangeBegins += this->sa->getChangeInRangeStarts();
-		this->rangeEnds += this->sa->getChangeInRangeEnds();
-		this->maxSpeed+= this->sa->getChangeInSpeed();
-		this->offense+=this->sa->getChangeInOffense();
-		this->defense+=this->sa->getChangeInDefence();
-		this->sa->activateAbility();
 
-	}else{
-		/**if(!this->sa.isReset()){//if the stats have not been reset
-			this->sa.reset();
-			this->offense = this->offense;
-			this->defense = this->defense;
-			this->numOfAttacksPerTurn = this->numOfAttacks;
-			this->rangeBegins = this->rangeBegins;
-			this->rangeEnds = this->rangeEnds;
-			this->maxSpeed = this->speed;
-			this->sa.resetStats();**/
-		}
+/**
+ * void Unit::activateAbility()
+ *
+ * Activate the special ability for the unit
+ *
+ *
+ * @param none
+ * @return none; just activate the ability for the unit and reset the ability
+ */
+void Unit::activateAbility() {
+    if (!this->sa->isActivated()) {
+        this->numOfAttacksPerTurn += this->sa->getChangeInNumAttacks();
+        this->rangeBegins += this->sa->getChangeInRangeStarts();
+        this->rangeEnds += this->sa->getChangeInRangeEnds();
+        this->maxSpeed += this->sa->getChangeInSpeed();
+        this->offense += this->sa->getChangeInOffense();
+        this->defense += this->sa->getChangeInDefence();
+        this->sa->activateAbility();
+    } else {
+           //do nothing
+    }
 }
 
-SpecialAbilities* Unit::getSpecAbil(){
-	return this->sa;
+    /**
+    * SpecialAbilities *Unit::getSpecAbil()
+    *
+    * get the special ability of the unit
+    *
+    *
+    * @param none
+    * @return the special ability of the unit
+    */
+    SpecialAbilities *Unit::getSpecAbil() {
+        return this->sa;
+    }
 
-}
 
-const std::string Unit::getName(){
-	return this->name;
+    /**
+    * const std::string Unit::getName()
+    *
+    * get the name of the type of unit
+    *
+    *
+    * @param none
+    * @return return the name of the unit
+    */
+    const std::string Unit::getName() {
+        return this->name;
 
-}
-void Unit::deactivateAbility() {
-	if (this->sa->isActivated()) {
-		this->sa->reset();
-		this->offense = this->offense;
-		this->defense = this->defense;
-		//this->numOfAttacksPerTurn = this->numOfAttacks;
-		this->rangeBegins = this->rangeBegins;
-		this->rangeEnds = this->rangeEnds;
-		//this->maxSpeed = this->speed;
-		this->sa->resetStats();
-	}
-}
+    }
+
+    /**
+    * void Unit::deactivateAbility()
+    *
+    * Deactivate the special ability for the unit
+    *
+    *
+    * @param none
+    * @return none; just deactivate the ability for the unit and reset the ability
+    */
+    void Unit::deactivateAbility() {
+            this->sa->reset();
+            this->offense = this->offense;
+            this->defense = this->defense;
+            //this->numOfAttacksPerTurn = this->numOfAttacks;
+            this->rangeBegins = this->rangeBegins;
+            this->rangeEnds = this->rangeEnds;
+            //this->maxSpeed = this->speed;
+            this->sa->resetStats();
+            this->sa->resetAbility();
+        }
+
+
