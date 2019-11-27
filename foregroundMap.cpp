@@ -174,8 +174,8 @@ void foregroundMap::handleEvent(const SDL_Event* event, int player) {
 
 			//construct info for the text display
 			std::string info = clicked->getName();
-							   //+ "\n"
-							   /*+ "Max Health: "
+							   + "\n"
+							   + "Max Health: "
 							   + std::to_string(clicked->getMaxHealth())
 							   + "\nCurrent Health: "
 							   + std::to_string(clicked->getCurHealth())
@@ -193,9 +193,9 @@ void foregroundMap::handleEvent(const SDL_Event* event, int player) {
 							   + "\nMovement: "
 							   + std::to_string(clicked->getMaxSpeed())
 							   + "\nMovement Left: "
-							   + std::to_string(clicked->getCurSpeed())*/
-							   //+ "\n";
-			/**+ "Special ability buffs: "
+							   + std::to_string(clicked->getCurSpeed())
+							   + "\n";
+			+ "Special ability buffs: "
 			+ "\n"
 			+ "Def: "
 			+ std::to_string(clicked->SpecialAbilities* Unit::getSpecAbil()->getChangeInDefence())
@@ -219,7 +219,7 @@ void foregroundMap::handleEvent(const SDL_Event* event, int player) {
 			//pass this to the text display
 			this->displayBox->display(info);
 
-		}*/
+		}
 
 			//if index has another unit of the other player's and a unit was clicked previously, attack the other unit
 		}else if (clicked && this->unitClicked != NULL) {
