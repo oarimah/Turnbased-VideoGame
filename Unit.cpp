@@ -6,7 +6,8 @@ Unit::Unit(int xPos, int yPos, int height, int width,
 		   const std::string& imageFile, ImageHandler *imgHandler, int health,
 		   int offense, int defense, int numOfAttacks, int rangeBegins,
 		   int rangeEnds, int speed,SpecialAbilities* sa, std::string name) {
-//set position (offset from upper left of window)
+
+	//set position (offset from upper left of window)
 this->position.x = xPos;
 this->position.y = yPos;
 this->sa=sa;

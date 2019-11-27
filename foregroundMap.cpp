@@ -157,17 +157,19 @@ void foregroundMap::handleEvent(const SDL_Event* event, int player) {
 		}
 
 			//activate a special ability for a specific unit with a right click
-		else if(event->button.button== SDL_BUTTON_RIGHT){
-			std::cout << "test error";
-			if ((player == 1 && this->player1->containsUnit(clicked)) ||
-				(player == 2 && this->player2->containsUnit(clicked))) {
-				this->unitClicked->activateAbility();
-				this->unitClicked->deactivateAbility();
-			}else{
-				this->displayBox->display("This unit does not belong to you!\n");
+		else if(event->type == SDL_MOUSEBUTTONDOWN ) {
+				std::cout << "test";
+			if (event->button.button == SDL_BUTTON_RIGHT) {
+				//std::cout << "test";
+				if ((player == 1 && this->player1->containsUnit(clicked)) ||
+					(player == 2 && this->player2->containsUnit(clicked))) {
+					this->unitClicked->activateAbility();
+					this->unitClicked->deactivateAbility();
+				} else {
+					this->displayBox->display("This unit does not belong to you!\n");
+				}
 			}
 		}
-
 			//if the square is not empty and it is a double click, display the info about the unit
 		else if (clicked && event->button.clicks == 2) {
 
@@ -194,7 +196,7 @@ void foregroundMap::handleEvent(const SDL_Event* event, int player) {
 							   + std::to_string(clicked->getMaxSpeed())
 							   + "\nMovement Left: "
 							   + std::to_string(clicked->getCurSpeed())
-							   + "\n";
+							   //+ "\n";
 			+ "Special ability buffs: "
 			+ "\n"
 			+ "Def: "
