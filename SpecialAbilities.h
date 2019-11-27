@@ -44,8 +44,7 @@ public:
     void resetStats();
     void startCoolDown();
 
-    bool isReset();
-	int coolDownTurns();
+    int coolDownTurns();
 	int effectTurns();
 	bool isStatsReset();
 

@@ -227,7 +227,7 @@ void foregroundMap::handleEvent(const SDL_Event* event, int player) {
 			+ std::to_string(clickedSA->effectTurns())
 			+ "\nCooldown turns: "
 			+ std::to_string(clickedSA->coolDownTurns())
-			+ "\n ";
+			+ "\n_";
 
 			
 			//pass this to the text display

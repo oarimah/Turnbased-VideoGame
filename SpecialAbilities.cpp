@@ -25,22 +25,20 @@
  * @param the changes of the stats of a unit, add/subtract to the unit's original stats
  * @return the special abilities object
  */
-SpecialAbilities::SpecialAbilities(int changeDefense, int changeOffense, int changeRangeStart, int changeRangeEnds, int changeNumAttacks,int changeInSpeed, int maxNumofTurns, int maxCoolDownTurns){
-
-
+SpecialAbilities::SpecialAbilities(int changeDefense, int changeOffense, int changeRangeStart, int changeRangeEnds, int changeNumAttacks, int changeInSpeed, int maxNumofTurns, int maxCoolDownTurns)
+{
     this->changeDefense = changeDefense;
     this->changeOffense = changeOffense;
-    this->changeRangeStart= changeRangeStart;
-    this->changeRangeEnds=changeRangeEnds;
-    this->changeNumAttacks= changeNumAttacks;
+    this->changeRangeStart = changeRangeStart;
+    this->changeRangeEnds = changeRangeEnds;
+    this->changeNumAttacks = changeNumAttacks;
     this->maxNumofTurns = maxNumofTurns;
     this->currNumofTurns = maxNumofTurns;
-    this->maxCoolDownTurns= maxCoolDownTurns;
+    this->maxCoolDownTurns = maxCoolDownTurns;
     this->currCoolDownTurns = 0;
     this->activated = false;
     this->changeInSpeed = changeInSpeed;
-    this->statsReset=true;//reset checks if stats have been reset
-
+    this->statsReset = false; //reset checks if stats have been reset
 }
 
 /**
@@ -65,7 +63,8 @@ SpecialAbilities::~SpecialAbilities()
  * @param none
  * @return the change in the defense
  */
-int SpecialAbilities::getChangeInDefence(){
+int SpecialAbilities::getChangeInDefence()
+{
     return this->changeDefense;
 }
 
@@ -78,7 +77,8 @@ int SpecialAbilities::getChangeInDefence(){
  * @param none
  * @return the change in the offense
  */
-int SpecialAbilities::getChangeInOffense(){
+int SpecialAbilities::getChangeInOffense()
+{
     return this->changeOffense;
 }
 
@@ -91,7 +91,8 @@ int SpecialAbilities::getChangeInOffense(){
  * @param none
  * @return the change in the range starts
  */
-int SpecialAbilities::getChangeInRangeStarts(){
+int SpecialAbilities::getChangeInRangeStarts()
+{
     return this->changeRangeStart;
 }
 
@@ -104,7 +105,8 @@ int SpecialAbilities::getChangeInRangeStarts(){
  * @param none
  * @return the change in the range ends
  */
-int SpecialAbilities::getChangeInRangeEnds(){
+int SpecialAbilities::getChangeInRangeEnds()
+{
     return this->changeRangeEnds;
 }
 
@@ -117,7 +119,8 @@ int SpecialAbilities::getChangeInRangeEnds(){
  * @param none
  * @return the change in the number of attacks
  */
-int SpecialAbilities::getChangeInNumAttacks(){
+int SpecialAbilities::getChangeInNumAttacks()
+{
     return this->changeNumAttacks;
 }
 
@@ -130,7 +133,8 @@ int SpecialAbilities::getChangeInNumAttacks(){
  * @param none
  * @return the change in the speed
  */
-int SpecialAbilities::getChangeInSpeed(){
+int SpecialAbilities::getChangeInSpeed()
+{
     return this->changeInSpeed;
 }
 
@@ -143,23 +147,11 @@ int SpecialAbilities::getChangeInSpeed(){
  * @param none
  * @return none
  */
-void SpecialAbilities::activateAbility(){
-    this->activated= true;
+void SpecialAbilities::activateAbility()
+{
+    this->activated = true;
 }
 
-
-/**
- * void SpecialAbilities::resetAbility()
- *
- * set the activate bool to false
- *
- *
- * @param none
- * @return none
- */
-void SpecialAbilities::resetAbility(){
-    this->activated= false;
-}
 /**
  * void SpecialAbilities::reset()
  *
@@ -170,38 +162,31 @@ void SpecialAbilities::resetAbility(){
  * @return none
  */
 
-void SpecialAbilities::reset(){
-    if (this->activated) {
-        this->statsReset = false;
-        if (this->currNumofTurns != 0) {
+void SpecialAbilities::reset()
+{
+    if (this->activated)
+    {
+        if (this->currNumofTurns != 0)
+        {
             this->currNumofTurns--;
             if (this->currNumofTurns == 0)
+            {
                 this->currCoolDownTurns = this->maxCoolDownTurns;
-        } else {
-            this->currCoolDownTurns--;
-            if (this->currCoolDownTurns == 0) {
-                this->currNumofTurns = this->maxNumofTurns;
-                this->activated = false;
-               // this->statsReset=true;
+                this->statsReset = true;
             }
         }
-    }this->statsReset=true;
+        else
+        {
+            this->statsReset = false;
+            this->currCoolDownTurns--;
+            if (this->currCoolDownTurns == 0)
+            {
+                this->currNumofTurns = this->maxNumofTurns;
+                this->activated = false;
+            }
+        }
+    }
 }
-
-
-/**
- * void SpecialAbilities::resetStats()
- *
- * set the resetStats to true
- *
- *
- * @param none
- * @return none
- */
-void SpecialAbilities::resetStats(){
-    this->resetStat=true;
-}
-
 
 /**
  * void SpecialAbilities::isActivated()
@@ -212,11 +197,10 @@ void SpecialAbilities::resetStats(){
  * @param none
  * @return activated bool variable
  */
-bool SpecialAbilities::isActivated() {
+bool SpecialAbilities::isActivated()
+{
     return this->activated;
 }
-
-
 
 /**
  * void SpecialAbilities::isStatsReset()
@@ -227,9 +211,9 @@ bool SpecialAbilities::isActivated() {
  * @param none
  * @return resetStats bool variable
  */
-bool SpecialAbilities::isStatsReset(){
-    return this->resetStat;
-
+bool SpecialAbilities::isStatsReset()
+{
+    return this->statsReset;
 }
 
 /**
@@ -241,8 +225,9 @@ bool SpecialAbilities::isStatsReset(){
  * @param none
  * @return return the cooldown turns of the unit
  */
-int SpecialAbilities::coolDownTurns(){
-	return this->maxCoolDownTurns;
+int SpecialAbilities::coolDownTurns()
+{
+    return this->maxCoolDownTurns;
 }
 
 /**
@@ -254,10 +239,7 @@ int SpecialAbilities::coolDownTurns(){
  * @param none
  * @return return the number of turns
  */
-int SpecialAbilities::effectTurns(){
-
-    this->statsReset=true;
-	return this->maxNumofTurns;
+int SpecialAbilities::effectTurns()
+{
+    return this->maxNumofTurns;
 }
-
-

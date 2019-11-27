@@ -1059,8 +1059,6 @@ void Game::eventHandler(const SDL_Event* event) {
 				//otherwise reset the players so that next turn all units can be used then switch players
 				else{
 				
-					this->players[this->currentPlayerIndex - 1]->reset();
-	
 					this->currentPlayerIndex = (this->currentPlayerIndex % 2) + 1;
 					
 					this->players[this->currentPlayerIndex - 1]->reset();
