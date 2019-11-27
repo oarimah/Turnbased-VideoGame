@@ -7,8 +7,9 @@
 class UnitFactory {
 
 public:
-	static Unit *createUnit(int xPos, int yPos, int height, int width,
-			int player, int faction, int unitType, ImageHandler* imgHandler,*SpecialAbilities sa);
+    static Unit *createUnit(int xPos, int yPos, int height, int width,
+                            int player, int faction, int unitType, ImageHandler* imgHandler,SpecialAbilities* sa);
+
 
 };
 

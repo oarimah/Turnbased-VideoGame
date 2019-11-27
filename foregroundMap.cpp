@@ -7,7 +7,7 @@ foregroundMap::foregroundMap(
 		int tileWidth, int tileHeight, int numRow, int numColumn,
 		ImageHandler* imgHandler, TextDisplay* textDisplay, Player* player1,
 
-		Player* player2, std::vector<ControlPoint *>* cp) {
+		Player* player2, std::vector<ControlPoint *>* cp,SpecialAbilities* sa) {
 
 	this->height = tileHeight;
 	this->width = tileWidth;
@@ -19,7 +19,7 @@ foregroundMap::foregroundMap(
 	this->player2 = player2;
 
 	this->cp = cp;
-
+	this->sa=sa;
 
 	// initialize the map and set everything to NULL
 	for (int i = 0; i < numRow; i++) {
@@ -36,8 +36,8 @@ foregroundMap::foregroundMap(
 //add to first row of the map
 //REMOVE DEBUGGING (i ++)
 	for (int i = 0; i < 20; i += 3) {
-		Unit* unit = UnitFactory::createUnit(i * this->width, 0, this->height,
-											 this->width, 1, faction, unitType, this->imageHandler);
+		Unit* unit = UnitFactory::createUnit(i * this->width, 0, this->height,this->width, 1, faction, unitType, this->imageHandler,sa);
+
 
 		//add unit to player and board
 		this->player1->addUnit(unit);
@@ -58,7 +58,9 @@ foregroundMap::foregroundMap(
 	for (int i = 0; i < 20; i += 3) {
 		Unit* unit = UnitFactory::createUnit(i * this->width, 19 * this->height,
 											 this->height, this->width, 2, faction, unitType,
-											 this->imageHandler);
+
+											 this->imageHandler,sa);
+
 		//add unit to player and board
 		this->player2->addUnit(unit);
 		this->map[i][0][19] = unit;
@@ -156,6 +158,7 @@ void foregroundMap::handleEvent(const SDL_Event* event, int player) {
 
 		}
 
+
 		//activate a special ability for a specific unit
 		else if(clicked && event->button == Buttons::Right) {
 
@@ -167,21 +170,39 @@ void foregroundMap::handleEvent(const SDL_Event* event, int player) {
 			}
 		}
 
-			//if the square is not empty and it is a double click, display the info about the unit
+			//activate a special ability for a specific unit with a right click
+		else if(event->type == SDL_MOUSEBUTTONDOWN ) {
+				std::cout << "test";
+			if (event->button.button == SDL_BUTTON_RIGHT) {
+				//std::cout << "test";
+				if ((player == 1 && this->player1->containsUnit(clicked)) ||
+					(player == 2 && this->player2->containsUnit(clicked))) {
+					this->unitClicked->activateAbility();
+					this->unitClicked->deactivateAbility();
+				} else {
+					this->displayBox->display("This unit does not belong to you!\n");
+				}
+			}
+		}
+
+		//if the square is not empty and it is a double click, display the info about the unit
 		else if (clicked && event->button.clicks == 2) {
 
 
 			//construct info for the text display
+
 			std::string info = clicked->getName()
 							+ "\n"
 							+ "Max Health: "
+
 							   + std::to_string(clicked->getMaxHealth())
 							   + "\nCurrent Health: "
 							   + std::to_string(clicked->getCurHealth())
 							   + "\nAttack Power: "
 							   + std::to_string(clicked->getAttack())
 							   + "\nAttack Range: "
-							   + std::to_string(clicked->getRangeBegins()) + " to " + std::to_string(clicked->getRangeEnds())
+							   + std::to_string(clicked->getRangeBegins()) + " to " +
+							   std::to_string(clicked->getRangeEnds())
 							   + "\nMax Number of Attacks: "
 							   + std::to_string(clicked->getMaxNumOfAttacks())
 							   + "\nAttacks Left: "
@@ -192,27 +213,29 @@ void foregroundMap::handleEvent(const SDL_Event* event, int player) {
 							   + std::to_string(clicked->getMaxSpeed())
 							   + "\nMovement Left: "
 							   + std::to_string(clicked->getCurSpeed())
-							   + "\n";
-							+ "Special ability buffs: "
-							+ "\n"
-							+ "Def: " 
-							   + std::to_string(clicked->SpecialAbilities* Unit::getSpecAbil()->getChangeInDefence())
-							+ "Off: " 
-							   + std::to_string(clicked->SpecialAbilities* Unit::getSpecAbil()->getChangeInOffense())
-							+ "Attack Range: " 
-							   + std::to_string(clicked->SpecialAbilities* Unit::getSpecAbil()->getChangeInRangeStarts())
-							+ "-"
-							   + std::to_string(clicked->SpecialAbilities* Unit::getSpecAbil()->getChangeInRangeEnds())
-					+ "\nNum Attacks: "
-							   + std::to_string(clicked->SpecialAbilities* Unit::getSpecAbil()->getChangeInNumAttacks())
-							+ "Movement: " 
-						+ std::to_string(clicked->SpecialAbilities* Unit::getSpecAbil()->getChangeInSpeed())
-						+ "\nTurns for Effect: "
-						+ std::to_string(clicked->SpecialAbilities* Unit::getSpecAbil()->effectTurns())
-						+ "Cooldown turns: "
-						+ std::to_string(clicked->SpecialAbilities* Unit::getSpecAbil()->getCoolDownTurns())
 
-							
+							   + "\n";
+
+
+			+ "Special ability buffs: "
+			+ "\n"
+			+ "Def: "
+			+ std::to_string(clicked->SpecialAbilities* Unit::getSpecAbil()->getChangeInDefence())
+			+ "Off: "
+			+ std::to_string(clicked->SpecialAbilities* Unit::getSpecAbil()->getChangeInOffense())
+			+ "Attack Range: "
+			+ std::to_string(clicked->SpecialAbilities* Unit::getSpecAbil()->getChangeInRangeStarts())
+			+ "-"
+			+ std::to_string(clicked->SpecialAbilities* Unit::getSpecAbil()->getChangeInRangeEnds())
+			+ "\nNum Attacks: "
+			+ std::to_string(clicked->SpecialAbilities* Unit::getSpecAbil()->getChangeInNumAttacks())
+			+ "Movement: "
+			+ std::to_string(clicked->SpecialAbilities* Unit::getSpecAbil()->getChangeInSpeed())
+			+ "\nTurns for Effect: "
+			+ std::to_string(clicked->SpecialAbilities* Unit::getSpecAbil()->effectTurns())
+			+ "Cooldown turns: "
+			+ std::to_string(clicked->SpecialAbilities* Unit::getSpecAbil()->getCoolDownTurns())
+
 
 			//pass this to the text display
 			this->displayBox->display(info);
@@ -220,7 +243,9 @@ void foregroundMap::handleEvent(const SDL_Event* event, int player) {
 		}
 
 			//if index has another unit of the other player's and a unit was clicked previously, attack the other unit
+
 		else if (clicked && this->unitClicked != NULL) {
+
 
 			//if this is player 1's turn and the other unit clicked was player 2's, attack
 			if ((player == 1 && this->player2->containsUnit(clicked))

@@ -1,6 +1,8 @@
 #include "SpecialAbilities.h"
 
 SpecialAbilities::SpecialAbilities(int changeDefense, int changeOffense, int changeRangeStart, int changeRangeEnds, int changeNumAttacks,int changeInSpeed, int maxNumofTurns, int maxCoolDownTurns){
+
+
     this->changeDefense = changeDefense;
     this->changeOffense = changeOffense;
     this->changeRangeStart= changeRangeStart;
@@ -13,6 +15,7 @@ SpecialAbilities::SpecialAbilities(int changeDefense, int changeOffense, int cha
     this->activated = false;
     this->changeInSpeed = changeInSpeed;
     this->reset=true;//reset checks if stats have been reset
+
 }
 
 SpecialAbilities::~SpecialAbilities()
@@ -46,9 +49,10 @@ void SpecialAbilities::resetAbility(){
     this->activated= false;
 }
 
-void SpecialAbilities::reset() {
+
+void SpecialAbilities::reset(){
     if (this->activated) {
-        this->reset = false;
+        this->resetStat = false;
         if (this->currNumofTurns != 0) {
             this->currNumofTurns--;
             if (this->currNumofTurns == 0)
@@ -64,9 +68,6 @@ void SpecialAbilities::reset() {
     }this->reset=true;
 }
 
-void SpecialAbilities::resetStats(){
-    this->reset=true;
-}
 
 bool SpecialAbilities::isActivated() {
     return this->activated;
@@ -81,4 +82,29 @@ int SpecialAbilities::coolDownTurns(){
 
 int SpecialAbilities::effectTurns(){
 	return this->maxNumOfTurns;
+                // this->reset=true;
+            }
+        }
+    }
+    this->resetStat=true;
+}
+
+void SpecialAbilities::resetStats(){
+    this->resetStat=true;
+}
+
+bool SpecialAbilities::isActivated() {
+    return this->activated;
+}
+bool SpecialAbilities::isStatsReset(){
+    return this->resetStat;
+}
+
+int SpecialAbilities::coolDownTurns(){
+    return this->maxCoolDownTurns;
+}
+
+int SpecialAbilities::effectTurns(){
+    return this->maxNumofTurns;
+
 }

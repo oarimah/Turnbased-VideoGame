@@ -6,11 +6,13 @@ using namespace std;
 Unit::Unit(int xPos, int yPos, int height, int width,
 		   const std::string& imageFile, ImageHandler *imgHandler, int health,
 		   int offense, int defense, int numOfAttacks, int rangeBegins,
-		   int rangeEnds, int speed,*SpecialAbilities sa, std::string name) {
+		   int rangeEnds, int speed,SpecialAbilities* sa, std::string name) {
+
 //set position (offset from upper left of window)
 this->position.x = xPos;
 this->position.y = yPos;
-this->sa.sa;
+this->sa=sa;
+
 //set size of the image
 this->position.h = height;
 this->position.w = width;
@@ -26,6 +28,7 @@ this->rangeBegins = rangeBegins;
 this->rangeEnds = rangeEnds;
 this->maxSpeed = speed;
 this->curSpeed = speed;
+
 this->name = name;
 
 // to be used to control the number of thing the unit can do per turn
@@ -166,15 +169,19 @@ bool Unit::isDead() {
 	return this->curHealth == 0;
 }
 void Unit::activateAbility(){
-	if(!this->sa.isActivated()){
-		this->numOfAttacksPerTurn += this->sa.getChangeInNumAttacks();
-		this->rangeBegins += this->sa.getChangeInRangeStarts();
-		this->rangeEnds += this->sa.getChangeInRangeEnds();
-		this->maxSpeed+= this->sa.getChangeInSpeed();
-		this->offense+=this->sa.getChangeInOffense();
-		this->defense+=this->sa.getChangeInDefence();
-		this->sa.activateAbility();
-		if(!this->sa.isReset()){//if the stats have not been reset
+
+	if(!this->sa->isActivated()){
+		this->numOfAttacksPerTurn += this->sa->getChangeInNumAttacks();
+		this->rangeBegins += this->sa->getChangeInRangeStarts();
+		this->rangeEnds += this->sa->getChangeInRangeEnds();
+		this->maxSpeed+= this->sa->getChangeInSpeed();
+		this->offense+=this->sa->getChangeInOffense();
+		this->defense+=this->sa->getChangeInDefence();
+		this->sa->activateAbility();
+
+
+	}else{
+		(!this->sa.isReset()){//if the stats have not been reset
 			this->sa.reset();
 			this->offense = this->offense;
 			this->defense = this->defense;
@@ -183,16 +190,6 @@ void Unit::activateAbility(){
 			this->rangeEnds = this->rangeEnds;
 			this->maxSpeed = this->speed;
 			this->sa.resetStats();
-	}else{
-		/**if(!this->sa.isReset()){//if the stats have not been reset
-			this->sa.reset();
-			this->offense = this->offense;
-			this->defense = this->defense;
-			this->numOfAttacksPerTurn = this->numOfAttacks;
-			this->rangeBegins = this->rangeBegins;
-			this->rangeEnds = this->rangeEnds;
-			this->maxSpeed = this->speed;
-			this->sa.resetStats();**/
 		}
 }
 
@@ -206,3 +203,15 @@ const std::string Unit::getName(){
 
 }
 
+void Unit::deactivateAbility() {
+	if (this->sa->isActivated()) {
+		this->sa->reset();
+		this->offense = this->offense;
+		this->defense = this->defense;
+		//this->numOfAttacksPerTurn = this->numOfAttacks;
+		this->rangeBegins = this->rangeBegins;
+		this->rangeEnds = this->rangeEnds;
+		//this->maxSpeed = this->speed;
+		this->sa->resetStats();
+	}
+}

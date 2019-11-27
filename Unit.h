@@ -27,13 +27,16 @@ private:
 	int maxSpeed;
 	int curSpeed;
 	bool used;
-	*SpecialAbilities sa;
+	SpecialAbilities* sa;
 	std::string name;
+
+
 public:
 	Unit(int xPos, int yPos, int height, int width,
 		 const std::string& imageFile, ImageHandler *imgHandler, int health,
 		 int offense, int defense, int numOfAttacks, int rangeBegins,
-		 int rangeEnds, int speed, std::string name);
+		 int rangeEnds, int speed,SpecialAbilities* sa, std::string name);
+
 	~Unit();
 	const SDL_Rect* getPosition();
 	void changePosition(int newX, int newY);
@@ -65,7 +68,8 @@ public:
 	void activateAbility();
 	const std::string getName();
 	SpecialAbilities* getSpecAbil();
+	void deactivateAbility();
+
 };
 
 #endif
-
