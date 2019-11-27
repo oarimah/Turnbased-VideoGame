@@ -3,7 +3,6 @@
 #define ABILITIES_H
 
 
-#include "Unit.h"
 class SpecialAbilities
 {
 private:
@@ -18,7 +17,7 @@ private:
     int maxCoolDownTurns;
     bool activated;
     int changeInSpeed;
-    bool reset;
+    bool statsReset;
 
 public:
 
@@ -26,7 +25,7 @@ public:
                      int changeRangeEnds, int changeNumAttacks,int changeInSpeed, int maxNumofTurns, int maxCoolDownTurns);
     ~SpecialAbilities();
 
-	bool resetStat;
+
     int getChangeInDefence();
     int getChangeInOffense();
     int getChangeInRangeStarts();
@@ -47,7 +46,8 @@ public:
 
     bool isReset();
 	int coolDownTurns();
-	int effectTurns():
+	int effectTurns();
+	bool isStatsReset();
 
 };
 

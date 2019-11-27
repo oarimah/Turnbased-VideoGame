@@ -163,6 +163,13 @@ void Unit::reset() {
 	this->used = false;
 	this->numberOfAttacksForTurn = this->numOfAttacksPerTurn;
 	this->curSpeed = this->maxSpeed;
+	this->sa->reset();
+
+	if(this->sa->isStatsReset()){
+		//REMOVE DEBUGGING
+		std::cout << "deactivating ability" << std::endl;
+		this->deactivateAbility();
+	}
 }
 
 bool Unit::isDead() {
@@ -180,22 +187,23 @@ void Unit::activateAbility(){
 		this->sa->activateAbility();
 
 
-	}else{
-		(!this->sa.isReset()){//if the stats have not been reset
-			this->sa.reset();
-			this->offense = this->offense;
-			this->defense = this->defense;
-			this->numOfAttacksPerTurn = this->numOfAttacks;
-			this->rangeBegins = this->rangeBegins;
-			this->rangeEnds = this->rangeEnds;
-			this->maxSpeed = this->speed;
-			this->sa.resetStats();
+	}/*else{
+		if (!this->sa->isReset()){//if the stats have not been reset
+			this->sa->reset();
+			this->offense -= this->sa->getChangeInOffense();
+			this->defense -= this->sa->getChangeInDefence();
+			this->numOfAttacksPerTurn -= this->sa->getChangeInNumAttacks();
+			this->rangeBegins -= this->sa->getChangeInRangeStarts();
+			this->rangeEnds -=this->sa->getChangeInRangeEnds();
+			this->maxSpeed -= this->sa->getChangeInSpeed();
+			this->sa->resetStats();
 		}
+	}*/
 }
 
 SpecialAbilities* Unit::getSpecAbil(){
-	return this->sa;
 
+	return this->sa;
 }
 
 const std::string Unit::getName(){
@@ -205,13 +213,17 @@ const std::string Unit::getName(){
 
 void Unit::deactivateAbility() {
 	if (this->sa->isActivated()) {
-		this->sa->reset();
-		this->offense = this->offense;
-		this->defense = this->defense;
-		//this->numOfAttacksPerTurn = this->numOfAttacks;
-		this->rangeBegins = this->rangeBegins;
-		this->rangeEnds = this->rangeEnds;
-		//this->maxSpeed = this->speed;
-		this->sa->resetStats();
+
+			//REMOVE DEBUGGING 
+			std::cout << "offense before: " << this->offense << " change in offense " << this->sa->getChangeInOffense() << " result = " << (this->offense -= this->sa->getChangeInOffense()) << std::endl;
+			this->sa->reset();
+			this->offense -= this->sa->getChangeInOffense();
+			this->defense -= this->sa->getChangeInDefence();
+			this->numOfAttacksPerTurn -= this->sa->getChangeInNumAttacks();
+			this->rangeBegins -= this->sa->getChangeInRangeStarts();
+			this->rangeEnds -=this->sa->getChangeInRangeEnds();
+			this->maxSpeed -= this->sa->getChangeInSpeed();
+			this->sa->resetStats();
+		
 	}
 }

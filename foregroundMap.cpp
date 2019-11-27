@@ -159,30 +159,23 @@ void foregroundMap::handleEvent(const SDL_Event* event, int player) {
 		}
 
 
-		//activate a special ability for a specific unit
-		else if(clicked && event->button == Buttons::Right) {
-
-			if ((player == 1 && this->player1->containsUnit(clicked)) ||
-				(player == 2 && this->player2->containsUnit(clicked))) {
-				this->unitClicked->activateAbility();
-			}else{
-				this->displayBox->display("This unit does not belong to you!\n");
-			}
-		}
 
 			//activate a special ability for a specific unit with a right click
-		else if(event->type == SDL_MOUSEBUTTONDOWN ) {
-				std::cout << "test";
-			if (event->button.button == SDL_BUTTON_RIGHT) {
-				//std::cout << "test";
+		else if (event->button.button == SDL_BUTTON_RIGHT) {
+
 				if ((player == 1 && this->player1->containsUnit(clicked)) ||
-					(player == 2 && this->player2->containsUnit(clicked))) {
-					this->unitClicked->activateAbility();
-					this->unitClicked->deactivateAbility();
+					(player == 2 && this->player2->containsUnit(clicked)))  {
+
+						if(!clicked->getSpecAbil()->isActivated()){
+							clicked->activateAbility();
+							}
+						else{
+							this->displayBox->display("This unit's special ability is already in effect.\n");	
+						}
 				} else {
 					this->displayBox->display("This unit does not belong to you!\n");
+				
 				}
-			}
 		}
 
 		//if the square is not empty and it is a double click, display the info about the unit
@@ -191,9 +184,11 @@ void foregroundMap::handleEvent(const SDL_Event* event, int player) {
 
 			//construct info for the text display
 
+			SpecialAbilities * clickedSA = clicked->getSpecAbil();
+
 			std::string info = clicked->getName()
 							+ "\n"
-							+ "Max Health: "
+							+ "\nMax Health: "
 
 							   + std::to_string(clicked->getMaxHealth())
 							   + "\nCurrent Health: "
@@ -213,30 +208,28 @@ void foregroundMap::handleEvent(const SDL_Event* event, int player) {
 							   + std::to_string(clicked->getMaxSpeed())
 							   + "\nMovement Left: "
 							   + std::to_string(clicked->getCurSpeed())
+							   + "\n"
 
-							   + "\n";
 
-
-			+ "Special ability buffs: "
-			+ "\n"
-			+ "Def: "
-			+ std::to_string(clicked->SpecialAbilities* Unit::getSpecAbil()->getChangeInDefence())
-			+ "Off: "
-			+ std::to_string(clicked->SpecialAbilities* Unit::getSpecAbil()->getChangeInOffense())
-			+ "Attack Range: "
-			+ std::to_string(clicked->SpecialAbilities* Unit::getSpecAbil()->getChangeInRangeStarts())
+			+ "\nSpecial ability buffs \nDefense: "
+			+ std::to_string(clickedSA->getChangeInDefence())
+			+ "\nOffense: "
+			+ std::to_string(clickedSA->getChangeInOffense())
+			+ "\nAttack Range: "
+			+ std::to_string(clickedSA->getChangeInRangeStarts())
 			+ "-"
-			+ std::to_string(clicked->SpecialAbilities* Unit::getSpecAbil()->getChangeInRangeEnds())
+			+ std::to_string(clickedSA->getChangeInRangeEnds())
 			+ "\nNum Attacks: "
-			+ std::to_string(clicked->SpecialAbilities* Unit::getSpecAbil()->getChangeInNumAttacks())
-			+ "Movement: "
-			+ std::to_string(clicked->SpecialAbilities* Unit::getSpecAbil()->getChangeInSpeed())
+			+ std::to_string(clickedSA->getChangeInNumAttacks())
+			+ "\nMovement: "
+			+ std::to_string(clickedSA->getChangeInSpeed())
 			+ "\nTurns for Effect: "
-			+ std::to_string(clicked->SpecialAbilities* Unit::getSpecAbil()->effectTurns())
-			+ "Cooldown turns: "
-			+ std::to_string(clicked->SpecialAbilities* Unit::getSpecAbil()->getCoolDownTurns())
+			+ std::to_string(clickedSA->effectTurns())
+			+ "\nCooldown turns: "
+			+ std::to_string(clickedSA->coolDownTurns())
+			+ "\n ";
 
-
+			
 			//pass this to the text display
 			this->displayBox->display(info);
 

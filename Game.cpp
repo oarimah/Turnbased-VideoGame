@@ -1,16 +1,29 @@
 #include "Game.h"
 
-/*!
- * \class Game
- * \brief contains information about the game
- *
- * has size information, but also initalizes the game, shows the rules, and allows for faction selection
- * \author Carolyn Owen
- * \author Abdallah Alasmar
- * \param numTilesHigh the number of tiles multiplied by the height of a tile
- * \param numTilesWide the number of tiles multiplied by the width of a tile
- * \param tileWidth the width of a single tile
- * \param tileHeight the height of a single tile
+
+
+/**@brief Game class defines and manages all assets and events involved in playing the game
+@author Carolyn Owen
+@author Abdallah Alasmar
+details This class creates a new game window, maps, players, units, buttons, displays for the game. 
+	It takes events from the main class and delegates them appropriately based on type and location. 
+	
+*/
+
+
+
+/**@brief Constructor for a new game object
+details This function takes size of tiles and number of tiles high and wide for the game to be created. 
+	These parameters are saved for future use. Member variables for current player, game status and image handler are set to initial values 
+	(nothing initialized here, all of that is done in the init function).
+
+@param 	int number of tiles high
+@param 	int number of tiles wide
+@param 	int width of the individual tiles in pixels
+@param 	int height of the individual tiles in pixels
+
+@return a new game object
+	
 */
 Game::Game(int numTilesHigh, int numTilesWide, int tileWidth, int tileHeight) {
 
@@ -37,6 +50,16 @@ Game::Game(int numTilesHigh, int numTilesWide, int tileWidth, int tileHeight) {
 
 }
 
+
+
+/**@brief Destructor for a game object
+details If the game has been initialized, this function deallocates memory set aside for the image handler, 
+	display box, players, and maps. Then it deinitializes the SDL and text display systems
+
+@param  none
+@return none
+	
+*/
 Game::~Game() {
 
 	//if the game was initialized, erase the objects associated with it and deinit graphics
@@ -59,14 +82,34 @@ Game::~Game() {
 
 }
 
-/*!
- * \brief initializes the game
- *
- * sets up the game, creates faction selection screen, rule screen, and starts the game
- * handles multiple events, part of the user's first interaction with the game
- * \author Carolyn Owen
- * \author Abdallah Alasmar
- * \return 0 if the initialization was successful, -1 if the intialization was unsuccessful
+
+
+/**@brief Initializer for game object to be called after object creation.
+details This function executes many steps to display the game and set up the game parameters through a graphical interface to the players.
+	The steps that the game initializer takes are below:
+	
+	- try to initialize SDL graphics handling systems
+	- if not successful, print an error and exit the program
+	- else create a new window, renderer and image handler for the game and do the below
+	- try to intialize the SDL text to image handling systems
+	- if not successful, print an error and exit the program
+	- else create a text display box for the game and do the below
+	- create a continue button to be used throughout the game
+	- create title screen with game name, background and button to get the rules
+	- when clicked, the rules button brings the player to a display with the rules until they 
+		press the continue button, when it returns to the title screen
+	- when continue button clicked from the title page, display a page with the player numbers and buttons to select the players' factions
+	- when continue button clicked from the factions page, the players will be created and added to the game object with the selected 
+		factions, or english factions as default
+	- create a new button to end the player's turn and replace continue button with it
+	- create control points and add them to the game object
+	- create background and foreground maps for the game object
+	- set the game running to true as all things have happened to allow the game to be played. 
+
+@param  none
+@return int representing success (0) or failure (-1) to initialize
+	
+
 */
 int Game::init() {
 
@@ -971,6 +1014,19 @@ int Game::init() {
 	}
 }
 
+
+/**@brief Function to handle events that happen on the game window
+details This function takes in the event and checks to see if it is a click. 
+	If so, it handles it differently depending on the location of the click.
+	If the continue button has been pressed (later the end turn button), check to see if either player has won. 
+	If they have, display a win screen followed by a credits screen. 
+	Else, if no player has won, it switches the current player to the other player. 
+	If the click was on the map surface, it passes the event to the foreground map event handler. 
+
+@param  pointer to an SDL event 
+@return none
+	
+*/
 void Game::eventHandler(const SDL_Event* event) {
 
 	if (event->type == SDL_MOUSEBUTTONUP) {
@@ -1006,6 +1062,8 @@ void Game::eventHandler(const SDL_Event* event) {
 					this->players[this->currentPlayerIndex - 1]->reset();
 	
 					this->currentPlayerIndex = (this->currentPlayerIndex % 2) + 1;
+					
+					this->players[this->currentPlayerIndex - 1]->reset();
 	
 					//print notification to display that the player has switched
 					std::string playerSwitched = "Player " + std::to_string(this->currentPlayerIndex) + " now \nplaying!\nPlayer 1 score: " + std::to_string(this->players[0]->getScore()) + "\nPlayer 2 score: " + std::to_string(this->players[1]->getScore()) + "\n";
@@ -1032,7 +1090,14 @@ void Game::eventHandler(const SDL_Event* event) {
 	}
 }
 
-//render both layers of maps of the game
+/**@brief Function to render the images for the game window
+details This function calls render on all visual objects of the game from background up so that it overlays properly. 
+	Render functions are called on the background map, foreground map,display box and continue/end turn button owned by the game. 
+
+@param  none
+@return none
+	
+*/
 void Game::render() {
 
 	//call render on all objects
@@ -1043,31 +1108,70 @@ void Game::render() {
 
 }
 
+
+
+/**@brief Function clears the renderer owned by the game
+details This function clears all images from the renderer for the game.
+
+@param  none
+@return none
+	
+*/
 void Game::renderClear() {
 	SDL_RenderClear(this->renderer);
 }
 
+
+/**@brief Function displays all rendered images to the screen 
+details This function displays the rendered images to the screen for this game object. 
+
+@param  none
+@return none
+	
+*/
 void Game::renderRepresent() {
 	SDL_RenderPresent(this->renderer);
 }
 
+
+/**@brief Function returns a boolean value to represent whether or not the game is currently running
+details This function returns a boolean value to represent whether or not the game is currently running. 
+	If the game has not been initialized properly, or if a player has won and gone through the win and credits screen, 
+	this will return false. Else, it will be true.
+
+@param  none
+@return boolean value
+	
+*/
 bool Game::running() {
 	return this->isRunning;
 }
 
 
+/**@brief Function creates and displays a screen with the rules of the game to the game window
+details This function stores the rules for each area of the game, including the ways to win, how to get info on the units, 
+	how to move and attack units, control points, and unit special abilities. These are displayed to the window and then,
+	the rules will remain on the screen until the continue button is clicked, when it returns from the function to the original 
+	place in the program.
+
+@param  none
+@return none
+	
+*/
 void Game::rules() {
 
-	std::string goals = "Goal\nReduce your opponent's army to zero\nOR get a total of 50 points by maintaining\ncontrol of the castles\n";
+	std::string goals = "Goal\nReduce your opponent's army to zero OR get a total of 50 points by maintaining control of the rocks\n";
 	std::string info = "Info\nDouble click any unit to get its current statistics\n";
-	std::string movement = "Movement\nDuring your turn, a single click on your unit followed\nby a click on another square will move the unit if the square is within\nthe unit's movement range. A unit cannot be moved after an attack until\nyour next turn.\n";
-	std::string attack = "Attack\nDuring your turn, a single click on your unit followed\nby a click on the opponent's unit will reduce the opponent's unit by the\nattacking unit's attack score MINUS the defending unit's defense score.\nThe defending unit must be within the attacking unit's attack range.\n";
-	std::string castles = "Castles\nIf either player has a unit within one square of a castle at the end of\na turn AND the other player does not have a unit within proximity of the\nsame castle, the score of the player with control of the castle will\nincrease by 1 point.";
+	std::string movement = "Movement\nDuring your turn, a single click on your unit followed by a click on another square will move the unit if the square is within the unit's movement range. A unit cannot be moved after an attack until your next turn.\n";
+	std::string attack = "Attack\nDuring your turn, a single click on your unit followed by a click on the opponent's unit will reduce the opponent's unit by the attacking unit's attack score MINUS the defending unit's defense score. The defending unit must be within the attacking unit's attack range.\n";
+	std::string controlPts = "\nRocks Control Points\nIf either player has a unit within one square of a rock control point at the end of a turn AND the other player does not have a unit within proximity of the same rock, the score of the player with control of the rock will increase by 2 points.\n";
+	std::string specAbil = "Special Abilies\nUnits have special abilities that can be activated by a single right click on your unit. This will change their stats for a certain number of turns. After activation, there is a cooldown period in which the special ability cannot be re-activated. For more info, double click a unit.";
 	std::string rules = goals
 				+"\n" + info
 				+"\n" + movement
 				+"\n" + attack
-				+"\n" + castles;
+				+"\n" + specAbil
+				+"\n" + controlPts;
 
 	//create font to use to display text
 	TTF_Font* textFont = TTF_OpenFont("CaviarDreams.ttf", 14);
@@ -1168,7 +1272,15 @@ void Game::rules() {
 
 
 
+/**@brief Function creates and displays a screen congratulating the winning player
+details This function constructs a text display congratulating the player that has won (will be determined by the integer value 
+	passed into the function) and then this is displayed over a background image until the continue button is clicked. 
+	When the continue button is clicked, it goes to the credits screen before returning from the function.
 
+@param  integer value representing which player number has won
+@return none
+	
+*/
 void Game::doWinScreen(int playerWon) {
 
 	std::string win = "Congratulations! Player " + std::to_string(playerWon) + " WINS!";
@@ -1264,7 +1376,14 @@ void Game::doWinScreen(int playerWon) {
 
 
 
+/**@brief Function displays a credit screen to the game window
+details This function constructs a text display with the names of the group members and then this is displayed over a background image until the continue button is clicked. 
+	When the continue button is clicked, it ends the game.
 
+@param  none
+@return none
+	
+*/
 void Game::doCreditScreen() {
 
 	std::string credits = "Brought to you by:\nAbdallah Alasmar\nOsitadinma Arimah\nJake Nemiroff\nOluwadarasimi Ogunshote\nCarolyn Owen";

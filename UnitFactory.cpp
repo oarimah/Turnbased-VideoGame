@@ -7,7 +7,6 @@ using namespace std;
  *  creates units based on the faction chosen and stores their stats in a Unit object
  *  uses if statements to check the faction before assigning unit stats
  *  \author Abdallah Alasmar
- *  \author Carolyn Owen
  *  \author Oluwadarasimi Ogunshote
  *  \author Osita Arimah
  *  \param xPos the position of the unit on the horizontal axis

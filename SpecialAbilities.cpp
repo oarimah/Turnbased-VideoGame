@@ -14,7 +14,7 @@ SpecialAbilities::SpecialAbilities(int changeDefense, int changeOffense, int cha
     this->currCoolDownTurns = 0;
     this->activated = false;
     this->changeInSpeed = changeInSpeed;
-    this->reset=true;//reset checks if stats have been reset
+    this->statsReset=true;//reset checks if stats have been reset
 
 }
 
@@ -45,6 +45,7 @@ int SpecialAbilities::getChangeInSpeed(){
 void SpecialAbilities::activateAbility(){
     this->activated= true;
 }
+
 void SpecialAbilities::resetAbility(){
     this->activated= false;
 }
@@ -52,7 +53,7 @@ void SpecialAbilities::resetAbility(){
 
 void SpecialAbilities::reset(){
     if (this->activated) {
-        this->resetStat = false;
+        this->statsReset = false;
         if (this->currNumofTurns != 0) {
             this->currNumofTurns--;
             if (this->currNumofTurns == 0)
@@ -62,18 +63,19 @@ void SpecialAbilities::reset(){
             if (this->currCoolDownTurns == 0) {
                 this->currNumofTurns = this->maxNumofTurns;
                 this->activated = false;
-               // this->reset=true;
+               // this->statsReset=true;
             }
         }
-    }this->reset=true;
+    }this->statsReset=true;
 }
 
 
 bool SpecialAbilities::isActivated() {
     return this->activated;
 }
+
 bool SpecialAbilities::isReset(){
-    return this->reset;
+    //return this->reset;
 }
 
 int SpecialAbilities::coolDownTurns(){
@@ -81,30 +83,15 @@ int SpecialAbilities::coolDownTurns(){
 }
 
 int SpecialAbilities::effectTurns(){
-	return this->maxNumOfTurns;
-                // this->reset=true;
-            }
-        }
-    }
-    this->resetStat=true;
+
+    this->statsReset=true;
+	return this->maxNumofTurns;
 }
 
 void SpecialAbilities::resetStats(){
-    this->resetStat=true;
+    this->statsReset=true;
 }
 
-bool SpecialAbilities::isActivated() {
-    return this->activated;
-}
 bool SpecialAbilities::isStatsReset(){
-    return this->resetStat;
-}
-
-int SpecialAbilities::coolDownTurns(){
-    return this->maxCoolDownTurns;
-}
-
-int SpecialAbilities::effectTurns(){
-    return this->maxNumofTurns;
-
+	return this->statsReset;
 }
