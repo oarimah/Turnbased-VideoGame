@@ -1,7 +1,8 @@
+
 #ifndef ABILITIES_H
 #define ABILITIES_H
 
-#include "Unit.h"
+
 class SpecialAbilities
 {
 private:
@@ -16,11 +17,15 @@ private:
     int maxCoolDownTurns;
     bool activated;
     int changeInSpeed;
-    bool resetStat;
+    bool statsReset;
+
 public:
+
     SpecialAbilities(int changeDefense, int changeOffense, int changeRangeStart,
                      int changeRangeEnds, int changeNumAttacks,int changeInSpeed, int maxNumofTurns, int maxCoolDownTurns);
     ~SpecialAbilities();
+
+
     int getChangeInDefence();
     int getChangeInOffense();
     int getChangeInRangeStarts();
@@ -30,15 +35,19 @@ public:
     bool checkOffenseType();
     void activateAbility();
     void resetAbility();
-    //void coolDown();
+
+    void coolDown();
+
     void reset();
     bool isActivated();
     int getChangeInSpeed();
     void resetStats();
     void startCoolDown();
-    bool isStatsReset();
+
     int coolDownTurns();
     int effectTurns();
+    bool isStatsReset();
+
 };
 
 #endif
