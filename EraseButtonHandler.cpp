@@ -1,6 +1,25 @@
 #include "EraseButtonHandler.h"
 #include <iterator>
 
+
+/**@brief Class defines a handler to erase something when the owning button is invoked
+@author Carolyn Owen
+details This class can erase an integer, string or vector when called on. 
+	It is owned by a button object and the type of object to erase is defined on construction.
+	
+*/
+
+
+/**@brief Constructor for a button event handler to erase an integer
+details This function takes a pointer to an integer to be erased when the handler is called. 
+	When it is called, the integer pointed at is deleted. The member variables for strings and vectors 
+	are set to NULL to indicate that it is not erasing these types of things.
+
+@param  pointer to the int to erase
+
+@return a new erase button handler object
+	
+*/
 EraseButtonHandler::EraseButtonHandler(int* intToErase)
 {
 	//set int to erase pointer to location input
@@ -11,6 +30,16 @@ EraseButtonHandler::EraseButtonHandler(int* intToErase)
 	this->vectorErase = NULL;
 }
 
+/**@brief Constructor for a button event handler to erase a vector
+details This function takes a pointer to a vector to be emptied when the handler is called. 
+	When it is called, the contents of the vector pointed at are deleted. The member variables for strings and ints 
+	are set to NULL to indicate that it is not erasing these types of things.
+
+@param  pointer to the vector to erase
+
+@return a new erase button handler object
+	
+*/
 EraseButtonHandler::EraseButtonHandler(std::vector<GameObject*>* vectorToErase)
 {
 	//set vector to erase pointer to location input
@@ -22,6 +51,17 @@ EraseButtonHandler::EraseButtonHandler(std::vector<GameObject*>* vectorToErase)
 
 }
 
+
+/**@brief Constructor for a button event handler to erase a string
+details This function takes a pointer to a string to be erased when the handler is called. 
+	When it is called, the string pointed at is deleted. The member variables for ints and vectors 
+	are set to NULL to indicate that it is not erasing these types of things.
+
+@param  pointer to the string to erase
+
+@return a new erase button handler object
+	
+*/
 EraseButtonHandler::EraseButtonHandler(std::string* stringToErase)
 {
 
@@ -33,11 +73,26 @@ EraseButtonHandler::EraseButtonHandler(std::string* stringToErase)
 	this->intErase = NULL;
 }
 
+/**@brief Destructor for a button event handler
+details This class does not dynamically allocate any objects, so the destructor is empty.
+
+@param  none
+@return none
+	
+*/
 EraseButtonHandler::~EraseButtonHandler()
 {
 
 }
 
+/**@brief Handles an event on the button that owns it
+details This function takes a pointer to the event that happened on the owning button. If it is a button click event, 
+	the int/string/vector that was stored is deleted. 
+
+@param  pointer to an SDL event
+@return none
+	
+*/
 void EraseButtonHandler::handleEvent(const SDL_Event* event)
 {
 

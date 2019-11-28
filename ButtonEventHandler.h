@@ -4,8 +4,11 @@
 #include <SDL2/SDL.h>
 #include <string>
 
-//abstract class to be used for concrete button event handlers with different behaviours
+/**@brief Template to require functions to be defined by all button event handler subclasses
+@author
+details This class requires all button event handlers to have a handle event method that takes an SDL event
 
+*/
 
 class ButtonEventHandler {
 
