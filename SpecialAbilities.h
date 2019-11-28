@@ -2,7 +2,6 @@
 #ifndef ABILITIES_H
 #define ABILITIES_H
 
-
 class SpecialAbilities
 {
 private:

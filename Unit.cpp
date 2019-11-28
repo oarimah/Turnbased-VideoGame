@@ -8,8 +8,9 @@ using namespace std;
  *
  *  \gets the changes in stats and buffs the original stats of the unit for that duration of the time
  *  \uses arguments to get the changes in stats
- *  \author:Oluwadarasimi Ogunshote
- *  \author:Osita Arimah
+ *  \author Oluwadarasimi Ogunshote
+ *  \author Osita Arimah
+ *  \author Jake Nemiroff
  *  \param xPos, x-coordinate of the unit
  *  \param yPos; y-coordinate of the unit
  *  \param width; width of the unit
@@ -453,10 +454,7 @@ void Unit::reset()
 {
 	this->used = false;
 	this->sa->reset();
-	if (this->sa->isStatsReset())
-	{
-		this->deactivateAbility();
-	}
+	this->deactivateAbility();
 	this->numberOfAttacksForTurn = this->numOfAttacksPerTurn;
 	this->curSpeed = this->maxSpeed;
 }

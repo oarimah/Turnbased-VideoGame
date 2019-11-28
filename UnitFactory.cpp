@@ -9,6 +9,7 @@ using namespace std;
  *  \author Abdallah Alasmar
  *  \author Oluwadarasimi Ogunshote
  *  \author Osita Arimah
+ *  \author Jake Nemiroff
  *  \param xPos the position of the unit on the horizontal axis
  *  \param yPos the position of the unit on the vertical axis
  *  \param height the height of the unit's model

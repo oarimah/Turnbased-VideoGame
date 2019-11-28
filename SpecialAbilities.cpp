@@ -4,14 +4,16 @@
  *  \gets the changes in stats and buffs the original stats of the unit for that duration of the time
  *  \uses arguments to get the changes in stats
  *  \author Osita Arimah
- *  \param changeDefense; get the change in defense for the unit
- *  \param changeOffense; get the change in offense for the unit
- *  \param changeRangeStart; get the change in the range start for the unit
- *  \param changeRangeEnds; get the change in the range end for the unit
- *  \param changeNumAttacks; get the change in the number of attacks for the unit
- *  \param changeInSpeed; get the change in speed for the unit
- *  \param maxNumofTurns; get the max number of turns for the specific unit
- *  \param maxCoolDownTurns; get the cool down turns for the unit
+ *  \author Jake Nemiroff
+ *  \author Abdallah Alasmar
+ *  \param changeDefense get the change in defense for the unit
+ *  \param changeOffense get the change in offense for the unit
+ *  \param changeRangeStart get the change in the range start for the unit
+ *  \param changeRangeEnds get the change in the range end for the unit
+ *  \param changeNumAttacks get the change in the number of attacks for the unit
+ *  \param changeInSpeed get the change in speed for the unit
+ *  \param maxNumofTurns get the max number of turns for the specific unit
+ *  \param maxCoolDownTurns get the cool down turns for the unit
  *  \return an Special Abilities object
  */
 #include "SpecialAbilities.h"
@@ -168,7 +170,6 @@ void SpecialAbilities::reset()
     {
         if (this->currNumofTurns != 0)
         {
-
             this->currNumofTurns--;
 
             if (this->currNumofTurns == 0)
