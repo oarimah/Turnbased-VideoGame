@@ -1,6 +1,4 @@
 #include "foregroundMap.h"
-#include "UnitFactory.h"
-#include "SpecialAbilities.h"
 
 /**@brief Class describes the top layer of the game map
 @author Carolyn Owen

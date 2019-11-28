@@ -2,8 +2,8 @@ COMP = g++
 COMPFLAGS = -w
 LIBS = -lSDL2 -lSDL2_image -lSDL2_ttf
 
-game: Main.o Button.o Game.o Tile.o backgroundMap.o foregroundMap.o Player.o Unit.o EraseButtonHandler.o InfoButtonHandler.o TextDisplay.o ControlPoint.o ImageHandler.o UnitFactory.o SpecialAbilities.o
-	$(COMP) -o game Main.o Button.o Game.o Tile.o backgroundMap.o foregroundMap.o Player.o Unit.o EraseButtonHandler.o InfoButtonHandler.o TextDisplay.o ControlPoint.o ImageHandler.o UnitFactory.o SpecialAbilities.o $(COMPFLAGS) $(LIBS)
+game: Main.o Button.o Game.o backgroundMap.o foregroundMap.o Player.o Unit.o EraseButtonHandler.o InfoButtonHandler.o TextDisplay.o ControlPoint.o ImageHandler.o UnitFactory.o SpecialAbilities.o
+	$(COMP) -o game Main.o Button.o Game.o backgroundMap.o foregroundMap.o Player.o Unit.o EraseButtonHandler.o InfoButtonHandler.o TextDisplay.o ControlPoint.o ImageHandler.o UnitFactory.o SpecialAbilities.o $(COMPFLAGS) $(LIBS)
 
 Main.o: Main.cpp Game.h Button.h EraseButtonHandler.h InfoButtonHandler.h TextDisplay.h
 	$(COMP) -c Main.cpp $(COMPFLAGS) $(LIBS)
@@ -14,13 +14,10 @@ Button.o: Button.cpp ImageHandler.h ButtonEventHandler.h GameObject.h
 Game.o: Game.cpp ImageHandler.h Player.h TextDisplay.h InfoButtonHandler.h backgroundMap.h foregroundMap.h Button.h SpecialAbilities.h
 	$(COMP) -c Game.cpp $(COMPFLAGS) $(LIBS)
 
-Tile.o: Tile.cpp ImageHandler.h GameObject.h
-	$(COMP) -c Tile.cpp $(COMPFLAGS) $(LIBS)
-
-backgroundMap.o: backgroundMap.cpp ImageHandler.h GameObject.h Tile.h
+backgroundMap.o: backgroundMap.cpp ImageHandler.h GameObject.h
 	$(COMP) -c backgroundMap.cpp $(COMPFLAGS) $(LIBS)
 
-foregroundMap.o: foregroundMap.cpp ImageHandler.h Tile.h Unit.h TextDisplay.h Player.h SpecialAbilities.h
+foregroundMap.o: foregroundMap.cpp ImageHandler.h Unit.h TextDisplay.h Player.h SpecialAbilities.h
 	$(COMP) -c foregroundMap.cpp $(COMPFLAGS) $(LIBS)
 
 Player.o: Player.cpp UnitFactory.h Unit.h ControlPoint.h
