@@ -9,6 +9,14 @@
 
 #undef main
 
+/**@brief Main controls creation and management of game object
+@author Carolyn Owen
+details This class defines the size of the game window and creates a new game object. While the game is running, 
+	main renders the game to the window, gets an event indicating interaction with the game window, 
+	checks to make sure that it isn't an end event and passes it to the game to handle. If the game ends or the 
+	player triggers an end event in the window, main gracefully exits from the program, deleting all objects as required (in all levels)
+
+*/
 int main() {
 
 	const int TILE_WIDTH = 32;
@@ -36,8 +44,6 @@ int main() {
 
 	//if game init returns 0, it was successful, otherwise it didn't work
 	if (success == 0) {
-
-		std::cout << "entered game loop" << std::endl;
 
 		//start the game loop
 		while (game->running()) {

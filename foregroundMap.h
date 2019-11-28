@@ -5,12 +5,14 @@
 #include "SDL2/SDL_image.h"
 #include "SDL2/SDL_ttf.h"
 #include "ImageHandler.h"
-#include "Tile.h"
 #include "UnitFactory.h"
 #include <iostream>
 #include <string>
 #include "TextDisplay.h"
 #include "Player.h"
+#include "SpecialAbilities.h"
+#include "UnitFactory.h"
+#include "SpecialAbilities.h"
 
 class foregroundMap: public GameObject {
 
@@ -25,12 +27,13 @@ private:
 	Unit* unitClicked;
 	int clickedX, clickedY;
 	std::vector<ControlPoint*>* controlPts;
+	SpecialAbilities* sa;
 
 public:
 
 	foregroundMap(int tileWidth, int tileHeight, int numRow, int numColumn, ImageHandler* imgHandler,
 
-	TextDisplay* textDisplay, Player* player1, Player* player2, std::vector<ControlPoint *>* cp);
+	TextDisplay* textDisplay, Player* player1, Player* player2, std::vector<ControlPoint *>* cp,SpecialAbilities* sa);
 
 
 	~foregroundMap();

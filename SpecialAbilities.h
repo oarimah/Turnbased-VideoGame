@@ -1,12 +1,13 @@
-#include "Unit.h"
-#include <string.h>
+
+#ifndef ABILITIES_H
+#define ABILITIES_H
 
 
 class SpecialAbilities
 {
 private:
-    std::string changeDefense;
-    std::string changeOffense;
+    int changeDefense;
+    int changeOffense;
     int changeRangeStart;
     int changeRangeEnds;
     int changeNumAttacks;
@@ -15,9 +16,16 @@ private:
     int currCoolDownTurns;
     int maxCoolDownTurns;
     bool activated;
+    int changeInSpeed;
+    bool statsReset;
+
 public:
-    SpecialAbilities(std::string changeDefense, std::string changeOffense, int changeRangeStart, int changeRangeEnds, int changeNumAttacks,int maxNumofTurns, int maxCoolDownTurns);
+
+    SpecialAbilities(int changeDefense, int changeOffense, int changeRangeStart,
+                     int changeRangeEnds, int changeNumAttacks,int changeInSpeed, int maxNumofTurns, int maxCoolDownTurns);
     ~SpecialAbilities();
+
+
     int getChangeInDefence();
     int getChangeInOffense();
     int getChangeInRangeStarts();
@@ -27,6 +35,19 @@ public:
     bool checkOffenseType();
     void activateAbility();
     void resetAbility();
-    void coolDown(int n);
+
+    void coolDown();
+
     void reset();
+    bool isActivated();
+    int getChangeInSpeed();
+    void resetStats();
+    void startCoolDown();
+
+    int coolDownTurns();
+    int effectTurns();
+    bool isStatsReset();
+
 };
+
+#endif

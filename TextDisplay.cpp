@@ -70,6 +70,14 @@ else{
 }
 }
 
+
+/**@brief Destructor for a new text display box object
+details This function safely deletes a text display box by deleting the current display image and font which were dynamically allocated
+
+@param none
+@return none
+
+*/
 TextDisplay::~TextDisplay()
 {
 
@@ -78,11 +86,25 @@ TextDisplay::~TextDisplay()
 
 }
 
+/**@brief Getter to check if the text of the display box has changed
+details This function returns a boolean value representing whether or not the text displayed has changed
+@param  none
+@return constant bool value representing whether or not the text has changed 
+	
+*/
 const bool TextDisplay::getChanged()
 {
 	return this->changed;
 }
 
+/**@brief Changes the text to be displayed in the text display box object
+details This function takes the input string, converts to an SDL texture with a size determined by 
+	the size of the input text (if the text is larger than the size of the display box, the size will be set to equal 
+	the size of the display box) and displays it to the area defined by the text display box
+@param  Text string to display
+@return none
+	
+*/
 void TextDisplay::display(const std::string& newText)
 {
 	//create new surface from text, font and colour
@@ -117,6 +139,13 @@ else{
 	changed = true;
 }
 
+/**@brief Renders the display box to the game window
+details This function renders the background image of the display box and then the current text image overtop of it
+
+@param  none
+@return none
+	
+*/
 void TextDisplay::render()
 {
 	SDL_RenderCopy(this->renderer, this->backgroundDisplay, NULL, &this->background);
@@ -125,6 +154,13 @@ void TextDisplay::render()
 
 }
 
+/**@brief Getter for type of object
+details This function returns the fact that the object is a text display box as a string
+
+@param  none
+@return constant string text display to show that the object is a text display box
+	
+*/
 const std::string TextDisplay::getType()
 {
 	return "TextDisplay";
