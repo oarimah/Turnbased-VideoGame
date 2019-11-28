@@ -45,8 +45,6 @@ int main() {
 	//if game init returns 0, it was successful, otherwise it didn't work
 	if (success == 0) {
 
-		std::cout << "entered game loop" << std::endl;
-
 		//start the game loop
 		while (game->running()) {
 

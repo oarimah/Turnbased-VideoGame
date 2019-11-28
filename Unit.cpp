@@ -453,19 +453,7 @@ void Unit::reset()
 {
 	this->used = false;
 	this->sa->reset();
-	if (this->sa->isStatsReset())
-	{
-		this->deactivateAbility();
-	}
-	this->numberOfAttacksForTurn = this->numOfAttacksPerTurn;
-	this->curSpeed = this->maxSpeed;
-
-	if (this->sa->isStatsReset())
-	{
-		//REMOVE DEBUGGING
-		std::cout << "deactivating ability" << std::endl;
-		this->deactivateAbility();
-	}
+	this->deactivateAbility();
 	this->numberOfAttacksForTurn = this->numOfAttacksPerTurn;
 	this->curSpeed = this->maxSpeed;
 }
@@ -506,10 +494,6 @@ void Unit::activateAbility()
 		this->offense += this->sa->getChangeInOffense();
 		this->defense += this->sa->getChangeInDefence();
 		this->sa->activateAbility();
-	}
-	else
-	{
-		//do nothing
 	}
 }
 

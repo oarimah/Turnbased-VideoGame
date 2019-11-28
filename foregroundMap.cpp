@@ -1,6 +1,4 @@
 #include "foregroundMap.h"
-#include "UnitFactory.h"
-#include "SpecialAbilities.h"
 
 /**@brief Class describes the top layer of the game map
 @author Carolyn Owen
@@ -253,9 +251,12 @@ void foregroundMap::handleEvent(const SDL_Event* event, int player) {
 
 						if(!clicked->getSpecAbil()->isActivated()){
 							clicked->activateAbility();
-							}
-						else{
-							this->displayBox->display("This unit's special ability is already in effect.\n");	
+						} else{
+							if (clicked->getSpecAbil()->effectTurns())
+								this->displayBox->display("This unit's special ability is already in effect.\n");	
+							else
+								this->displayBox->display("This unit's special ability is on cooldown.\n");	
+								
 						}
 				} else {
 					this->displayBox->display("This unit does not belong to you!\n");

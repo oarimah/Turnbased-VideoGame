@@ -151,14 +151,14 @@ int Game::init() {
 				(this->tileWidth * this->width),
 				((this->height - 2) * this->tileHeight), (this->tileHeight * 2), 200
 				, continueHandler,
-				"Continue.png", imageHandler);
+				"Buttons/Continue.png", imageHandler);
 
 			this->continueButton = continueButton;
 
 			//make a button that will open a rules window when pushed
 
 			SDL_Texture* ruleButton = imageHandler->loadImage(
-				"Rules.png");
+				"Buttons/Rules.png");
 
 			//create rectangles and set positions of buttons underneath each player
 			SDL_Rect rulesPos;
@@ -173,7 +173,7 @@ int Game::init() {
 			//next section creates title for start screen
 
 			//create font to use to display text
-			TTF_Font* titleFont = TTF_OpenFont("CaviarDreams_Bold.ttf", 72);
+			TTF_Font* titleFont = TTF_OpenFont("Fonts/CaviarDreams_Bold.ttf", 72);
 
 			//set color of the text
 			SDL_Color titleColor = { 0, 0, 0 };
@@ -206,7 +206,7 @@ int Game::init() {
 
 			//create background color
 			SDL_Texture* background = imageHandler->loadImage(
-				"Background2Final.png");
+				"Background/Background2Final.png");
 
 			SDL_RenderClear(renderer);
 
@@ -382,13 +382,13 @@ int Game::init() {
 
 			//use the imageHandler to get the texture for both english and french factions (could not do for text as different steps involved)
 			SDL_Texture* englishButton = imageHandler->loadImage(
-				"English.png");
+				"Buttons/English.png");
 			SDL_Texture* frenchButton = imageHandler->loadImage(
-				"French.png");
+				"Buttons/French.png");
 			SDL_Texture* germanButton = imageHandler->loadImage(
-				"German.png");
+				"Buttons/German.png");
 			SDL_Texture* spanishButton = imageHandler->loadImage(
-				"Spanish.png");
+				"Buttons/Spanish.png");
 
 			//create rectangles and set positions of buttons underneath each player
 			SDL_Rect player1English;
@@ -935,7 +935,7 @@ int Game::init() {
 				(this->tileWidth * this->width),
 				((this->height - 2) * this->tileHeight), (this->tileHeight * 2), 200
 				, continueHandler,
-				"EndTurn.png", imageHandler);
+				"Buttons/EndTurn.png", imageHandler);
 
 			delete continueHandler;
 
@@ -1061,7 +1061,7 @@ void Game::eventHandler(const SDL_Event* event) {
 				
 					this->currentPlayerIndex = (this->currentPlayerIndex % 2) + 1;
 					
-					//this->players[this->currentPlayerIndex - 1]->reset();
+					this->players[this->currentPlayerIndex - 1]->reset();
 	
 					//print notification to display that the player has switched
 					std::string playerSwitched = "Player " + std::to_string(this->currentPlayerIndex) + " now \nplaying!\nPlayer 1 score: " + std::to_string(this->players[0]->getScore()) + "\nPlayer 2 score: " + std::to_string(this->players[1]->getScore()) + "\n";
@@ -1172,7 +1172,7 @@ void Game::rules() {
 				+"\n" + controlPts;
 
 	//create font to use to display text
-	TTF_Font* textFont = TTF_OpenFont("CaviarDreams.ttf", 14);
+	TTF_Font* textFont = TTF_OpenFont("Fonts/CaviarDreams.ttf", 14);
 
 	//set color of the text
 	SDL_Color textColor = { 255,255,255 };
@@ -1201,7 +1201,7 @@ void Game::rules() {
 	rulesPos.w = textWidth;
 
 	//create background image to use under text
-	SDL_Surface* backgroundSurface = IMG_Load("ruleBackground.png");
+	SDL_Surface* backgroundSurface = IMG_Load("Background/ruleBackground.png");
 
 	//then create texture from surface created
 	SDL_Texture* backgroundDisplay = SDL_CreateTextureFromSurface(this->renderer, backgroundSurface);
@@ -1284,7 +1284,7 @@ void Game::doWinScreen(int playerWon) {
 	std::string win = "Congratulations! Player " + std::to_string(playerWon) + " WINS!";
 
 	//create font to use to display text
-	TTF_Font* textFont = TTF_OpenFont("CaviarDreams_Bold.ttf", 32);
+	TTF_Font* textFont = TTF_OpenFont("Fonts/CaviarDreams_Bold.ttf", 32);
 
 	//set color of the text
 	SDL_Color textColor = { 255,255,255 };
@@ -1304,7 +1304,7 @@ void Game::doWinScreen(int playerWon) {
 	winPos.w = 300;
 
 	//create background image to use under text
-	SDL_Surface* backgroundSurface = IMG_Load("Background2Final.png");
+	SDL_Surface* backgroundSurface = IMG_Load("Background/Background2Final.png");
 
 	//then create texture from surface created
 	SDL_Texture* backgroundDisplay = SDL_CreateTextureFromSurface(this->renderer, backgroundSurface);
@@ -1387,7 +1387,7 @@ void Game::doCreditScreen() {
 	std::string credits = "Brought to you by:\nAbdallah Alasmar\nOsitadinma Arimah\nJake Nemiroff\nOluwadarasimi Ogunshote\nCarolyn Owen";
 
 	//create font to use to display text
-	TTF_Font* textFont = TTF_OpenFont("CaviarDreams_Bold.ttf", 32);
+	TTF_Font* textFont = TTF_OpenFont("Fonts/CaviarDreams_Bold.ttf", 32);
 
 	//set color of the text
 	SDL_Color textColor = { 0,0,0 };
@@ -1407,7 +1407,7 @@ void Game::doCreditScreen() {
 	creditPos.w = 300;
 
 	//create background image to use under text
-	SDL_Surface* backgroundSurface = IMG_Load("Background2Final.png");
+	SDL_Surface* backgroundSurface = IMG_Load("Background/Background2Final.png");
 
 	//then create texture from surface created
 	SDL_Texture* backgroundDisplay = SDL_CreateTextureFromSurface(this->renderer, backgroundSurface);

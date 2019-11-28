@@ -5,12 +5,13 @@
 #include "SDL2/SDL_image.h"
 #include "SDL2/SDL_ttf.h"
 #include "ImageHandler.h"
-#include "Tile.h"
 #include "UnitFactory.h"
 #include <iostream>
 #include <string>
 #include "TextDisplay.h"
 #include "Player.h"
+#include "SpecialAbilities.h"
+#include "UnitFactory.h"
 #include "SpecialAbilities.h"
 
 class foregroundMap: public GameObject {
