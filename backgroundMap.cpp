@@ -2,7 +2,8 @@
 #include "backgroundMap.h"
 
 /**@brief Background map class describes the background of the game map and its image
-@author
+@author Jake Nemiroff
+@author Oluwadarasimi Ogunshote
 details This class creates an image of the map and handles rendering the image to the game window 
 	
 */

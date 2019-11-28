@@ -5,6 +5,7 @@
 /**@brief Game class defines and manages all assets and events involved in playing the game
 @author Carolyn Owen
 @author Abdallah Alasmar
+@author Oluwadarasimi Ogunshote
 details This class creates a new game window, maps, players, units, buttons, displays for the game. 
 	It takes events from the main class and delegates them appropriately based on type and location. 
 	

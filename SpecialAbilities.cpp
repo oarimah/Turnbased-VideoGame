@@ -4,6 +4,8 @@
  *  \gets the changes in stats and buffs the original stats of the unit for that duration of the time
  *  \uses arguments to get the changes in stats
  *  \author Osita Arimah
+ *  \author Jake Nemiroff
+ *  \author Abdallah Alasmar
  *  \param changeDefense get the change in defense for the unit
  *  \param changeOffense get the change in offense for the unit
  *  \param changeRangeStart get the change in the range start for the unit
