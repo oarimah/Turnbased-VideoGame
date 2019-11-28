@@ -453,21 +453,9 @@ void Unit::reset()
 {
 	this->used = false;
 	this->sa->reset();
-<<<<<<< Updated upstream
-	if (this->sa->isStatsReset())
-	{
-		this->deactivateAbility();
-	}
-	this->numberOfAttacksForTurn = this->numOfAttacksPerTurn;
-	this->curSpeed = this->maxSpeed;
-<<<<<<< HEAD
-=======
 	this->deactivateAbility();
->>>>>>> Stashed changes
 	this->numberOfAttacksForTurn = this->numOfAttacksPerTurn;
 	this->curSpeed = this->maxSpeed;
-=======
->>>>>>> d146e3d0fc0b87dc44d0ef7086955aa632e69a9a
 }
 
 /**
