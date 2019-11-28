@@ -1061,7 +1061,7 @@ void Game::eventHandler(const SDL_Event* event) {
 				
 					this->currentPlayerIndex = (this->currentPlayerIndex % 2) + 1;
 					
-					this->players[this->currentPlayerIndex - 1]->reset();
+					//this->players[this->currentPlayerIndex - 1]->reset();
 	
 					//print notification to display that the player has switched
 					std::string playerSwitched = "Player " + std::to_string(this->currentPlayerIndex) + " now \nplaying!\nPlayer 1 score: " + std::to_string(this->players[0]->getScore()) + "\nPlayer 2 score: " + std::to_string(this->players[1]->getScore()) + "\n";

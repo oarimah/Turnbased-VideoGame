@@ -16,6 +16,9 @@
  */
 #include "SpecialAbilities.h"
 
+//REMOVE DEBUGGING
+#include <iostream>
+
 /**
  * SpecialAbilities::SpecialAbilities(int changeDefense, int changeOffense, int changeRangeStart, int changeRangeEnds, int changeNumAttacks,int changeInSpeed, int maxNumofTurns, int maxCoolDownTurns)
  *
@@ -39,6 +42,10 @@ SpecialAbilities::SpecialAbilities(int changeDefense, int changeOffense, int cha
     this->activated = false;
     this->changeInSpeed = changeInSpeed;
     this->statsReset = false; //reset checks if stats have been reset
+<<<<<<< HEAD
+=======
+
+>>>>>>> a34ac6462149f73bc41d4261f44da850fef6cf8a
 }
 
 /**
@@ -164,11 +171,24 @@ void SpecialAbilities::activateAbility()
 
 void SpecialAbilities::reset()
 {
+    //REMOVE DEBUGGING
+    std::cout << "special abilities reset called" << std::endl;
+    std::cout << "Before reducing num of turns for SA turns = " << this->currNumofTurns << std::endl;
     if (this->activated)
     {
+        //REMOVE DEBUGGING
+        std::cout << "Activated unit " << std::endl;
         if (this->currNumofTurns != 0)
         {
+
             this->currNumofTurns--;
+
+<<<<<<< Updated upstream
+=======
+            //REMOVE DEBUGGING
+            std::cout << "After reducing num of turns for SA turns = " << this->currNumofTurns << std::endl;
+
+>>>>>>> Stashed changes
             if (this->currNumofTurns == 0)
             {
                 this->currCoolDownTurns = this->maxCoolDownTurns;
@@ -177,6 +197,9 @@ void SpecialAbilities::reset()
         }
         else
         {
+            //REMOVE DEBUGGING
+            std::cout << "Before reducing num of cooldown turns for SA turns = " << this->currCoolDownTurns << std::endl;
+
             this->statsReset = false;
             this->currCoolDownTurns--;
             if (this->currCoolDownTurns == 0)
@@ -211,6 +234,7 @@ bool SpecialAbilities::isActivated()
  * @param none
  * @return resetStats bool variable
  */
+
 bool SpecialAbilities::isStatsReset()
 {
     return this->statsReset;
@@ -225,6 +249,7 @@ bool SpecialAbilities::isStatsReset()
  * @param none
  * @return return the cooldown turns of the unit
  */
+
 int SpecialAbilities::coolDownTurns()
 {
     return this->maxCoolDownTurns;

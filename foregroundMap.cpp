@@ -2,6 +2,38 @@
 #include "UnitFactory.h"
 #include "SpecialAbilities.h"
 
+/**@brief Class describes the top layer of the game map
+@author Carolyn Owen
+details The class contains the units on a 2D vector and manages event handling when the map area is clicked on. 
+	The vector containing the units uses pointers to unit objects which are owned by players of the game. 
+	All events/clicks on the main map are handled by the foreground map event handler which allows units to move, 
+	attack, die, display their information or initiate and manage special abilities.
+
+@param  none
+@return none	
+*/
+
+/**@brief Constructor for a foreground map object
+details This function takes the size parameters of the desired map, pointers to image handler and text display box to use, 
+	the players of the game and a vector pointing to the control points on the map.
+	When it is called, the constructor stores the given values and then populates the 2d vector representing the map with 
+	either null pointers or unit pointers. The units for each player are created here and added to either player. Player 1's units 
+	are populated to the top row of the map and player 2's units are populated to the bottom row of the map. Then, it sets the last 
+	clicked unit pointer to null to represent that no unit on the board has been clicked on yet. 
+
+@param  integer value of the tile width in pixels
+@param	integer value of the tile height in pixels
+@param 	integer value of the number of rows in the map
+@param 	integer value of the number of columns in the map
+@param 	pointer to the image handler to use to render objects to the game window
+@param	pointer to the text display box to use to display unit stats and notifications to the player
+@param 	pointer to player 1
+@param	pointer to player 2
+@param 	pointer to a vector of control point pointers to use in calculating score
+
+@return a new foreground map object
+	
+*/
 foregroundMap::foregroundMap(
 		// @suppress("Class members should be properly initialized")
 		int tileWidth, int tileHeight, int numRow, int numColumn,
@@ -34,7 +66,7 @@ foregroundMap::foregroundMap(
 	int faction = this->player1->getFaction();
 
 //add to first row of the map
-//REMOVE DEBUGGING (i ++)
+
 	for (int i = 0; i < 20; i += 3) {
 		Unit* unit = UnitFactory::createUnit(i * this->width, 0, this->height,this->width, 1, faction, unitType, this->imageHandler,sa);
 
@@ -54,7 +86,7 @@ foregroundMap::foregroundMap(
 	faction = this->player2->getFaction();
 
 //add to last row of the map
-//REMOVE DEBUGGING (i ++)
+
 	for (int i = 0; i < 20; i += 3) {
 		Unit* unit = UnitFactory::createUnit(i * this->width, 19 * this->height,
 											 this->height, this->width, 2, faction, unitType,
@@ -75,16 +107,69 @@ foregroundMap::foregroundMap(
 	this->unitClicked = NULL;
 }
 
+/**@brief Destructor for a foreground map
+details This function deletes all null or unit pointers that were created for the map. 
+	Each square of the map will be deallocated in a loop.
+
+@param  none
+@return none
+*/
 foregroundMap::~foregroundMap() {
 	for (int i = 0; i < this->numTilesWide; i++)
 		delete this->map[i];
 }
 
+/**@brief Function to render the images of the foreground map
+details This function calls the updateUnits function on both players, which in turn manages unit changes 
+	and then renders them to the game window. The unit textures will be rendered to the correct location on the map because 
+	the foreground map event handler changes the internal position of each unit as needed when they move on the map. 
+
+@param  none
+@return none
+	
+*/
 void foregroundMap::render() {
 	this->player1->updateUnits();
 	this->player2->updateUnits();
 }
 
+/**@brief Function to handle event that happens within the space of the game map
+details This function checks that the event was a mouse click, then compares the location of the 
+	click to the vectors to see what was in the square clicked on. The handler then goes through multiple click 
+	combination scenarios to determine which action to take. See below for scenarios:
+
+	clicked index is empty (no unit on the square) and a unit of this player's was clicked previously 
+		-> see if the unit can move to that location (in range?)
+		-> if in range, the unit has enough movement left for this turn and the unit isn't trying to move on top of a control point, 
+		   move the unit to the new index in the vector and reset the unit's internal position information
+
+	an empty tile was clicked with nothing being clicked before
+		-> do nothing
+
+	a unit was right clicked 
+		-> check if the unit is owned by the current player
+		-> if it is, try to activate the unit's special ability with the unit's triggering function
+
+	the square contains a unit and it is a double click
+		-> display the info about the unit in the foreground map's text display box
+
+	clicked index has a unit of the other player's and a unit owned by the current player was clicked previously
+		-> check that the other player's unit is within attack range of the player's unit
+		-> check that the attacking unit has attacks left for this turn
+		-> attack the other unit
+		-> check for dead units and remove them from the player object as well as the foreground map if so
+		-> clear the pointer to the last clicked unit for the player's next move
+
+	unit clicked is the current player's 
+		-> if the unit has already been used up for this turn, let the player know and don't store info about this unit 
+		-> otherwise add it to the unit clicked pointer for next time 
+
+	
+	
+@param  pointer to the SDL event that happened on the map's area
+@param 	integer representing the number of the current player to use in checking who owns a clicked unit
+@return none
+*/
 void foregroundMap::handleEvent(const SDL_Event* event, int player) {
 //check that the event was a mouse click
 	if (event->type == SDL_MOUSEBUTTONUP) {
@@ -329,6 +414,16 @@ void foregroundMap::handleEvent(const SDL_Event* event, int player) {
 	}
 }
 
+
+
+/**@brief Function to return a string representing the type of object
+details This function returns a string with the name foregroundMap to let the caller know that this is a foreground map type object. 
+	This function complies with the required functions of a game object. 
+
+@param  none
+@return constant string 
+	
+*/
 const std::string foregroundMap::getType() {
 
 	return "foregroundMap";
