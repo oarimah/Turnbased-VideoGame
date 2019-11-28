@@ -56,7 +56,7 @@ Unit * UnitFactory::createUnit(int xPos, int yPos, int height, int width, int pl
         }
     } else if (faction == 4) { // the spanish
         if (unitType == 0) { // conquistador
-            return new Unit(xPos, yPos, height, width,"Characters/" + colour + "General.png", imgHandler, 65, 12, 6, 3, 2, 2, 4, new SpecialAbilities(-2, 0, 0, 0, 0, 2, 3, 1), "Conquistador");
+            return new Unit(xPos, yPos, height, width,"Characters/" + colour + "General.png", imgHandler, 65, 12, 6, 3, 1, 2, 4, new SpecialAbilities(-2, 0, 0, 0, 0, 2, 3, 1), "Conquistador");
         } else if (unitType == 1) { // arquebusier
             return new Unit(xPos, yPos, height, width,"Characters/" + colour + "Bandit.png", imgHandler, 30, 23, 1, 2, 2, 3, 4, new SpecialAbilities(100, 7, 0, 1, 1, 6, 1, 6), "Arquebusier");
         } else if (unitType == 2) { // jinete
