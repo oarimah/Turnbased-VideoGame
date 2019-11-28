@@ -254,7 +254,7 @@ void foregroundMap::handleEvent(const SDL_Event* event, int player) {
 						if(!clicked->getSpecAbil()->isActivated()){
 							clicked->activateAbility();
 						} else{
-							if (clicked->getSpecAbil()->effectTurns)
+							if (clicked->getSpecAbil()->effectTurns())
 								this->displayBox->display("This unit's special ability is already in effect.\n");	
 							else
 								this->displayBox->display("This unit's special ability is on cooldown.\n");	
