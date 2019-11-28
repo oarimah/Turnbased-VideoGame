@@ -45,10 +45,9 @@ public:
     void startCoolDown();
 
     int coolDownTurns();
-	int effectTurns();
-	bool isStatsReset();
+    int effectTurns();
+    bool isStatsReset();
 
 };
 
 #endif
-
