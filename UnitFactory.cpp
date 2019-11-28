@@ -31,7 +31,7 @@ Unit * UnitFactory::createUnit(int xPos, int yPos, int height, int width, int pl
 
     if (faction == 1) { // the british
         if (unitType == 0) { // swordsmen
-            return new Unit(xPos, yPos, height, width, "Characters/" + colour + "General.png", imgHandler, 60, 14, 7, 3, 1, 1, 3, new SpecialAbilities(-7, 0, 0, 0, 0, 0, 2, 5), "Swordsman");
+            return new Unit(xPos, yPos, height, width, "Characters/" + colour + "General.png", imgHandler, 60, 14, 7, 3, 1, 1, 3, new SpecialAbilities(-3, 7, 0, 0, 0, 0, 2, 5), "Swordsman");
         } else if (unitType == 1) { // longbowmen
              return new Unit(xPos, yPos, height, width, "Characters/" + colour + "Bandit.png", imgHandler, 40, 20, 2, 2, 2, 3, 3, new SpecialAbilities(0, 20, 1, 1, -1, 0, 2, 3), "Longbowman");
         } else if (unitType == 2) { // dragoon
